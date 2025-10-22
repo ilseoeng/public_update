@@ -30,7 +30,7 @@ jobs:
           wget -q -O ${{ steps.find_msi.outputs.name }} ${{ steps.find_msi.outputs.url }}
           echo "MSI file downloaded."
 
-      - name: Generate appcast file
+            - name: Generate appcast file
         shell: pwsh
         run: |
           $repo = "${{ github.repository }}"
