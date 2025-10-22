@@ -30,33 +30,33 @@ jobs:
           wget -q -O ${{ steps.find_msi.outputs.name }} ${{ steps.find_msi.outputs.url }}
           echo "MSI file downloaded."
 
-            - name: Generate appcast file
+      - name: Generate appcast file
         shell: pwsh
         run: |
           $repo = "${{ github.repository }}"
           $tag = "${{ github.event.release.tag_name }}"
           $msiPath = "${{ steps.find_msi.outputs.name }}"
           $url = "${{ steps.find_msi.outputs.url }}"
-          
+
           $sha256 = (Get-FileHash $msiPath -Algorithm SHA256).Hash.ToUpper()
           $length = (Get-Item $msiPath).Length
-          
+
           $version = "${{ github.event.release.tag_name }}" -replace 'tm-v', ''
-          
+
           $appcast = @"
-<item>
-<title>TM Server $version</title>
-<version>$version</version>
-<url>$url</url>
-<changelog>https://github.com/$repo/releases/tag/$tag</changelog>
-<mandatory>false</mandatory>
-<args>/passive /norestart</args>
-<checksum algorithm="SHA256">$sha256</checksum>
-<length>$length</length>
-<pubDate>$(Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")</pubDate>
-</item>
+          <item>
+          <title>TM Server $version</title>
+          <version>$version</version>
+          <url>$url</url>
+          <changelog>https://github.com/$repo/releases/tag/$tag</changelog>
+          <mandatory>false</mandatory>
+          <args>/passive /norestart</args>
+          <checksum algorithm="SHA256">$sha256</checksum>
+          <length>$length</length>
+          <pubDate>$(Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")</pubDate>
+          </item>
 "@
-          New-Item -ItemType Directory -Force -Path "./appcast"
+          New-Item -ItemType Directory -Force -Path "./appcast" -ErrorAction SilentlyContinue
           Set-Content -Path "./appcast/tm.xml" -Value $appcast -Encoding UTF8
           Write-Host "✅ Appcast generated successfully."
 
