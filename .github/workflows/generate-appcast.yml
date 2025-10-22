@@ -1,20 +1,17 @@
 name: Generate Appcast on Release
 
-# "release"가 "published" 상태가 될 때 이 워크플로우를 실행합니다.
 on:
   release:
     types: [published]
 
 jobs:
   generate-appcast:
-    runs-on: ubuntu-latest # 이 작업은 Windows 빌드 도구가 필요 없으므로 ubuntu가 더 빠릅니다.
+    runs-on: ubuntu-latest
 
     steps:
-      # 1. 저장소 코드를 체크아웃합니다. (나중에 appcast.xml을 커밋하기 위해 필요)
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. 릴리즈에 첨부된 .msi 파일의 정보를 찾습니다.
       - name: Find MSI asset
         id: find_msi
         run: |
@@ -28,27 +25,27 @@ jobs:
           echo "name=$MSI_NAME" >> $GITHUB_OUTPUT
           echo "Found MSI: $MSI_NAME at $MSI_URL"
 
-      # 3. 찾은 .msi 파일을 워크플로우 실행 환경으로 다운로드합니다.
       - name: Download MSI asset
         run: |
           wget -q -O ${{ steps.find_msi.outputs.name }} ${{ steps.find_msi.outputs.url }}
           echo "MSI file downloaded."
 
-      # 4. 다운로드한 MSI를 기반으로 appcast.xml을 생성합니다. (PowerShell 사용)
       - name: Generate appcast file
         shell: pwsh
         run: |
           $repo = "${{ github.repository }}"
-          $tag = "${{ github.ref_name }}" # ref_name 대신 event.release.tag_name 사용
+          $tag = "${{ github.event.release.tag_name }}"
           $msiPath = "${{ steps.find_msi.outputs.name }}"
           $url = "${{ steps.find_msi.outputs.url }}"
           
-          # 파일 해시와 길이 자동 계산
           $sha256 = (Get-FileHash $msiPath -Algorithm SHA256).Hash.ToUpper()
           $length = (Get-Item $msiPath).Length
-          $version = "${{ github.event.release.tag_name }}".TrimStart('v')
           
-          # XML 내용 자동 생성
+          # ==========================================================
+          # 바로 이 부분을 수정한 것입니다.
+          $version = "${{ github.event.release.tag_name }}" -replace 'tm-v', ''
+          # ==========================================================
+          
           $appcast = @"
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
@@ -60,20 +57,17 @@ jobs:
 <args>/passive /norestart</args>
 <checksum algorithm="SHA256">$sha256</checksum>
 <length>$length</length>
-<pubDate>$(Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")</pubDate>
+<pubDate>$(Get-Date -Format "yyyy-MM-ddTHH-mm-ssZ")</pubDate>
 </item>
 "@
-          # appcast 폴더 생성 및 파일 저장
           New-Item -ItemType Directory -Force -Path "./appcast"
           Set-Content -Path "./appcast/tm.xml" -Value $appcast -Encoding UTF8
           Write-Host "✅ Appcast generated successfully."
 
-      # 5. 생성된 appcast.xml 파일을 저장소에 커밋하고 푸시합니다.
       - name: Commit and push appcast
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add ./appcast/tm.xml
-          # 커밋 메시지에 릴리즈 태그 포함
           git commit -m "Update appcast for release ${{ github.event.release.tag_name }}" || echo "No changes to commit"
           git push || echo "Nothing to push"
