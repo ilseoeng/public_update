@@ -15,8 +15,9 @@ jobs:
       - name: Find MSI asset
         id: find_msi
         run: |
-          MSI_URL=$(echo "${{ toJSON(github.event.release.assets) }}" | jq -r '.[] | select(.name | endswith(".msi")) | .browser_download_url')
-          MSI_NAME=$(echo "${{ toJSON(github.event.release.assets) }}" | jq -r '.[] | select(.name | endswith(".msi")) | .name')
+          echo "Assets JSON: ${{ toJSON(github.event.release.assets) }}" >> $GITHUB_STEP_SUMMARY
+          MSI_URL=$(echo "${{ toJSON(github.event.release.assets) }}" | jq -r '.[] | select(.name | endswith(".msi")) | .browser_download_url // empty')
+          MSI_NAME=$(echo "${{ toJSON(github.event.release.assets) }}" | jq -r '.[] | select(.name | endswith(".msi")) | .name // empty')
           if [ -z "$MSI_URL" ]; then
             echo "Error: No .msi file found in the release assets."
             exit 1
@@ -33,8 +34,21 @@ jobs:
       - name: Generate appcast file
         shell: pwsh
         run: |
-          Write-Host "Testing PowerShell block"
-          # 임시로 최소화, 나중에 로직 복원
+          $repo = "${{ github.repository }}"
+          $tag = "${{ github.event.release.tag_name }}"
+          $msiPath = "${{ steps.find_msi.outputs.name }}"
+          $url = "${{ steps.find_msi.outputs.url }}"
+
+          $sha256 = (Get-FileHash $msiPath -Algorithm SHA256).Hash.ToUpper()
+          $length = (Get-Item $msiPath).Length
+
+          $version = "${{ github.event.release.tag_name }}" -replace 'tm-v', ''
+
+          $appcastContent = "<item><title>TM Server $version</title><version>$version</version><url>$url</url><changelog>https://github.com/$repo/releases/tag/$tag</changelog><mandatory>false</mandatory><args>/passive /norestart</args><checksum algorithm=`"SHA256`">$sha256</checksum><length>$length</length><pubDate>$(Get-Date -Format `"yyyy-MM-ddTHH:mm:ssZ`")</pubDate></item>"
+
+          New-Item -ItemType Directory -Force -Path "./appcast" -ErrorAction SilentlyContinue
+          Set-Content -Path "./appcast/tm.xml" -Value $appcastContent -Encoding UTF8
+          Write-Host "✅ Appcast generated successfully."
 
       - name: Commit and push appcast
         run: |
