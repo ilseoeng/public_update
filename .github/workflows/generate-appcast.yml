@@ -15,11 +15,17 @@ jobs:
       - name: Find MSI asset
         id: find_msi
         run: |
+          # 디버깅: JSON 데이터 출력
           echo "Assets JSON: ${{ toJSON(github.event.release.assets) }}" >> $GITHUB_STEP_SUMMARY
-          MSI_URL=$(echo "${{ toJSON(github.event.release.assets) }}" | jq -r '.[] | select(.name | endswith(".msi")) | .browser_download_url // empty')
-          MSI_NAME=$(echo "${{ toJSON(github.event.release.assets) }}" | jq -r '.[] | select(.name | endswith(".msi")) | .name // empty')
+          echo "${{ toJSON(github.event.release.assets) }}" > assets.json
+          cat assets.json
+
+          # MSI 파일 찾기
+          MSI_URL=$(jq -r '.[] | select(.name | endswith(".msi")) | .browser_download_url // empty' assets.json 2>/dev/null)
+          MSI_NAME=$(jq -r '.[] | select(.name | endswith(".msi")) | .name // empty' assets.json 2>/dev/null)
+
           if [ -z "$MSI_URL" ]; then
-            echo "Error: No .msi file found in the release assets."
+            echo "Error: No .msi file found in the release assets or invalid JSON data."
             exit 1
           fi
           echo "url=$MSI_URL" >> $GITHUB_OUTPUT
