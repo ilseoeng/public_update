@@ -20,14 +20,23 @@ jobs:
           echo "${{ toJSON(github.event.release.assets) }}" > assets.json
           cat assets.json
 
-          # MSI 파일 찾기
-          MSI_URL=$(jq -r '.[] | select(.name | endswith(".msi")) | .browser_download_url // empty' assets.json 2>/dev/null)
-          MSI_NAME=$(jq -r '.[] | select(.name | endswith(".msi")) | .name // empty' assets.json 2>/dev/null)
-
-          if [ -z "$MSI_URL" ]; then
-            echo "Error: No .msi file found in the release assets or invalid JSON data."
+          # 에셋 URL 가져오기
+          ASSET_URL=$(echo "${{ toJSON(github.event.release.assets) }}" | jq -r '.[] | .url // empty')
+          if [ -z "$ASSET_URL" ]; then
+            echo "Error: No asset URL found."
             exit 1
           fi
+
+          # 에셋 세부 정보 가져오기 (browser_download_url 포함)
+          ASSET_DETAILS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "$ASSET_URL")
+          MSI_URL=$(echo "$ASSET_DETAILS" | jq -r '.browser_download_url // empty')
+          MSI_NAME=$(echo "$ASSET_DETAILS" | jq -r '.name // empty')
+
+          if [ -z "$MSI_URL" ] || ! [[ "$MSI_NAME" =~ \.msi$ ]]; then
+            echo "Error: No .msi file found in asset details."
+            exit 1
+          fi
+
           echo "url=$MSI_URL" >> $GITHUB_OUTPUT
           echo "name=$MSI_NAME" >> $GITHUB_OUTPUT
           echo "Found MSI: $MSI_NAME at $MSI_URL"
