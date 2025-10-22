@@ -30,7 +30,7 @@ jobs:
           wget -q -O ${{ steps.find_msi.outputs.name }} ${{ steps.find_msi.outputs.url }}
           echo "MSI file downloaded."
 
-     - name: Generate appcast file
+      - name: Generate appcast file
         shell: pwsh
         run: |
           $repo = "${{ github.repository }}"
@@ -43,9 +43,6 @@ jobs:
           
           $version = "${{ github.event.release.tag_name }}" -replace 'tm-v', ''
           
-          # ==========================================================
-          # 아래 XML 내용 전체에 다른 코드와 동일하게 들여쓰기를 추가했습니다.
-          # ==========================================================
           $appcast = @"
           <item>
           <title>TM Server $version</title>
