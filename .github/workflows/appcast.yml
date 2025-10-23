@@ -1,29 +1,49 @@
-name: Build AppCast on Release
+name: Build AppCast for TM (tm-v only)
 
 on:
   release:
-    types: [published]   # 새 릴리스 공개될 때 동작
+    types: [published]
 
 permissions:
-  contents: write        # 커밋/푸시에 필요
+  contents: write
 
 jobs:
   appcast:
     runs-on: windows-latest
 
     steps:
+      - name: Check if tag starts with tm-v
+        id: tagcheck
+        shell: pwsh
+        run: |
+          $tag = "${{ github.event.release.tag_name }}"
+          if ($tag -notmatch '^tm-v') {
+            Write-Host "Tag does not start with tm-v → skip"
+            echo "skip=true" >> $env:GITHUB_OUTPUT
+          } else {
+            echo "skip=false" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Stop if tag does not match tm-v
+        if: steps.tagcheck.outputs.skip == 'true'
+        run: echo "Skipping non-TM release."
+
       - name: Checkout repo
+        if: steps.tagcheck.outputs.skip == 'false'
         uses: actions/checkout@v4
 
       - name: Setup .NET
+        if: steps.tagcheck.outputs.skip == 'false'
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
       - name: Install NetSparkle AppCast tool
+        if: steps.tagcheck.outputs.skip == 'false'
         run: dotnet tool install --global NetSparkleUpdater.Tools.AppCastGenerator
 
-      - name: Restore signing keys (Secrets → 임시 파일)
+      - name: Restore signing keys
+        if: steps.tagcheck.outputs.skip == 'false'
         shell: pwsh
         run: |
           $KeyDir = "$env:LOCALAPPDATA\Netsparkle"
@@ -31,54 +51,43 @@ jobs:
           Set-Content -Path (Join-Path $KeyDir 'NetSparkle_Ed25519.priv') -Value '${{ secrets.NETSPARKLE_PRIV }}' -NoNewline
           Set-Content -Path (Join-Path $KeyDir 'NetSparkle_Ed25519.pub')  -Value '${{ secrets.NETSPARKLE_PUB }}'  -NoNewline
 
-      - name: Resolve release info & download MSI/EXE asset
+      - name: Download latest TM release asset
+        if: steps.tagcheck.outputs.skip == 'false'
         shell: pwsh
         env:
           REPO: ${{ github.repository }}
           TAG:  ${{ github.event.release.tag_name }}
         run: |
-          $ErrorActionPreference = 'Stop'
-          $repo = $env:REPO
-          $tag  = $env:TAG
-          Write-Host "Repo: $repo  Tag: $tag"
-
-          # 최신 릴리스의 자산 중 *.msi 우선, 없으면 *.exe
-          $api = "https://api.github.com/repos/$repo/releases/tags/$tag"
+          $api = "https://api.github.com/repos/$env:REPO/releases/tags/$env:TAG"
           $headers = @{ "User-Agent" = "gh-actions-appcast" }
           $r = Invoke-RestMethod -Uri $api -Headers $headers -Method Get -UseBasicParsing
 
           $asset = $r.assets | Where-Object { $_.name -match '\.msi$' } | Select-Object -First 1
           if (-not $asset) { $asset = $r.assets | Where-Object { $_.name -match '\.exe$' } | Select-Object -First 1 }
-          if (-not $asset) { throw "No MSI/EXE asset found on release $tag" }
+          if (-not $asset) { throw "No MSI/EXE asset found on release $env:TAG" }
 
           $dlDir = "_tmp_download"
           New-Item -ItemType Directory -Force -Path $dlDir | Out-Null
           $local = Join-Path $dlDir $asset.name
           Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $local -UseBasicParsing
 
-          # 환경변수로 다음 단계에 전달
           echo "ASSET_PATH=$local" >> $env:GITHUB_ENV
-          echo "TAG_NAME=$tag"     >> $env:GITHUB_ENV
 
-      - name: Generate appcast.xml + signature
+      - name: Generate TM AppCast
+        if: steps.tagcheck.outputs.skip == 'false'
         shell: pwsh
         env:
+          TAG:   ${{ github.event.release.tag_name }}
+          BIN:   ${{ env.ASSET_PATH }}
           OWNER: ${{ github.repository_owner }}
           REPO:  ${{ github.event.repository.name }}
-          TAG:   ${{ env.TAG_NAME }}
-          BIN:   ${{ env.ASSET_PATH }}
         run: |
           $ErrorActionPreference = 'Stop'
-          $outDir  = "appcast_out"
+          $outDir = "appcast_out"
           New-Item -ItemType Directory -Force -Path $outDir | Out-Null
 
-          # 태그에서 버전 추출: tm-v1.2.3 → 1.2.3  (패턴 수정 가능)
           $version = $env:TAG -replace '^tm-v',''
-          $baseUrl = "https://github.com/${{ github.repository }}/releases/download/$($env:TAG)"
-
-          # 기존 파일 제거
-          Remove-Item (Join-Path $outDir "appcast.xml") -ErrorAction SilentlyContinue
-          Remove-Item (Join-Path $outDir "appcast.xml.signature") -ErrorAction SilentlyContinue
+          $baseUrl = "https://github.com/$($env:OWNER)/$($env:REPO)/releases/download/$($env:TAG)"
 
           $tool = "$env:USERPROFILE\.dotnet\tools\netsparkle-generate-appcast.exe"
           & $tool `
@@ -91,20 +100,20 @@ jobs:
             -u $baseUrl `
             --file-version $version
 
-          if ($LASTEXITCODE -ne 0) { throw "AppCast generation failed" }
-
-      - name: Move files into tm_update/
+      - name: Move TM appcast files
+        if: steps.tagcheck.outputs.skip == 'false'
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path "tm_update" | Out-Null
           Copy-Item "appcast_out/appcast.xml"           "tm_update/appcast.xml"           -Force
           Copy-Item "appcast_out/appcast.xml.signature" "tm_update/appcast.xml.signature" -Force
 
-      - name: Commit & push
+      - name: Commit and push
+        if: steps.tagcheck.outputs.skip == 'false'
         shell: pwsh
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add tm_update/appcast.xml tm_update/appcast.xml.signature
-          git commit -m "chore(appcast): ${{ env.TAG_NAME }} → $((Get-Content appcast_out/appcast.xml | Select-String -Pattern '<sparkle:version>(.*?)</sparkle:version>' -AllMatches).Matches.Groups[1].Value)"
+          git commit -m "chore(appcast): update for ${{ github.event.release.tag_name }}"
           git push
