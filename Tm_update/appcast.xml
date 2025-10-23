@@ -1,11 +1,10 @@
-﻿<item>
-  <title>TM Server 1.0.8</title>
-  <version>1.0.8</version>
-  <url>https://github.com/ilseoeng/public_update/releases/download/tm-v1.0.8/TM_Setup.msi</url>
-  <changelog>https://github.com/ilseoeng/public_update/releases/tag/tm-v1.0.8</changelog>
-  <mandatory>false</mandatory>
-  <args>/passive /norestart</args>
-  <checksum algorithm="SHA256">B4AEA170F575B4623B4B7A469C31CDA2E4189962DFE8F06AB425DC47B9978CD7</checksum>
-  <length>48691712</length>
-  <pubDate>2025-10-23T10:11:12Z</pubDate>
+<item>
+<title>TM Server 1.0.9</title>
+<version>1.0.9</version>
+<url>https://github.com/ilseoeng/public_update/releases/download/tm-v1.0.9/Tm_setup.msi</url>
+<changelog>https://github.com/ilseoeng/public_update/releases/tag/tm-v1.0.9</changelog>
+<mandatory>false</mandatory>
+<checksum algorithm="SHA256">30CEC254FA5AF70936EBD3E51DCA4175ACEAF5742E9662F6FFE7D2C7404E8ED8</checksum>
+<length>49147904</length>
+<pubDate>2025-10-23T13:27:56Z</pubDate>
 </item>
