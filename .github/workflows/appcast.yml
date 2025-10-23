@@ -3,7 +3,7 @@ name: Build AppCast for TM (tm-v only)
 on:
   release:
     types: [published]
-
+workflow_dispatch:    # 👈 수동 실행 버튼 추가
 permissions:
   contents: write
 
