@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+  <channel>
+    <title>TM Server</title>
+    <description>Most recent changes with links to updates</description>
+    <language>en</language>
+    <item>
+      <title>TM Server 1.0.11</title>
+      <pubDate>Thu, 23 Oct 2025 14:01:12 +00:00</pubDate>
+      <sparkle:version>1.0.11</sparkle:version>
+      <sparkle:shortVersionString>1.0.11</sparkle:shortVersionString>
+      <enclosure url="https://github.com/ilseoeng/public_update/releases/download/tm-v1.0.11/Tm_setup.msi" sparkle:version="1.0.11" sparkle:shortVersionString="1.0.11" length="48881152" sparkle:os="windows" type="application/octet-stream" sparkle:criticalUpdate="false" sparkle:signature="fv3twMjIIGYUs2Vk5gLWwccUvalBOLw/uIvoFLgEIAxruch9jzWtDtoaNzvb3/otd2Em8pF/Be9dtYZRPnhgAA==" />
+    </item>
+  </channel>
+</rss>
