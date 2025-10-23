@@ -10,9 +10,7 @@ permissions:
 jobs:
   appcast:
     runs-on: windows-latest
-
     steps:
-      # 1) 태그 이름 검사 (tm-v 로 시작하는 릴리스만 동작)
       - name: Check if tag starts with tm-v
         id: tagcheck
         shell: pwsh
@@ -20,16 +18,16 @@ jobs:
           $tag = "${{ github.event.release.tag_name }}"
           if ($tag -notmatch '^tm-v') {
             Write-Host "Tag does not start with tm-v → skip"
-            echo "skip=true" >> $env:GITHUB_OUTPUT
-          } else {
-            echo "skip=false" >> $env:GITHUB_OUTPUT
+            "skip=true"  | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding ascii
+          }
+          else {
+            "skip=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding ascii
           }
 
       - name: Stop if tag does not match tm-v
         if: steps.tagcheck.outputs.skip == 'true'
         run: echo "Skipping non-TM release."
 
-      # 2) 리포지토리 체크아웃 (기본 브랜치)
       - name: Checkout repo (on default branch)
         if: steps.tagcheck.outputs.skip == 'false'
         uses: actions/checkout@v4
@@ -37,7 +35,7 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
 
-      # 3) Git EOL 변환 방지 + .gitattributes로 appcast 바이트 고정
+      # ✅ Git EOL 변환 방지 + .gitattributes 설정
       - name: Disable EOL conversion & set attributes
         if: steps.tagcheck.outputs.skip == 'false'
         shell: pwsh
@@ -45,35 +43,29 @@ jobs:
           git config core.autocrlf false
           git config core.eol lf
           if (-not (Test-Path .gitattributes)) { New-Item -ItemType File -Path .gitattributes | Out-Null }
-          $attr = @"
-tm_update/appcast.xml -text
-tm_update/appcast.xml.signature -text
-"@
-          Set-Content -Path .gitattributes -Value $attr -NoNewline
+          # here-string 대신 안전하게 한 줄씩 추가
+          Add-Content -Path .gitattributes -Value "tm_update/appcast.xml -text"
+          Add-Content -Path .gitattributes -Value "tm_update/appcast.xml.signature -text"
 
-      # 4) .NET SDK 설치
       - name: Setup .NET
         if: steps.tagcheck.outputs.skip == 'false'
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: 8.0.x
 
-      # 5) NetSparkle 도구 설치
       - name: Install NetSparkle AppCast tool
         if: steps.tagcheck.outputs.skip == 'false'
         run: dotnet tool install --global NetSparkleUpdater.Tools.AppCastGenerator
 
-      # 6) 서명 키 복원 (GitHub Secrets → 로컬 기본 경로)
       - name: Restore signing keys
         if: steps.tagcheck.outputs.skip == 'false'
         shell: pwsh
         run: |
           $KeyDir = "$env:LOCALAPPDATA\Netsparkle"
           New-Item -ItemType Directory -Force -Path $KeyDir | Out-Null
-          Set-Content -Path (Join-Path $KeyDir 'NetSparkle_Ed25519.priv') -Value '${{ secrets.NETSPARKLE_PRIV }}' -NoNewline
-          Set-Content -Path (Join-Path $KeyDir 'NetSparkle_Ed25519.pub')  -Value '${{ secrets.NETSPARKLE_PUB }}'  -NoNewline
+          Set-Content -Path (Join-Path $KeyDir 'NetSparkle_Ed25519.priv') -Value '${{ secrets.NETSPARKLE_PRIV }}' -NoNewline -Encoding ascii
+          Set-Content -Path (Join-Path $KeyDir 'NetSparkle_Ed25519.pub')  -Value '${{ secrets.NETSPARKLE_PUB }}'  -NoNewline -Encoding ascii
 
-      # 7) 사용 중인 공개키(Base64) 확인 로그 (앱의 publicKey와 동일해야 함)
       - name: Echo public key for sanity check
         if: steps.tagcheck.outputs.skip == 'false'
         shell: pwsh
@@ -83,7 +75,6 @@ tm_update/appcast.xml.signature -text
           Write-Host "NetSparkle public key (Base64) used by generator:"
           Write-Host $pub
 
-      # 8) 릴리스의 MSI/EXE 자산 다운로드
       - name: Download latest TM release asset
         if: steps.tagcheck.outputs.skip == 'false'
         shell: pwsh
@@ -104,9 +95,8 @@ tm_update/appcast.xml.signature -text
           $local = Join-Path $dlDir $asset.name
           Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $local -UseBasicParsing
 
-          echo "ASSET_PATH=$local" >> $env:GITHUB_ENV
+          "ASSET_PATH=$local" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding ascii
 
-      # 9) AppCast 생성 (단일 파일 모드, Windows)
       - name: Generate TM AppCast
         if: steps.tagcheck.outputs.skip == 'false'
         shell: pwsh
@@ -134,7 +124,6 @@ tm_update/appcast.xml.signature -text
             -u $baseUrl `
             --file-version $version
 
-      # 10) Sanity 체크 (MSI 길이 일치 + signature 파일 존재)
       - name: Sanity check (file size & presence)
         if: steps.tagcheck.outputs.skip == 'false'
         shell: pwsh
@@ -144,15 +133,10 @@ tm_update/appcast.xml.signature -text
           $lenXml = [int64]$enc.length
           $fileOnDisk = "${{ env.ASSET_PATH }}"
           $lenReal = (Get-Item $fileOnDisk).Length
-          if ($lenXml -ne $lenReal) {
-            throw "Length mismatch: appcast=$lenXml, file=$lenReal"
-          }
-          if (-not (Test-Path appcast_out/appcast.xml.signature)) {
-            throw "Missing appcast.xml.signature"
-          }
+          if ($lenXml -ne $lenReal) { throw "Length mismatch: appcast=$lenXml, file=$lenReal" }
+          if (-not (Test-Path appcast_out/appcast.xml.signature)) { throw "Missing appcast.xml.signature" }
           Write-Host "Sanity OK: length matches and signature file exists."
 
-      # 11) 결과물을 tm_update/ 로 이동
       - name: Move TM appcast files
         if: steps.tagcheck.outputs.skip == 'false'
         shell: pwsh
@@ -161,7 +145,6 @@ tm_update/appcast.xml.signature -text
           Copy-Item "appcast_out/appcast.xml"           "tm_update/appcast.xml"           -Force
           Copy-Item "appcast_out/appcast.xml.signature" "tm_update/appcast.xml.signature" -Force
 
-      # 12) 커밋 및 푸시
       - name: Commit and push
         if: steps.tagcheck.outputs.skip == 'false'
         shell: pwsh
