@@ -1,14 +1,15 @@
-<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
-<channel>
-<title>Application</title>
-<description>Most recent changes with links to updates</description>
-<language>en</language>
-<item>
-<title>Application 17.0.36015.10</title>
-<pubDate>Mon, 20 Oct 2025 22:19:13 +09:00</pubDate>
-<sparkle:version>17.0.36015.10</sparkle:version>
-<sparkle:shortVersionString>17.0.36015.10</sparkle:shortVersionString>
-<enclosure url="https://github.com/ilseoeng/public_update/releases/download/tm-v1.0.11/setup.exe" sparkle:version="17.0.36015.10" sparkle:shortVersionString="17.0.36015.10" length="578048" sparkle:os="windows" type="application/x-msdos-program" sparkle:criticalUpdate="false" sparkle:signature="HrR13am2QPm1PKNMOpQgqOXAlZu3HJuQuGcDw9Bz4L4by7MKshhT0ToboHPUJfeAXNkYKvfMuv1rE4THNud+DQ=="/>
-</item>
-</channel>
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
+  <channel>
+    <title>TM Server</title>
+    <description>Most recent changes with links to updates</description>
+    <language>en</language>
+    <item>
+      <title>TM Server 1.0.12</title>
+      <pubDate>Thu, 23 Oct 2025 14:59:02 +00:00</pubDate>
+      <sparkle:version>1.0.12</sparkle:version>
+      <sparkle:shortVersionString>1.0.12</sparkle:shortVersionString>
+      <enclosure url="https://github.com/ilseoeng/public_update/releases/download/tm-v1.0.12/Tm_setup.msi" sparkle:version="1.0.12" sparkle:shortVersionString="1.0.12" length="48881152" sparkle:os="windows" type="application/octet-stream" sparkle:criticalUpdate="false" sparkle:signature="fv3twMjIIGYUs2Vk5gLWwccUvalBOLw/uIvoFLgEIAxruch9jzWtDtoaNzvb3/otd2Em8pF/Be9dtYZRPnhgAA==" />
+    </item>
+  </channel>
 </rss>
