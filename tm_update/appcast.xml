@@ -6,7 +6,7 @@
     <language>en</language>
     <item>
       <title>TM Server 1.0.19</title>
-      <pubDate>Fri, 24 Oct 2025 02:56:47 +00:00</pubDate>
+      <pubDate>Fri, 24 Oct 2025 04:15:42 +00:00</pubDate>
       <sparkle:version>1.0.19</sparkle:version>
       <sparkle:shortVersionString>1.0.19</sparkle:shortVersionString>
       <enclosure url="https://github.com/ilseoeng/public_update/releases/download/tm-v1.0.19/Tm_setup.msi" sparkle:version="1.0.19" sparkle:shortVersionString="1.0.19" length="49147904" sparkle:os="windows" type="application/octet-stream" sparkle:criticalUpdate="false" sparkle:signature="6yFmt5WgEmSWNdIMnBnprcWCIZeKhwuiXjPF0MtUUdzWOqxHl1ZcGEFg44J9o4hYgIVfdT8OmHGn4jZ+3LAxCw==" />
