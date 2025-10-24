@@ -3,7 +3,7 @@
   <channel>
     <title>TM Server</title>
     <description>Most recent changes with links to updates</description>
-    <language>en</language>
+    <language>kr</language>
     <item>
       <title>TM Server 1.0.18</title>
       <pubDate>Thu, 23 Oct 2025 23:45:59 +00:00</pubDate>
@@ -13,3 +13,4 @@
     </item>
   </channel>
 </rss>
+
