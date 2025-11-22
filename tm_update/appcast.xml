@@ -5,11 +5,11 @@
     <description>Most recent changes with links to updates</description>
     <language>en</language>
     <item>
-      <title>TM Server 1.0.50</title>
-      <pubDate>Sat, 22 Nov 2025 22:02:13 +00:00</pubDate>
-      <sparkle:version>1.0.50</sparkle:version>
-      <sparkle:shortVersionString>1.0.50</sparkle:shortVersionString>
-      <enclosure url="https://github.com/ilseoeng/public_update/releases/download/tm-v1.0.50/Tm_setup.msi" sparkle:version="1.0.50" sparkle:shortVersionString="1.0.50" length="173217280" sparkle:os="windows" type="application/octet-stream" sparkle:criticalUpdate="false" sparkle:signature="2dszwzQ2SXo1/aRSO/C+0GYKosqJmIMZD8Sqc5isTKqEXXrzvOePui1AiP5jCd4RWGnXkki7ioSvTeZ31jxJBQ==" />
+      <title>TM Server 1.0.51</title>
+      <pubDate>Sat, 22 Nov 2025 22:32:13 +00:00</pubDate>
+      <sparkle:version>1.0.51</sparkle:version>
+      <sparkle:shortVersionString>1.0.51</sparkle:shortVersionString>
+      <enclosure url="https://github.com/ilseoeng/public_update/releases/download/tm-v1.0.51/Tm_setup.msi" sparkle:version="1.0.51" sparkle:shortVersionString="1.0.51" length="173217280" sparkle:os="windows" type="application/octet-stream" sparkle:criticalUpdate="false" sparkle:signature="v6qWtGTy7tbprD+RuUAMpKBhuBh9deuNTdeWawiOwd3SleQFCt76eR9sSWU2NPmDkRqVtQePmzgxseP2UDLsDg==" />
     </item>
   </channel>
 </rss>
