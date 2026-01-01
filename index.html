@@ -254,6 +254,10 @@
       <p>콜센터 만들기 PC 프로그램 입니다. </p>
 
       <div class="content-area">
+         <!-- ▼▼▼ 이 줄이 꼭 있어야 링크가 생성됩니다! ▼▼▼ -->
+        <a href="#" id="download-btn" class="btn">💾 최신 버전 다운로드</a>
+        
+        <!-- 버전 정보 -->
         <div id="version-text" class="version-info">Ver: -</div>
 
       </div>
@@ -340,45 +344,7 @@
 </div>
 
 <script>
-  // ▼▼▼ GitHub 최신 버전 자동확인 ▼▼▼
-  const githubUser = "ilseoeng";
-  const githubRepo = "public_update";
-  const fileExtension = ".msi";
-
-  async function getLatestRelease() {
-    const btn = document.getElementById('download-btn');
-    const verText = document.getElementById('version-text');
-    const apiUrl = `https://api.github.com/repos/${githubUser}/${githubRepo}/releases/latest`;
-
-    try {
-      const response = await fetch(apiUrl, { cache: "no-store" });
-      if (!response.ok) {
-        if (response.status === 404) throw new Error("파일을 찾을 수 없습니다.");
-        throw new Error("GitHub 연결 오류");
-      }
-
-      const data = await response.json();
-      const asset = (data.assets || []).find(item => item.name && item.name.endsWith(fileExtension));
-
-      if (asset) {
-        btn.href = asset.browser_download_url;
-        btn.innerHTML = `💾 최신 버전 다운로드`;
-        btn.classList.remove('disabled');
-
-        const date = new Date(data.published_at).toLocaleDateString('ko-KR');
-        verText.innerHTML = `Ver: <strong>${data.tag_name}</strong> (${date})`;
-      } else {
-        throw new Error(`최신 릴리스에 ${fileExtension} 파일이 없습니다.`);
-      }
-    } catch (error) {
-      console.error(error);
-      btn.href = `https://github.com/${githubUser}/${githubRepo}/releases`;
-      btn.innerHTML = "📂 다운로드 페이지";
-      btn.classList.remove('disabled');
-      verText.innerHTML = "자동 확인 실패";
-    }
-  }
-  getLatestRelease();
+  
 
   // ▼▼▼ 유튜브 모달 재생 ▼▼▼
   const modal = document.getElementById('videoModal');
