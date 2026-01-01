@@ -69,6 +69,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "변경사항이 없습니다."
           else
-            git commit -m "Auto-update index.html to $VERSION"
-            git push
+            git commit -m "Auto-update index.html"
+            # ▼▼▼ 여기가 수정된 부분입니다 (HEAD:main 추가) ▼▼▼
+            git push origin HEAD:main
           fi
