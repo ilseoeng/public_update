@@ -1,0 +1,74 @@
+name: Update HTML Directly
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  update-html:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Update index.html
+        env:
+          # 릴리스 정보 환경변수로 저장
+          VERSION: ${{ github.event.release.tag_name }}
+          DATE: ${{ github.event.release.published_at }}
+        run: |
+          # 1. MSI 다운로드 주소 추출 (jq 사용)
+          DOWNLOAD_URL=$(jq -r '.release.assets[] | select(.name | endswith(".msi")) | .browser_download_url' "$GITHUB_EVENT_PATH" | head -n 1)
+          
+          # 날짜 포맷 변경 (YYYY-MM-DD)
+          FORMATTED_DATE=$(date -d "$DATE" +'%Y-%m-%d')
+          
+          echo "업데이트 정보: $VERSION / $FORMATTED_DATE"
+          
+          # 2. 파이썬 스크립트로 HTML 파일 직접 수정 (더 안전함)
+          python3 -c "
+          import os
+
+          # 환경변수 가져오기
+          url = '$DOWNLOAD_URL'
+          ver = '$VERSION'
+          date = '$FORMATTED_DATE'
+          
+          # HTML 파일 읽기
+          with open('index.html', 'r', encoding='utf-8') as f:
+              lines = f.readlines()
+
+          new_lines = []
+          for line in lines:
+              # 다운로드 버튼 줄 찾아서 교체
+              if 'id=\"download-btn\"' in line:
+                  new_line = f'        <a href=\"{url}\" id=\"download-btn\" class=\"btn\">💾 최신 버전 다운로드</a>\n'
+                  new_lines.append(new_line)
+              
+              # 버전 텍스트 줄 찾아서 교체
+              elif 'id=\"version-text\"' in line:
+                  new_line = f'        <div id=\"version-text\" class=\"version-info\">Ver: <strong>{ver}</strong> ({date})</div>\n'
+                  new_lines.append(new_line)
+              
+              else:
+                  new_lines.append(line)
+
+          # 변경된 내용 저장
+          with open('index.html', 'w', encoding='utf-8') as f:
+              f.writelines(new_lines)
+          "
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          
+          git add index.html
+          if git diff --staged --quiet; then
+            echo "변경사항이 없습니다."
+          else
+            git commit -m "Auto-update index.html to $VERSION"
+            git push
+          fi
