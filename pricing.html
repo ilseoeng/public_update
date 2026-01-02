@@ -92,7 +92,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        window.verifyDevice = async () => {
+        window.verifyDevice = async (isAuto = false) => {
             const codeInput = document.getElementById('remoteCode');
             const pwInput = document.getElementById('password');
             const statusMsg = document.getElementById('statusMsg');
@@ -155,6 +155,7 @@
     </script>
 </body>
 </html>
+
 
 
 
