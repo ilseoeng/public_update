@@ -129,6 +129,28 @@
                 customData: { machine_id: machine_id }
             });
         };
+
+         window.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code'); 
+        const pw = urlParams.get('pw');     
+
+        if (code) {
+            document.getElementById('remoteCode').value = code;
+        }
+        if (pw) {
+            document.getElementById('password').value = pw;
+        }
+
+        if (code && pw) {
+            setTimeout(() => {
+                // 이미 정의된 verifyDevice 함수를 자동으로 실행합니다.
+                verifyDevice();
+            }, 800); // 데이터베이스 연결 안정화를 위해 0.8초 대기
+        }
+    });
+        
     </script>
 </body>
 </html>
+
