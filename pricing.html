@@ -17,11 +17,11 @@
 
     <nav class="bg-white border-b border-slate-200 py-4 shadow-sm">
         <div class="max-w-5xl mx-auto px-6 flex justify-between items-center">
-            <a href="https://ilseoeng.github.io/" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+            <a href="index.html" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
                 <i class="fa-solid fa-clock-rotate-left text-blue-600 text-2xl"></i>
                 <span class="text-xl font-black text-slate-800 tracking-tighter">콜센터만들기</span>
             </a>
-            <span class="text-[10px] bg-blue-600 text-white px-2 py-1 rounded font-bold uppercase">Billing Center</span>
+            <span class="text-[10px] bg-blue-600 text-white px-2 py-1 rounded font-bold uppercase">Pricing Center</span>
         </div>
     </nav>
 
@@ -45,33 +45,43 @@
                 <!-- 30분 -->
                 <div class="bg-white rounded-[2rem] p-10 border shadow-sm flex flex-col items-center">
                     <i class="fa-regular fa-clock text-4xl text-blue-500 mb-6"></i>
-                    <h3 class="text-2xl font-black text-slate-900">30분</h3>
+                    <h3 class="text-2xl font-black text-slate-900 mb-1">30분</h3>
                     <div class="text-3xl font-black text-slate-800 my-8">₩3,000</div>
-                    <button onclick="pay('30min')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600">구매하기</button>
+                    <button onclick="pay('30min')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black hover:bg-blue-600 transition shadow-lg">구매하기</button>
                 </div>
-                <!-- 1시간 -->
-                <div class="bg-white rounded-[2rem] p-10 border-4 border-blue-500 shadow-2xl flex flex-col items-center scale-105 z-10">
+                <!-- 60분 -->
+                <div class="bg-white rounded-[2rem] p-10 border-4 border-blue-500 shadow-2xl flex flex-col items-center relative scale-105 z-10">
+                    <div class="absolute -top-5 bg-blue-500 text-white px-6 py-1 rounded-full text-xs font-black tracking-widest uppercase">Best</div>
                     <i class="fa-solid fa-stopwatch text-4xl text-blue-500 mb-6"></i>
-                    <h3 class="text-2xl font-black text-slate-900">1시간</h3>
+                    <h3 class="text-2xl font-black text-slate-900 mb-1">60분</h3>
                     <div class="text-3xl font-black text-blue-600 my-8">₩5,000</div>
-                    <button onclick="pay('1hour')" class="w-full py-4 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 shadow-xl">구매하기</button>
+                    <button onclick="pay('1hour')" class="w-full py-4 bg-blue-600 text-white rounded-2xl font-black hover:bg-blue-700 transition shadow-xl">구매하기</button>
                 </div>
-                <!-- 3시간 -->
-                <div class="bg-white rounded-[2rem] p-10 border shadow-sm flex flex-col items-center">
+                <!-- 180분 -->
+                <div class="bg-white rounded-[2rem] p-10 border border-slate-100 shadow-sm flex flex-col items-center">
                     <i class="fa-solid fa-hourglass-half text-4xl text-slate-400 mb-6"></i>
-                    <h3 class="text-2xl font-black text-slate-900">3시간</h3>
+                    <h3 class="text-2xl font-black text-slate-900 mb-1">180분</h3>
                     <div class="text-3xl font-black text-slate-800 my-8">₩12,000</div>
-                    <button onclick="pay('3hours')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600">구매하기</button>
+                    <button onclick="pay('3hours')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black hover:bg-blue-600 transition shadow-lg">구매하기</button>
                 </div>
             </div>
         </div>
+
+        <!-- 하단 푸터 수정 (파란색 강조 제거) -->
+        <footer class="mt-20 pt-10 border-t border-slate-200 text-center pb-12">
+            <div class="flex justify-center space-x-6 mb-6 text-slate-400 text-xs font-bold uppercase tracking-widest">
+                <a href="terms.html" class="hover:text-blue-600 underline">Terms</a>
+                <a href="privacy.html" class="hover:text-blue-600 underline">Privacy</a>
+                <a href="refund.html" class="hover:text-blue-600 underline">Refund</a>
+            </div>
+            <p class="text-slate-300 text-[10px]">© 2025 콜센터만들기. All rights reserved. | Contact: ilseoeng@gmail.com</p>
+        </footer>
     </main>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Paddle 초기화
         Paddle.Initialize({ token: 'live_15a1740f8b90366c35ac356abbc' });
 
         const firebaseConfig = {
@@ -109,14 +119,14 @@
 
         window.pay = (plan) => {
             const machine_id = document.getElementById('remoteCode').value;
-            let priceId = "";
-            if (plan === '30min') priceId = "pri_01kdze89gfya79z9rjwmxswhat";
-            else if (plan === '1hour') priceId = "pri_01kdzecpcresbd5dx14bk69a49";
-            else if (plan === '3hours') priceId = "pri_01kdzef4qmyzdykd61m332g414";
+            let pId = "";
+            if (plan === '30min') pId = "pri_01kdze89gfya79z9rjwmxswhat";
+            else if (plan === '1hour') pId = "pri_01kdzecpcresbd5dx14bk69a49";
+            else if (plan === '3hours') pId = "pri_01kdzef4qmyzdykd61m332g414";
 
             Paddle.Checkout.open({
-                items: [{ priceId: priceId, quantity: 1 }],
-                customData: { machine_id: machine_id } // 서버로 기기번호 전달
+                items: [{ priceId: pId, quantity: 1 }],
+                customData: { machine_id: machine_id }
             });
         };
     </script>
