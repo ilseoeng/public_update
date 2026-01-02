@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI 스마트 콜 매니저 다운로드</title>
+  <title>콜센터만들기 - AI 스마트 콜 매니저</title>
 
-  <!-- Font -->
+  <!-- Font & Scripts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
   <style>
     :root{
@@ -18,10 +20,8 @@
       --text:#1f2937;
       --muted:#6b7280;
       --muted2:#9ca3af;
-
       --primary:#2563eb;
       --primary-hover:#1d4ed8;
-
       --shadow-sm:0 4px 12px rgba(0,0,0,.04);
       --shadow-md:0 10px 28px rgba(0,0,0,.07);
       --radius:14px;
@@ -37,38 +37,18 @@
     .container{
       max-width:1100px;
       margin:0 auto;
-      padding:44px 20px 64px;
+      padding:20px 20px 64px;
     }
 
-    /* Hero */
-    .hero{ text-align:center; margin-bottom:36px; }
-    .hero h1{
-      margin:0 0 10px;
-      font-size:2.25rem;
-      font-weight:800;
-      letter-spacing:-0.02em;
-      word-break:keep-all;
-    }
-    .hero p{
-      margin:0;
-      color:var(--muted);
-      font-size:1.05rem;
-      line-height:1.5;
+    .nav-bar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    /* Grid */
-    .grid-row-2, .grid-row-3{
-      display:grid;
-      gap:20px;
-      margin-bottom:20px;
-    }
-    .grid-row-2{ grid-template-columns:1fr 1fr; }
-    .grid-row-3{ grid-template-columns:1fr 1fr 1fr; }
-    @media(max-width:900px){
-      .grid-row-2, .grid-row-3{ grid-template-columns:1fr; }
-    }
-
-    /* Card */
     .section{
       background:var(--card);
       border:1px solid var(--border);
@@ -80,48 +60,8 @@
       transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
       min-height:240px;
     }
-    .section:hover{
-      transform:translateY(-3px);
-      box-shadow:var(--shadow-md);
-      border-color:#d9dde3;
-    }
+    .section:hover{ transform:translateY(-3px); box-shadow:var(--shadow-md); border-color:#d9dde3; }
 
-    .topline{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:8px;
-    }
-    .section h2{
-      margin:0;
-      font-size:1.15rem;
-      font-weight:800;
-      letter-spacing:-0.01em;
-    }
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      background:#fbfbfc;
-      color:var(--muted);
-      font-size:.78rem;
-      font-weight:700;
-      white-space:nowrap;
-    }
-
-    .section p{
-      margin:0 0 16px;
-      color:var(--muted);
-      font-size:.92rem;
-      line-height:1.55;
-    }
-    .content-area{ margin-top:auto; width:100%; }
-
-    /* Button */
     .btn{
       display:inline-flex;
       align-items:center;
@@ -136,236 +76,123 @@
       background:var(--primary);
       color:#fff;
       border:1px solid rgba(0,0,0,0);
-      transition:background .2s ease, transform .1s ease, box-shadow .2s ease;
+      transition:all .2s ease;
       box-shadow:0 10px 18px rgba(37,99,235,.18);
-      user-select:none;
     }
     .btn:hover{ background:var(--primary-hover); transform:translateY(-1px); }
-    .btn:active{ transform:translateY(0); }
-    .btn.disabled{
-      background:#d1d5db;
-      box-shadow:none;
-      cursor:not-allowed;
-    }
 
-    .version-info{
-      margin-top:10px;
-      font-size:.82rem;
-      color:var(--muted2);
-    }
-    .version-info strong{ color:var(--text); }
-
-    /* Google Play */
-    .play-badge{
-      width:185px;
-      max-width:100%;
-      transition:transform .15s ease;
-    }
-    .play-badge:hover{ transform:translateY(-2px); }
-
-    /* Video thumbnail (popup opener) */
-    .video-thumb{
-      position:relative;
-      border-radius:12px;
-      overflow:hidden;
-      cursor:pointer;
-      border:1px solid var(--border);
-      box-shadow:var(--shadow-sm);
-      background:#000;
-    }
+    .video-thumb{ position:relative; border-radius:12px; overflow:hidden; cursor:pointer; background:#000; }
     .video-thumb img{ width:100%; display:block; opacity:.95; }
-    .video-thumb::after{
-      content:"▶";
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:64px;
-      color:#fff;
-      background:rgba(0,0,0,.28);
-      transition:.15s ease;
-    }
-    .video-thumb:hover::after{ background:rgba(0,0,0,.38); }
-
-    /* Modal */
-    .video-modal{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.6);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:999;
-      padding:24px;
-    }
+    .video-thumb::after{ content:"▶"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:64px; color:#fff; background:rgba(0,0,0,.28); }
+    
+    .video-modal{ position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; z-index:999; }
     .video-modal.active{ display:flex; }
-    .modal-inner{
-      width:min(1100px, 94vw);
-      background:#000;
-      border-radius:16px;
-      position:relative;
-      overflow:hidden;
-      box-shadow:0 20px 60px rgba(0,0,0,.35);
-    }
-    .modal-close{
-      position:absolute;
-      top:10px;
-      right:14px;
-      font-size:28px;
-      line-height:1;
-      color:#fff;
-      cursor:pointer;
-      z-index:10;
-      user-select:none;
-    }
-    .modal-inner iframe{
-      width:100%;
-      height:min(70vh, 720px);
-      border:0;
-      display:block;
-    }
-
-    .footer{
-      margin-top:22px;
-      text-align:center;
-      color:var(--muted2);
-      font-size:.85rem;
-    }
   </style>
 </head>
 
 <body>
+
+<!-- 상단 네비게이션 -->
+<nav class="nav-bar shadow-sm">
+    <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+        <!-- 로고: 메인 이동 -->
+        <a href="https://ilseoeng.github.io/" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+            <i class="fa-solid fa-clock-rotate-left text-blue-600 text-2xl"></i>
+            <span class="text-xl font-black text-slate-800 tracking-tighter">콜센터만들기</span>
+        </a>
+        <!-- 우측 상단 메뉴: 이용권충전만 남김 -->
+        <div class="flex space-x-6 text-sm font-bold">
+            <a href="privacy.html" class="text-blue-600 font-black hover:underline">이용권충전</a>
+        </div>
+    </div>
+</nav>
+
 <div class="container">
 
-  <div class="hero">
-    <h1>AI 스마트 콜 매니저</h1>
-    <p>PC와 스마트폰을 연결하여 통화 기록, 녹음, AI 요약까지 통합 관리</p>
+  <div class="hero mt-10 text-center mb-10">
+    <h1 class="text-4xl font-extrabold mb-4">AI 스마트 콜 매니저</h1>
+    <p class="text-gray-500">PC와 스마트폰을 연결하여 통화 기록, 녹음, AI 요약까지 통합 관리</p>
   </div>
 
-  <!-- 1행: 다운로드 섹션 (1~2단계) -->
-  <div class="grid-row-2">
-    <!-- 1. 서버 PC 프로그램 -->
+  <!-- 1. 다운로드 섹션 -->
+  <div id="download" class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
     <div class="section">
-      <div class="topline">
-        <h2>1. 서버 PC 프로그램</h2>
-        <span class="badge">💾 최신버전</span>
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-bold">1. 서버 PC 프로그램</h2>
+        <span class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-bold">💾 최신버전</span>
       </div>
-      <p>콜센터 만들기 PC 프로그램 입니다. </p>
-
-      <div class="content-area">
-         <!-- ▼▼▼ 이 줄이 꼭 있어야 링크가 생성됩니다! ▼▼▼ -->
-        <a href="https://github.com/ilseoeng/ilseoeng.github.io/releases/download/tm-v1.0.62/Tm_setup.msi" id="download-btn" class="btn">💾 최신 버전 다운로드</a>
-        
-        <!-- 버전 정보 -->
-        <div id="version-text" class="version-info">Ver: <strong>tm-v1.0.62</strong> (2026-01-02)</div>
-
+      <p class="text-gray-500 mb-6">콜센터 만들기 PC 프로그램입니다. 모든 통화 데이터가 여기에 저장됩니다.</p>
+      <div class="mt-auto">
+        <a href="https://github.com/ilseoeng/ilseoeng.github.io/releases/download/tm-v1.0.62/Tm_setup.msi" class="btn">💾 최신 버전 다운로드</a>
+        <div class="mt-2 text-xs text-gray-400">Ver: <strong>tm-v1.0.62</strong> (2026-01-02)</div>
       </div>
     </div>
 
-    <!-- 2. 모바일 앱 설치 -->
     <div class="section">
-      <div class="topline">
-        <h2>2. 모바일 앱 설치</h2>
-        <span class="badge">📱 Android</span>
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-bold">2. 모바일 앱 설치</h2>
+        <span class="bg-green-50 text-green-600 px-3 py-1 rounded-full text-xs font-bold">📱 Android</span>
       </div>
-      <p>구글 플레이 스토어에서 앱을 설치하고 필수 권한을 허용하세요.</p>
-
-      <div class="content-area" style="text-align:center;">
-        <a href="https://play.google.com/store/apps/details?id=com.companyname.app_test&pli=1" target="_blank" rel="noopener">
-          <img class="play-badge"
-               src="https://play.google.com/intl/en_us/badges/static/images/badges/ko_badge_web_generic.png"
-               alt="Google Play에서 다운로드">
+      <p class="text-gray-500 mb-6">구글 플레이 스토어에서 앱을 설치하고 필수 권한을 허용하세요.</p>
+      <div class="mt-auto flex justify-center">
+        <a href="https://play.google.com/store/apps/details?id=com.companyname.app_test&pli=1" target="_blank">
+          <img class="w-44" src="https://play.google.com/intl/en_us/badges/static/images/badges/ko_badge_web_generic.png" alt="Google Play">
         </a>
       </div>
     </div>
   </div>
 
-  <!-- 2행: 가이드 섹션 (3~5단계) -->
-  <div class="grid-row-3">
-    <div class="section">
-      <div class="topline">
-        <h2>3. 연결 설정 방법</h2>
-        <span class="badge">🎥 가이드</span>
-      </div>
-      <p>PC 서버와 스마트폰 앱을 서로 연결하는 설정 가이드입니다.</p>
-
-      <div class="content-area">
-        <div class="video-thumb" data-video="ze9u2zel8QY" aria-label="연결 설정 가이드 재생">
-          <img src="https://img.youtube.com/vi/ze9u2zel8QY/hqdefault.jpg" alt="연결 설정 가이드 썸네일">
-        </div>
-      </div>
+  <!-- 2. 가이드 섹션 -->
+  <div id="guide" class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-20">
+    <div class="section min-h-fit">
+      <h2 class="text-md font-bold mb-2">3. 연결 설정 방법</h2>
+      <p class="text-sm text-gray-400 mb-4">PC와 앱을 연결하는 방법</p>
+      <div class="video-thumb" data-video="ze9u2zel8QY"><img src="https://img.youtube.com/vi/ze9u2zel8QY/mqdefault.jpg"></div>
     </div>
-
-   <!-- 4. API 설정 (유료) -->
-<div class="section">
-  <div class="topline">
-    <h2>4. AI로 음성 텍스트 변환 · 제목 자동 생성</h2>
-    <span class="badge">💳 유료</span>
-  </div>
-  <p>음성을 텍스트로 변환하고 통화 내용을 기반으로 자동 제목을 생성하는 설정입니다.</p>
-
-  <div class="content-area">
-    <!-- ✅ 변경된 유튜브 ID: XAKedYzzzUI -->
-    <div class="video-thumb"
-         data-video="XAKedYzzzUI"
-         aria-label="AI 음성 텍스트 변환 및 제목 자동 생성 가이드 재생">
-      <img src="https://img.youtube.com/vi/XAKedYzzzUI/hqdefault.jpg"
-           alt="AI 음성 텍스트 변환 및 제목 자동 생성 썸네일">
+    <div class="section min-h-fit">
+      <h2 class="text-md font-bold mb-2">4. AI 기능 설정</h2>
+      <p class="text-sm text-gray-400 mb-4">음성 텍스트 변환 및 요약</p>
+      <div class="video-thumb" data-video="XAKedYzzzUI"><img src="https://img.youtube.com/vi/XAKedYzzzUI/mqdefault.jpg"></div>
+    </div>
+    <div class="section min-h-fit">
+      <h2 class="text-md font-bold mb-2">5. 부가기능 활용</h2>
+      <p class="text-sm text-gray-400 mb-4">메모, 팝업, 자동 삭제 팁</p>
+      <div class="video-thumb" data-video="edHvCkMFMFM"><img src="https://img.youtube.com/vi/edHvCkMFMFM/mqdefault.jpg"></div>
     </div>
   </div>
+
+  <!-- 푸터 및 정책 링크 -->
+  <footer class="pt-10 border-t border-slate-200 text-center">
+    <div class="flex justify-center space-x-6 mb-6 text-slate-400 text-xs font-bold uppercase tracking-widest">
+        <a href="Terms.html" class="hover:text-blue-600 underline">Terms</a>
+        <a href="Privacy.html" class="hover:text-blue-600 underline">Privacy</a>
+        <a href="Refund.html" class="hover:text-blue-600 underline">Refund</a>
+    </div>
+    <p class="text-slate-300 text-[10px]">© 2025 콜센터만들기. All rights reserved. | Contact: ilseoeng@gmail.com</p>
+  </footer>
 </div>
 
-
-    <div class="section">
-      <div class="topline">
-        <h2>5. 부가기능 활용</h2>
-        <span class="badge">✨ 팁</span>
-      </div>
-      <p>자동 삭제, 팝업, 메모, 외부 접속 등 다양한 기능을 확인하세요.</p>
-
-      <div class="content-area">
-        <div class="video-thumb" data-video="edHvCkCFMFM" aria-label="부가기능 가이드 재생">
-          <img src="https://img.youtube.com/vi/edHvCkCFMFM/hqdefault.jpg" alt="부가기능 가이드 썸네일">
-        </div>
-      </div>
+<!-- 유튜브 팝업 모달 -->
+<div class="video-modal" id="videoModal">
+    <div class="modal-inner bg-black rounded-2xl relative overflow-hidden w-full max-w-4xl mx-4">
+        <div class="modal-close absolute top-2 right-4 text-white text-3xl cursor-pointer z-10" id="closeModal">✕</div>
+        <div id="videoContainer"></div>
     </div>
-  </div>
-
-  <div class="footer">© AI 스마트 콜 매니저 · 다운로드/설정 가이드</div>
-</div>
-
-<!-- 유튜브 팝업(모달) -->
-<div class="video-modal" id="videoModal" aria-hidden="true">
-  <div class="modal-inner" role="dialog" aria-modal="true" aria-label="유튜브 영상 재생">
-    <div class="modal-close" id="closeModal" title="닫기">✕</div>
-    <div id="videoContainer"></div>
-  </div>
 </div>
 
 <script>
-  
-
-  // ▼▼▼ 유튜브 모달 재생 ▼▼▼
   const modal = document.getElementById('videoModal');
   const container = document.getElementById('videoContainer');
   const closeBtn = document.getElementById('closeModal');
 
   function openVideo(videoId) {
-    container.innerHTML =
-      `<iframe
-          src="https://www.youtube.com/embed/${videoId}?autoplay=1"
-          title="YouTube video player"
-          allow="autoplay; encrypted-media; picture-in-picture"
-          allowfullscreen></iframe>`;
+    container.innerHTML = `<iframe class="w-full h-[300px] md:h-[500px]" src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
     modal.classList.add('active');
-    modal.setAttribute('aria-hidden', 'false');
   }
 
   function closeModal() {
     modal.classList.remove('active');
-    modal.setAttribute('aria-hidden', 'true');
-    container.innerHTML = ""; // iframe 제거 -> 재생 중지
+    container.innerHTML = "";
   }
 
   document.querySelectorAll('.video-thumb').forEach(el => {
@@ -373,16 +200,7 @@
   });
 
   closeBtn.addEventListener('click', closeModal);
-
-  // 바깥 클릭 시 닫기
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-
-  // ESC로 닫기
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-  });
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 </script>
 
 </body>
