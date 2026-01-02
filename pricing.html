@@ -3,106 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>시간 충전 서비스 | 콜센터 만들기</title>
+    <title>이용권 충전 센터 | 콜센터만들기</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
         body { font-family: 'Noto Sans KR', sans-serif; }
+        .disabled-section { opacity: 0.3; pointer-events: none; filter: grayscale(1); transition: all 0.6s ease; }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-slate-50">
 
-    <!-- Navbar -->
-    <nav class="bg-white border-b border-gray-200 py-4">
+    <nav class="bg-white border-b border-slate-200 py-4 shadow-sm">
         <div class="max-w-5xl mx-auto px-6 flex justify-between items-center">
-            <!-- 로고 클릭 시 메인 홈페이지(https://ilseoeng.github.io/)로 이동 -->
-            <a href="https://ilseoeng.github.io/" class="flex items-center space-x-2 group">
-                <i class="fa-solid fa-clock-rotate-left text-blue-600 text-2xl group-hover:rotate-180 transition-transform duration-500"></i>
-                <span class="text-xl font-black text-gray-800 tracking-tighter group-hover:text-blue-600 transition-colors">콜센터 만들기</span>
+            <a href="https://ilseoeng.github.io/" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+                <i class="fa-solid fa-clock-rotate-left text-blue-600 text-2xl"></i>
+                <span class="text-xl font-black text-slate-800 tracking-tighter">콜센터만들기</span>
             </a>
-            <span class="text-xs text-gray-400 font-bold uppercase tracking-widest">Billing Center</span>
+            <span class="text-[10px] bg-blue-600 text-white px-2 py-1 rounded font-bold uppercase">Billing Center</span>
         </div>
     </nav>
 
-    <main class="max-w-5xl mx-auto px-6 py-16">
-        
-        <!-- 1단계: 컴퓨터 번호 입력 -->
-        <section class="bg-white rounded-[2rem] shadow-xl border border-gray-100 p-10 mb-12">
-            <div class="max-w-md mx-auto text-center">
-                <h2 class="text-xl font-bold text-gray-900 mb-6">충전할 컴퓨터 번호를 입력하세요</h2>
-                <input type="text" id="machineId" placeholder="예: 02254F1626...." 
-                       class="w-full px-6 py-5 bg-gray-50 border-2 border-gray-100 rounded-2xl text-center text-4xl font-black tracking-[0.5em] text-blue-600 focus:border-blue-500 focus:bg-white focus:outline-none transition-all placeholder:text-gray-200 uppercase">
-                <p class="text-gray-400 mt-4 text-sm">데스크톱 프로그램 상단에 표시된 번호</p>
+    <main class="max-w-5xl mx-auto px-6 py-12">
+        <section class="bg-white rounded-[2.5rem] shadow-2xl border p-8 md:p-12 mb-12 max-w-lg mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="text-2xl font-black text-slate-900 mb-2">1. 기기 정보 인증</h2>
+                <p class="text-slate-400 text-sm">원격 코드와 비밀번호를 입력해주세요.</p>
             </div>
+            <div class="space-y-6">
+                <input type="text" id="remoteCode" placeholder="예: vm6 292" class="w-full px-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-center text-3xl font-black text-blue-600 focus:border-blue-500 uppercase">
+                <input type="password" id="password" placeholder="비밀번호" class="w-full px-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-center text-2xl font-bold focus:border-blue-500">
+                <button onclick="verifyDevice()" id="verifyBtn" class="w-full py-5 bg-blue-600 text-white rounded-2xl font-black text-xl hover:bg-blue-700 transition shadow-xl">인증하기</button>
+            </div>
+            <p id="statusMsg" class="mt-8 text-sm font-bold text-center text-slate-300">인증 완료 후 충전 시간을 선택할 수 있습니다.</p>
         </section>
 
-        <!-- 2단계: 충전 시간 선택 -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            <!-- 30분권 -->
-            <div class="bg-white rounded-[2rem] p-10 border border-gray-100 shadow-sm hover:shadow-xl transition-all flex flex-col items-center group">
-                <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fa-regular fa-clock text-3xl text-blue-500"></i>
+        <div id="pricingSection" class="disabled-section">
+            <div class="text-center mb-12"><h2 class="text-3xl font-black text-slate-900">2. 충전 시간 선택</h2></div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 30분 -->
+                <div class="bg-white rounded-[2rem] p-10 border shadow-sm flex flex-col items-center">
+                    <i class="fa-regular fa-clock text-4xl text-blue-500 mb-6"></i>
+                    <h3 class="text-2xl font-black text-slate-900">30분</h3>
+                    <div class="text-3xl font-black text-slate-800 my-8">₩3,000</div>
+                    <button onclick="pay('30min')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600">구매하기</button>
                 </div>
-                <h3 class="text-2xl font-black text-gray-900 mb-1">30분 충전</h3>
-                <p class="text-gray-400 text-sm mb-6 font-medium">30 Minutes Refill</p>
-                <div class="text-3xl font-black text-gray-800 mb-10">₩2,000</div>
-                <button onclick="pay('30min')" class="w-full py-4 bg-gray-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition shadow-lg">선택하기</button>
-            </div>
-
-            <!-- 1시간권 -->
-            <div class="bg-white rounded-[2rem] p-10 border-4 border-blue-500 shadow-2xl relative flex flex-col items-center scale-105 z-10 group">
-                <div class="absolute -top-5 bg-blue-500 text-white px-6 py-1 rounded-full text-sm font-black tracking-widest">BEST</div>
-                <div class="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform">
-                    <i class="fa-solid fa-stopwatch text-3xl text-white"></i>
+                <!-- 1시간 -->
+                <div class="bg-white rounded-[2rem] p-10 border-4 border-blue-500 shadow-2xl flex flex-col items-center scale-105 z-10">
+                    <i class="fa-solid fa-stopwatch text-4xl text-blue-500 mb-6"></i>
+                    <h3 class="text-2xl font-black text-slate-900">1시간</h3>
+                    <div class="text-3xl font-black text-blue-600 my-8">₩5,000</div>
+                    <button onclick="pay('1hour')" class="w-full py-4 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 shadow-xl">구매하기</button>
                 </div>
-                <h3 class="text-2xl font-black text-gray-900 mb-1">1시간 충전</h3>
-                <p class="text-gray-400 text-sm mb-6 font-medium">1 Hour Refill</p>
-                <div class="text-3xl font-black text-blue-600 mb-10">₩3,500</div>
-                <button onclick="pay('1hour')" class="w-full py-4 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition shadow-xl">선택하기</button>
-            </div>
-
-            <!-- 3시간권 -->
-            <div class="bg-white rounded-[2rem] p-10 border border-gray-100 shadow-sm hover:shadow-xl transition-all flex flex-col items-center group">
-                <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform text-gray-400">
-                    <i class="fa-solid fa-hourglass-half text-3xl"></i>
+                <!-- 3시간 -->
+                <div class="bg-white rounded-[2rem] p-10 border shadow-sm flex flex-col items-center">
+                    <i class="fa-solid fa-hourglass-half text-4xl text-slate-400 mb-6"></i>
+                    <h3 class="text-2xl font-black text-slate-900">3시간</h3>
+                    <div class="text-3xl font-black text-slate-800 my-8">₩12,000</div>
+                    <button onclick="pay('3hours')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-blue-600">구매하기</button>
                 </div>
-                <h3 class="text-2xl font-black text-gray-900 mb-1">3시간 충전</h3>
-                <p class="text-gray-400 text-sm mb-6 font-medium">3 Hours Refill</p>
-                <div class="text-3xl font-black text-gray-800 mb-10">₩9,000</div>
-                <button onclick="pay('3hours')" class="w-full py-4 bg-gray-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition shadow-lg">선택하기</button>
             </div>
-
-        </div>
-
-        <!-- 하단 정책 안내 -->
-        <div class="mt-20 max-w-2xl mx-auto border-t border-gray-200 pt-10 text-center">
-            <div class="flex justify-center space-x-8 mb-6 text-gray-500 font-bold text-sm">
-                <a href="terms.html" class="hover:text-blue-600 transition">이용약관 (Terms)</a>
-                <a href="privacy.html" class="hover:text-blue-600 transition">개인정보보호 (Privacy)</a>
-                <a href="refund.html" class="hover:text-blue-600 transition">환불규정 (Refund)</a>
-            </div>
-            <p class="text-gray-400 text-xs leading-relaxed">
-                결제하신 시간은 컴퓨터 번호(Machine ID)와 연동되어 즉시 사용 가능합니다.<br>
-                결제 정보는 안전한 글로벌 결제 솔루션 Paddle을 통해 처리됩니다.
-            </p>
         </div>
     </main>
 
-    <footer class="pb-16 text-center text-gray-300 text-[10px] font-medium tracking-widest uppercase">
-        © 2025 콜센터 만들기. All rights reserved.
-    </footer>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    <script>
-        function pay(plan) {
-            const machineId = document.getElementById('machineId').value;
-            if(!machineId || machineId.length < 4) {
-                alert('컴퓨터 번호를 먼저 입력해주세요.');
-                return;
-            }
-            alert(machineId + ' 기기에 ' + plan + ' 이용권을 충전합니다.');
-        }
+        // Paddle 초기화
+        Paddle.Initialize({ token: 'live_15a1740f8b90366c35ac356abbc' });
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCsdo-gps3z3nvwJ_EjNe0e4ZI4s4QH7XM",
+            projectId: "gen-lang-client-0349319821",
+            authDomain: "gen-lang-client-0349319821.firebaseapp.com"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.verifyDevice = async () => {
+            const codeInput = document.getElementById('remoteCode');
+            const pwInput = document.getElementById('password');
+            const statusMsg = document.getElementById('statusMsg');
+            const pricingSection = document.getElementById('pricingSection');
+            
+            let rawCode = codeInput.value.trim().toLowerCase();
+            const password = pwInput.value.trim();
+            if (rawCode.length === 6 && !rawCode.includes(" ")) rawCode = rawCode.substring(0, 3) + " " + rawCode.substring(3);
+
+            try {
+                const q = query(collection(db, "devices"), where("serial_code", "==", rawCode), where("password", "==", password));
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    alert("기기 인증 성공!");
+                    statusMsg.innerHTML = "✅ 인증 완료! 이용권을 선택해 주세요.";
+                    pricingSection.classList.remove('disabled-section');
+                    codeInput.disabled = true; pwInput.disabled = true;
+                    document.getElementById('verifyBtn').style.display = "none";
+                } else {
+                    alert("인증 실패: 정보를 찾을 수 없습니다.");
+                }
+            } catch (error) { alert("에러: " + error.message); }
+        };
+
+        window.pay = (plan) => {
+            const machine_id = document.getElementById('remoteCode').value;
+            let priceId = "";
+            if (plan === '30min') priceId = "pri_01kdze89gfya79z9rjwmxswhat";
+            else if (plan === '1hour') priceId = "pri_01kdzecpcresbd5dx14bk69a49";
+            else if (plan === '3hours') priceId = "pri_01kdzef4qmyzdykd61m332g414";
+
+            Paddle.Checkout.open({
+                items: [{ priceId: priceId, quantity: 1 }],
+                customData: { machine_id: machine_id } // 서버로 기기번호 전달
+            });
+        };
     </script>
 </body>
 </html>
