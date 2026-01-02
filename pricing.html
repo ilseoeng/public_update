@@ -106,7 +106,9 @@
                 const q = query(collection(db, "devices"), where("serial_code", "==", rawCode), where("password", "==", password));
                 const querySnapshot = await getDocs(q);
                 if (!querySnapshot.empty) {
-                    alert("기기 인증 성공!");
+                    if (isAuto === false) {
+                alert("기기 인증 성공!");
+            }
                     statusMsg.innerHTML = "✅ 인증 완료! 이용권을 선택해 주세요.";
                     pricingSection.classList.remove('disabled-section');
                     codeInput.disabled = true; pwInput.disabled = true;
@@ -153,5 +155,6 @@
     </script>
 </body>
 </html>
+
 
 
