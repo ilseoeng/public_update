@@ -145,7 +145,7 @@
         if (code && pw) {
             setTimeout(() => {
                 // 이미 정의된 verifyDevice 함수를 자동으로 실행합니다.
-                verifyDevice();
+                verifyDevice(true);
             }, 800); // 데이터베이스 연결 안정화를 위해 0.8초 대기
         }
     });
@@ -153,4 +153,5 @@
     </script>
 </body>
 </html>
+
 
