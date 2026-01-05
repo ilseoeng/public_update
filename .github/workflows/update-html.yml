@@ -49,7 +49,7 @@ jobs:
               
               # 버전 텍스트 줄 찾아서 교체
               elif 'id=\"version-text\"' in line:
-                  new_line = f'        <div id=\"version-text\" class=\"version-info\">Ver: <strong>{ver}</strong> ({date})</div>\n'
+                  new_line = f'        <div id=\"version-text\" class=\"mt-2 text-xs text-gray-400\">Ver: <strong>{ver}</strong> ({date})</div>\n'
                   new_lines.append(new_line)
               
               else:
