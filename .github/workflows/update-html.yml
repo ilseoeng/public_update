@@ -13,51 +13,65 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Update index.html
-        env:
-          # 릴리스 정보 환경변수로 저장
-          VERSION: ${{ github.event.release.tag_name }}
-          DATE: ${{ github.event.release.published_at }}
+      - name: Get Release Info
+        id: release_info
         run: |
           # 1. MSI 다운로드 주소 추출 (jq 사용)
+          # .msi로 끝나는 파일의 다운로드 주소를 가져옵니다.
           DOWNLOAD_URL=$(jq -r '.release.assets[] | select(.name | endswith(".msi")) | .browser_download_url' "$GITHUB_EVENT_PATH" | head -n 1)
+          echo "DOWNLOAD_URL=$DOWNLOAD_URL" >> $GITHUB_ENV
           
-          # 날짜 포맷 변경 (YYYY-MM-DD)
-          FORMATTED_DATE=$(date -d "$DATE" +'%Y-%m-%d')
-          
-          echo "업데이트 정보: $VERSION / $FORMATTED_DATE"
-          
-          # 2. 파이썬 스크립트로 HTML 파일 직접 수정 (더 안전함)
+          # 2. 날짜 포맷 변경 (YYYY-MM-DD)
+          FORMATTED_DATE=$(date -d "${{ github.event.release.published_at }}" +'%Y-%m-%d')
+          echo "FORMATTED_DATE=$FORMATTED_DATE" >> $GITHUB_ENV
+
+      - name: Update index.html
+        env:
+          # Python 내부로 안전하게 전달하기 위한 환경변수 설정
+          NEW_URL: ${{ env.DOWNLOAD_URL }}
+          NEW_VERSION: ${{ github.event.release.tag_name }}
+          NEW_DATE: ${{ env.FORMATTED_DATE }}
+        run: |
           python3 -c "
           import os
 
-          # 환경변수 가져오기
-          url = '$DOWNLOAD_URL'
-          ver = '$VERSION'
-          date = '$FORMATTED_DATE'
-          
-          # HTML 파일 읽기
-          with open('index.html', 'r', encoding='utf-8') as f:
+          # 환경변수 값 가져오기
+          url = os.environ.get('NEW_URL')
+          ver = os.environ.get('NEW_VERSION')
+          date = os.environ.get('NEW_DATE')
+
+          file_path = 'index.html'
+
+          # 파일이 없거나 URL을 못 찾았을 경우 대비
+          if not url:
+              print('Error: .msi download URL not found.')
+              exit(1)
+
+          # HTML 읽기
+          with open(file_path, 'r', encoding='utf-8') as f:
               lines = f.readlines()
 
           new_lines = []
           for line in lines:
-              # 다운로드 버튼 줄 찾아서 교체
+              # [중요] 'if - elif - else' 구조를 사용하여 중복 방지
+              
+              # 1. 다운로드 버튼 줄을 찾으면 -> 새 내용으로 교체 (기존 줄 버림)
               if 'id=\"download-btn\"' in line:
-                  new_line = f'        <a href=\"{url}\" id=\"download-btn\" class=\"btn\">💾 최신 버전 다운로드</a>\n'
-                  new_lines.append(new_line)
+                  new_lines.append(f'        <a href=\"{url}\" id=\"download-btn\" class=\"btn\">💾 최신 버전 다운로드</a>\n')
               
-              # 버전 텍스트 줄 찾아서 교체
+              # 2. 버전 텍스트 줄을 찾으면 -> 새 내용으로 교체 (기존 줄 버림)
               elif 'id=\"version-text\"' in line:
-                  new_line = f'        <div id=\"version-text\" class=\"mt-2 text-xs text-gray-400\">Ver: <strong>{ver}</strong> ({date})</div>\n'
-                  new_lines.append(new_line)
+                  new_lines.append(f'        <div id=\"version-text\" class=\"mt-2 text-xs text-gray-400\">Ver: <strong>{ver}</strong> ({date})</div>\n')
               
+              # 3. 해당하지 않는 줄은 -> 그대로 유지
               else:
                   new_lines.append(line)
 
           # 변경된 내용 저장
-          with open('index.html', 'w', encoding='utf-8') as f:
+          with open(file_path, 'w', encoding='utf-8') as f:
               f.writelines(new_lines)
+          
+          print(f'Successfully updated {file_path}')
           "
 
       - name: Commit and Push
@@ -66,10 +80,16 @@ jobs:
           git config --global user.email "actions@github.com"
           
           git add index.html
+          
+          # 변경사항 확인
           if git diff --staged --quiet; then
-            echo "변경사항이 없습니다."
+            echo "변경사항이 없습니다. (이미 최신 상태이거나 파일이 변경되지 않음)"
           else
-            git commit -m "Auto-update index.html"
-            # ▼▼▼ 여기가 수정된 부분입니다 (HEAD:main 추가) ▼▼▼
+            git commit -m "Auto-update index.html to ${{ github.event.release.tag_name }}"
+            
+            # [중요] 원격 브랜치(main)의 최신 내용을 가져와서 충돌 방지
+            git pull origin main --rebase
+            
+            # 변경 내용을 main 브랜치로 강제 푸시
             git push origin HEAD:main
           fi
