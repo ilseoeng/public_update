@@ -10,7 +10,31 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
         body { font-family: 'Noto Sans KR', sans-serif; }
-        .disabled-section { opacity: 0.3; pointer-events: none; filter: grayscale(1); transition: all 0.6s ease; }
+        
+        /* 인증 전 섹션 가리기 */
+        .disabled-section { opacity: 0.1; pointer-events: none; filter: grayscale(1); transition: all 0.6s ease; }
+        
+        /* 스크롤바 숨기기 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 모바일 슬라이드 설정 */
+        @media (max-width: 768px) {
+            .pricing-container {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                /* 양옆 여백을 주어 첫번째/마지막 카드도 가운데 오게 함 */
+                padding-left: calc(10vw); 
+                padding-right: calc(10vw);
+            }
+            .pricing-card {
+                width: 80vw; /* 카드 너비 */
+                flex-shrink: 0;
+                scroll-snap-align: center;
+                margin-right: 15px;
+            }
+        }
     </style>
 </head>
 <body class="bg-slate-50">
@@ -25,56 +49,66 @@
         </div>
     </nav>
 
-    <main class="max-w-5xl mx-auto px-6 py-12">
-        <section class="bg-white rounded-[2.5rem] shadow-2xl border p-8 md:p-12 mb-12 max-w-lg mx-auto">
-            <div class="text-center mb-10">
-                <h2 class="text-2xl font-black text-slate-900 mb-2">1. 기기 정보 인증</h2>
-                <p class="text-slate-400 text-sm">원격 코드와 비밀번호를 입력해주세요.</p>
+    <main class="max-w-5xl mx-auto px-0 md:px-6 py-8 md:py-12">
+        <!-- 1. 기기 인증 섹션 (모바일에서 여백 유지) -->
+        <section class="bg-white rounded-[2rem] shadow-xl border p-6 md:p-10 mb-12 max-w-lg mx-auto mx-4">
+            <div class="text-center mb-8">
+                <h2 class="text-xl font-black text-slate-900 mb-2">1. 기기 정보 인증</h2>
+                <p class="text-slate-400 text-xs">원격 코드와 비밀번호를 입력해주세요.</p>
             </div>
-            <div class="space-y-6">
-                <input type="text" id="remoteCode" placeholder="예: vm6 292" class="w-full px-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-center text-3xl font-black text-blue-600 focus:border-blue-500 uppercase">
-                <input type="password" id="password" placeholder="비밀번호" class="w-full px-6 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl text-center text-2xl font-bold focus:border-blue-500">
-                <button onclick="verifyDevice()" id="verifyBtn" class="w-full py-5 bg-blue-600 text-white rounded-2xl font-black text-xl hover:bg-blue-700 transition shadow-xl">인증하기</button>
+            <div class="space-y-4">
+                <input type="text" id="remoteCode" placeholder="예: vm6 292" class="w-full px-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-xl text-center text-2xl font-black text-blue-600 focus:border-blue-500 uppercase outline-none">
+                <input type="password" id="password" placeholder="비밀번호" class="w-full px-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-xl text-center text-xl font-bold focus:border-blue-500 outline-none">
+                <button onclick="verifyDevice()" id="verifyBtn" class="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-lg hover:bg-blue-700 transition shadow-lg">인증하기</button>
             </div>
-            <p id="statusMsg" class="mt-8 text-sm font-bold text-center text-slate-300">인증 완료 후 충전 시간을 선택할 수 있습니다.</p>
+            <p id="statusMsg" class="mt-6 text-[11px] font-bold text-center text-slate-300">인증 완료 후 충전 시간을 선택할 수 있습니다.</p>
         </section>
 
+        <!-- 2. 충전 시간 선택 섹션 -->
         <div id="pricingSection" class="disabled-section">
-            <div class="text-center mb-12"><h2 class="text-3xl font-black text-slate-900">2. 충전 시간 선택</h2></div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center mb-6 md:mb-12">
+                <h2 class="text-2xl font-black text-slate-900">2. 충전 시간 선택</h2>
+                <p class="md:hidden text-slate-400 text-[10px] mt-1"><i class="fa-solid fa-arrow-left"></i> 좌우로 밀어서 선택 <i class="fa-solid fa-arrow-right"></i></p>
+            </div>
+
+            <!-- 슬라이더 컨테이너 -->
+            <div id="pricingSlider" class="pricing-container no-scrollbar md:grid md:grid-cols-3 md:gap-6 md:px-0 pb-10">
+                
                 <!-- 30분 -->
-                <div class="bg-white rounded-[2rem] p-10 border shadow-sm flex flex-col items-center">
-                    <i class="fa-regular fa-clock text-4xl text-blue-500 mb-6"></i>
-                    <h3 class="text-2xl font-black text-slate-900 mb-1">30분</h3>
-                    <div class="text-3xl font-black text-slate-800 my-8">₩3,000</div>
-                    <button onclick="pay('30min')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black hover:bg-blue-600 transition shadow-lg">구매하기</button>
+                <div id="card-30min" class="pricing-card bg-white rounded-[2rem] p-8 border shadow-sm flex flex-col items-center">
+                    <i class="fa-regular fa-clock text-3xl text-blue-500 mb-4"></i>
+                    <h3 class="text-xl font-black text-slate-900">30분</h3>
+                    <div class="text-3xl font-black text-slate-800 my-6">₩3,000</div>
+                    <button onclick="pay('30min')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black active:scale-95 transition">구매하기</button>
                 </div>
-                <!-- 60분 -->
-                <div class="bg-white rounded-[2rem] p-10 border-4 border-blue-500 shadow-2xl flex flex-col items-center relative scale-105 z-10">
-                    <div class="absolute -top-5 bg-blue-500 text-white px-6 py-1 rounded-full text-xs font-black tracking-widest uppercase">Best</div>
-                    <i class="fa-solid fa-stopwatch text-4xl text-blue-500 mb-6"></i>
-                    <h3 class="text-2xl font-black text-slate-900 mb-1">60분</h3>
-                    <div class="text-3xl font-black text-blue-600 my-8">₩5,000</div>
-                    <button onclick="pay('1hour')" class="w-full py-4 bg-blue-600 text-white rounded-2xl font-black hover:bg-blue-700 transition shadow-xl">구매하기</button>
+
+                <!-- 60분 (Best - 기본 타겟) -->
+                <div id="card-1hour" class="pricing-card bg-white rounded-[2rem] p-8 border-4 border-blue-500 shadow-2xl flex flex-col items-center relative z-10">
+                    <div class="absolute -top-4 bg-blue-500 text-white px-5 py-1 rounded-full text-[10px] font-black tracking-widest uppercase">Best</div>
+                    <i class="fa-solid fa-stopwatch text-3xl text-blue-500 mb-4"></i>
+                    <h3 class="text-xl font-black text-slate-900">60분</h3>
+                    <div class="text-3xl font-black text-blue-600 my-6">₩5,000</div>
+                    <button onclick="pay('1hour')" class="w-full py-4 bg-blue-600 text-white rounded-2xl font-black active:scale-95 transition">구매하기</button>
                 </div>
+
                 <!-- 180분 -->
-                <div class="bg-white rounded-[2rem] p-10 border border-slate-100 shadow-sm flex flex-col items-center">
-                    <i class="fa-solid fa-hourglass-half text-4xl text-slate-400 mb-6"></i>
-                    <h3 class="text-2xl font-black text-slate-900 mb-1">180분</h3>
-                    <div class="text-3xl font-black text-slate-800 my-8">₩12,000</div>
-                    <button onclick="pay('3hours')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black hover:bg-blue-600 transition shadow-lg">구매하기</button>
+                <div id="card-3hours" class="pricing-card bg-white rounded-[2rem] p-8 border shadow-sm flex flex-col items-center">
+                    <i class="fa-solid fa-hourglass-half text-3xl text-slate-400 mb-4"></i>
+                    <h3 class="text-xl font-black text-slate-900">180분</h3>
+                    <div class="text-3xl font-black text-slate-800 my-6">₩12,000</div>
+                    <button onclick="pay('3hours')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black active:scale-95 transition">구매하기</button>
                 </div>
+
             </div>
         </div>
 
-        <!-- 하단 푸터 수정 (파란색 강조 제거) -->
-        <footer class="mt-20 pt-10 border-t border-slate-200 text-center pb-12">
-            <div class="flex justify-center space-x-6 mb-6 text-slate-400 text-xs font-bold uppercase tracking-widest">
+        <footer class="mt-10 pt-10 border-t border-slate-200 text-center pb-12">
+            <div class="flex justify-center space-x-6 mb-6 text-slate-400 text-[10px] font-bold uppercase tracking-widest">
                 <a href="terms.html" class="hover:text-blue-600 underline">Terms</a>
                 <a href="privacy.html" class="hover:text-blue-600 underline">Privacy</a>
                 <a href="refund.html" class="hover:text-blue-600 underline">Refund</a>
             </div>
-            <p class="text-slate-300 text-[10px]">© 2025 콜센터만들기. All rights reserved. | Contact: ilseoeng@gmail.com</p>
+            <p class="text-slate-300 text-[10px]">© 2025 콜센터만들기. All rights reserved.</p>
         </footer>
     </main>
 
@@ -92,6 +126,16 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // 가운데 카드로 스크롤 이동시키는 함수
+        const centerBestPlan = () => {
+            const slider = document.getElementById('pricingSlider');
+            const bestCard = document.getElementById('card-1hour');
+            if (window.innerWidth < 768 && slider && bestCard) {
+                const offset = bestCard.offsetLeft - (slider.offsetWidth / 2) + (bestCard.offsetWidth / 2);
+                slider.scrollTo({ left: offset, behavior: 'smooth' });
+            }
+        };
+
         window.verifyDevice = async (isAuto = false) => {
             const codeInput = document.getElementById('remoteCode');
             const pwInput = document.getElementById('password');
@@ -106,13 +150,17 @@
                 const q = query(collection(db, "devices"), where("serial_code", "==", rawCode), where("password", "==", password));
                 const querySnapshot = await getDocs(q);
                 if (!querySnapshot.empty) {
-                    if (isAuto === false) {
-                alert("기기 인증 성공!");
-            }
+                    if (!isAuto) alert("기기 인증 성공!");
                     statusMsg.innerHTML = "✅ 인증 완료! 이용권을 선택해 주세요.";
                     pricingSection.classList.remove('disabled-section');
                     codeInput.disabled = true; pwInput.disabled = true;
                     document.getElementById('verifyBtn').style.display = "none";
+                    
+                    // 인증 후 부드럽게 스크롤 및 가운데 정렬
+                    setTimeout(() => {
+                        pricingSection.scrollIntoView({ behavior: 'smooth' });
+                        setTimeout(centerBestPlan, 500);
+                    }, 100);
                 } else {
                     alert("인증 실패: 정보를 찾을 수 없습니다.");
                 }
@@ -132,30 +180,18 @@
             });
         };
 
-         window.addEventListener('DOMContentLoaded', () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code'); 
-        const pw = urlParams.get('pw');     
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code'); 
+            const pw = urlParams.get('pw');     
 
-        if (code) {
-            document.getElementById('remoteCode').value = code;
-        }
-        if (pw) {
-            document.getElementById('password').value = pw;
-        }
+            if (code) document.getElementById('remoteCode').value = code;
+            if (pw) document.getElementById('password').value = pw;
 
-        if (code && pw) {
-            setTimeout(() => {
-                // 이미 정의된 verifyDevice 함수를 자동으로 실행합니다.
-                verifyDevice(true);
-            }, 800); // 데이터베이스 연결 안정화를 위해 0.8초 대기
-        }
-    });
-        
+            if (code && pw) {
+                setTimeout(() => { verifyDevice(true); }, 800);
+            }
+        });
     </script>
 </body>
 </html>
-
-
-
-
