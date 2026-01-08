@@ -6,30 +6,26 @@
     <title>이용권 충전 센터 | 콜센터만들기</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+    <!-- 1. 구글 reCAPTCHA 스크립트 추가 -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
         body { font-family: 'Noto Sans KR', sans-serif; }
-        
-        /* 인증 전 섹션 가리기 */
         .disabled-section { opacity: 0.1; pointer-events: none; filter: grayscale(1); transition: all 0.6s ease; }
-        
-        /* 스크롤바 숨기기 */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* 모바일 슬라이드 설정 */
         @media (max-width: 768px) {
             .pricing-container {
                 display: flex;
                 overflow-x: auto;
                 scroll-snap-type: x mandatory;
-                /* 양옆 여백을 주어 첫번째/마지막 카드도 가운데 오게 함 */
-                padding-left: calc(10vw); 
-                padding-right: calc(10vw);
+                padding-left: 10vw; 
+                padding-right: 10vw;
             }
             .pricing-card {
-                width: 80vw; /* 카드 너비 */
+                width: 80vw;
                 flex-shrink: 0;
                 scroll-snap-align: center;
                 margin-right: 15px;
@@ -50,7 +46,7 @@
     </nav>
 
     <main class="max-w-5xl mx-auto px-0 md:px-6 py-8 md:py-12">
-        <!-- 1. 기기 인증 섹션 (모바일에서 여백 유지) -->
+        <!-- 1. 기기 인증 섹션 -->
         <section class="bg-white rounded-[2rem] shadow-xl border p-6 md:p-10 mb-12 max-w-lg mx-auto mx-4">
             <div class="text-center mb-8">
                 <h2 class="text-xl font-black text-slate-900 mb-2">1. 기기 정보 인증</h2>
@@ -59,21 +55,25 @@
             <div class="space-y-4">
                 <input type="text" id="remoteCode" placeholder="예: vm6 292" class="w-full px-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-xl text-center text-2xl font-black text-blue-600 focus:border-blue-500 uppercase outline-none">
                 <input type="password" id="password" placeholder="비밀번호" class="w-full px-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-xl text-center text-xl font-bold focus:border-blue-500 outline-none">
+                
+                <!-- 2. 구글 reCAPTCHA 체크박스 위치 -->
+                <div class="flex justify-center py-2 scale-90 md:scale-100">
+                    <div class="g-recaptcha" data-sitekey="6LfgnEQsAAAAABjeS4ssb-FvLMDSun59SrBFjaZP"></div>
+                </div>
+
                 <button onclick="verifyDevice()" id="verifyBtn" class="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-lg hover:bg-blue-700 transition shadow-lg">인증하기</button>
             </div>
             <p id="statusMsg" class="mt-6 text-[11px] font-bold text-center text-slate-300">인증 완료 후 충전 시간을 선택할 수 있습니다.</p>
         </section>
 
-        <!-- 2. 충전 시간 선택 섹션 -->
+        <!-- 2. 충전 시간 선택 섹션 (슬라이드 방식) -->
         <div id="pricingSection" class="disabled-section">
             <div class="text-center mb-6 md:mb-12">
                 <h2 class="text-2xl font-black text-slate-900">2. 충전 시간 선택</h2>
                 <p class="md:hidden text-slate-400 text-[10px] mt-1"><i class="fa-solid fa-arrow-left"></i> 좌우로 밀어서 선택 <i class="fa-solid fa-arrow-right"></i></p>
             </div>
 
-            <!-- 슬라이더 컨테이너 -->
             <div id="pricingSlider" class="pricing-container no-scrollbar md:grid md:grid-cols-3 md:gap-6 md:px-0 pb-10">
-                
                 <!-- 30분 -->
                 <div id="card-30min" class="pricing-card bg-white rounded-[2rem] p-8 border shadow-sm flex flex-col items-center">
                     <i class="fa-regular fa-clock text-3xl text-blue-500 mb-4"></i>
@@ -82,7 +82,7 @@
                     <button onclick="pay('30min')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black active:scale-95 transition">구매하기</button>
                 </div>
 
-                <!-- 60분 (Best - 기본 타겟) -->
+                <!-- 60분 (Best) -->
                 <div id="card-1hour" class="pricing-card bg-white rounded-[2rem] p-8 border-4 border-blue-500 shadow-2xl flex flex-col items-center relative z-10">
                     <div class="absolute -top-4 bg-blue-500 text-white px-5 py-1 rounded-full text-[10px] font-black tracking-widest uppercase">Best</div>
                     <i class="fa-solid fa-stopwatch text-3xl text-blue-500 mb-4"></i>
@@ -98,7 +98,6 @@
                     <div class="text-3xl font-black text-slate-800 my-6">₩12,000</div>
                     <button onclick="pay('3hours')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black active:scale-95 transition">구매하기</button>
                 </div>
-
             </div>
         </div>
 
@@ -126,7 +125,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // 가운데 카드로 스크롤 이동시키는 함수
         const centerBestPlan = () => {
             const slider = document.getElementById('pricingSlider');
             const bestCard = document.getElementById('card-1hour');
@@ -137,6 +135,15 @@
         };
 
         window.verifyDevice = async (isAuto = false) => {
+            // 3. 캡차 검증 로직 추가
+            if (!isAuto) {
+                const captchaResponse = grecaptcha.getResponse();
+                if (captchaResponse.length === 0) {
+                    alert("로봇이 아님을 증명하기 위해 체크박스를 클릭해주세요.");
+                    return;
+                }
+            }
+
             const codeInput = document.getElementById('remoteCode');
             const pwInput = document.getElementById('password');
             const statusMsg = document.getElementById('statusMsg');
@@ -156,15 +163,18 @@
                     codeInput.disabled = true; pwInput.disabled = true;
                     document.getElementById('verifyBtn').style.display = "none";
                     
-                    // 인증 후 부드럽게 스크롤 및 가운데 정렬
                     setTimeout(() => {
                         pricingSection.scrollIntoView({ behavior: 'smooth' });
                         setTimeout(centerBestPlan, 500);
                     }, 100);
                 } else {
                     alert("인증 실패: 정보를 찾을 수 없습니다.");
+                    if (!isAuto) grecaptcha.reset(); // 실패 시 캡차 리셋
                 }
-            } catch (error) { alert("에러: " + error.message); }
+            } catch (error) { 
+                alert("에러: " + error.message); 
+                if (!isAuto) grecaptcha.reset();
+            }
         };
 
         window.pay = (plan) => {
