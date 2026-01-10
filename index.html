@@ -4,208 +4,241 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>콜센터만들기 - AI 스마트 콜 매니저</title>
+  <meta name="description" content="스마트폰과 PC를 연결하여 실시간 알림, 상담 기록 공유, AI 요약까지. 무료로 시작하는 스마트 콜센터 솔루션입니다.">
 
   <!-- Font & Scripts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
   <style>
-    :root{
-      --bg:#f7f8fa;
-      --card:#ffffff;
-      --border:#e6e8ec;
-      --text:#1f2937;
-      --muted:#6b7280;
-      --muted2:#9ca3af;
-      --primary:#2563eb;
-      --primary-hover:#1d4ed8;
-      --shadow-sm:0 4px 12px rgba(0,0,0,.04);
-      --shadow-md:0 10px 28px rgba(0,0,0,.07);
-      --radius:14px;
+    body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; overflow-x: hidden; }
+    .gradient-text { background: linear-gradient(135deg, #2563eb, #4f46e5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-gradient { background: radial-gradient(circle at top right, #eff6ff 0%, #f8fafc 100%); }
+    .window-shadow { box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.25); }
+    .step-box { position: relative; }
+    @media (min-width: 768px) { 
+        .step-box:not(:last-child)::after { 
+            content: "\f105"; font-family: "Font Awesome 6 Free"; font-weight: 900; 
+            position: absolute; right: -20px; top: 50%; transform: translateY(-50%); 
+            color: #cbd5e1; font-size: 1.5rem;
+        } 
     }
-
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family:'Noto Sans KR',sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
-    .container{
-      max-width:1100px;
-      margin:0 auto;
-      padding:20px 20px 64px;
-    }
-
-    .nav-bar {
-      background: #fff;
-      border-bottom: 1px solid var(--border);
-      padding: 15px 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .section{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      padding:24px;
-      box-shadow:var(--shadow-sm);
-      display:flex;
-      flex-direction:column;
-      transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
-      min-height:240px;
-    }
-    .section:hover{ transform:translateY(-3px); box-shadow:var(--shadow-md); border-color:#d9dde3; }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      width:100%;
-      padding:12px 14px;
-      border-radius:12px;
-      font-size:.96rem;
-      font-weight:800;
-      text-decoration:none;
-      background:var(--primary);
-      color:#fff;
-      border:1px solid rgba(0,0,0,0);
-      transition:all .2s ease;
-      box-shadow:0 10px 18px rgba(37,99,235,.18);
-    }
-    .btn:hover{ background:var(--primary-hover); transform:translateY(-1px); }
-
-    .video-thumb{ position:relative; border-radius:12px; overflow:hidden; cursor:pointer; background:#000; }
-    .video-thumb img{ width:100%; display:block; opacity:.95; }
-    .video-thumb::after{ content:"▶"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:64px; color:#fff; background:rgba(0,0,0,.28); }
-    
-    .video-modal{ position:fixed; inset:0; background:rgba(0,0,0,.6); display:none; align-items:center; justify-content:center; z-index:999; }
-    .video-modal.active{ display:flex; }
   </style>
 </head>
 
 <body>
 
-<!-- 상단 네비게이션 -->
-<nav class="nav-bar shadow-sm">
-    <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
-        <!-- 로고: 메인 이동 -->
-        <a href="https://ilseoeng.github.io/" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+<!-- 1. 상단 네비게이션 -->
+<nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="https://ilseoeng.github.io/" class="flex items-center space-x-2 hover:opacity-80 transition">
             <i class="fa-solid fa-clock-rotate-left text-blue-600 text-2xl"></i>
             <span class="text-xl font-black text-slate-800 tracking-tighter">콜센터만들기</span>
         </a>
-        <!-- 우측 상단 메뉴: 이용권충전만 남김 -->
-        <div class="flex space-x-6 text-sm font-bold">
-            <a href="pricing.html" class="text-blue-600 font-black hover:underline">이용권충전</a>
+        <div class="flex items-center space-x-6">
+            <a href="pricing.html" class="px-5 py-2.5 bg-blue-600 text-white rounded-full text-sm font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200">이용권 충전</a>
         </div>
     </div>
 </nav>
 
-<div class="container">
-
-  <div class="hero mt-10 text-center mb-10">
-    <h1 class="text-4xl font-extrabold mb-4">AI 스마트 콜 매니저</h1>
-    <p class="text-gray-500">PC와 스마트폰을 연결하여 통화 기록, 녹음, AI 요약까지 통합 관리</p>
-  </div>
-
-  <!-- 1. 다운로드 섹션 -->
-  <div id="download" class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
-    <div class="section">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-bold">1. 서버 PC 프로그램</h2>
-        <span class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-bold">💾 최신버전</span>
-      </div>
-      <p class="text-gray-500 mb-6">콜센터 만들기 PC 프로그램입니다. 모든 통화 데이터가 여기에 저장됩니다.</p>
-<div class="mt-auto">
+<!-- 2. 히어로 섹션 -->
+<section class="hero-gradient pt-24 pb-20 px-6">
+    <div class="max-w-5xl mx-auto text-center">
+        <span class="inline-block px-4 py-1.5 mb-6 text-sm font-bold text-blue-600 bg-blue-50 rounded-full border border-blue-100">AI Smart Call Manager</span>
+        <h1 class="text-4xl md:text-6xl font-black text-slate-900 leading-tight mb-6">
+            스마트폰 하나로 완성되는<br><span class="gradient-text">우리 회사 AI 콜센터</span>
+        </h1>
+        <p class="text-lg text-slate-600 mb-10 max-w-2xl mx-auto font-medium leading-relaxed">
+            비싼 구축비용 없이, 사용 중인 스마트폰과 PC를 연결하세요.<br>
+            실시간 알림, 상담 공유, AI 통화 요약까지 한 번에 해결됩니다.
+        </p>
         
-        <a href="https://github.com/ilseoeng/ilseoeng.github.io/releases/download/tm-v1.0.67/Tm_setup.msi" id="download-btn" class="btn">💾 최신 버전 다운로드</a>
+        <!-- 버튼 영역: 시작하기 버튼 하나만 남김 -->
+        <div class="flex justify-center items-center">
+            <!-- 
+                추후 다운로드 및 가이드 페이지를 만드시면 
+                href="download.html" 등으로 링크를 수정하시면 됩니다. 
+            -->
+            <a href="#" class="w-full md:w-auto px-10 py-4 bg-slate-900 text-white rounded-2xl font-black text-lg hover:bg-slate-800 transition shadow-xl transform hover:-translate-y-1">
+                지금 바로 시작하기
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 3. 핵심 기능 상세 소개 (지그재그 레이아웃) -->
+<section class="py-24 px-6 bg-white overflow-hidden">
+    <div class="max-w-6xl mx-auto space-y-32">
         
-        <div id="version-text" class="mt-2 text-xs text-gray-400">Ver: <strong>tm-v1.0.67</strong> (2026-01-09)</div>
-        <div id="version-text" class="mt-2 text-xs text-gray-400">Ver: <strong>tm-v1.0.67</strong> (2026-01-09)</div>
-      </div>
-    </div>
+        <div class="text-center mb-20">
+            <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4">서비스 주요 기능</h2>
+            <p class="text-slate-500 font-medium text-lg">실제 구동 화면을 통해 강력한 기능을 확인하세요.</p>
+        </div>
 
-    <div class="section">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-bold">2. 모바일 앱 설치</h2>
-        <span class="bg-green-50 text-green-600 px-3 py-1 rounded-full text-xs font-bold">📱 Android</span>
-      </div>
-      <p class="text-gray-500 mb-6">구글 플레이 스토어에서 앱을 설치하고 필수 권한을 허용하세요.</p>
-      <div class="mt-auto flex justify-center">
-        <a href="https://play.google.com/store/apps/details?id=com.companyname.app_test&pli=1" target="_blank">
-          <img class="w-44" src="https://play.google.com/intl/en_us/badges/static/images/badges/ko_badge_web_generic.png" alt="Google Play">
-        </a>
-      </div>
-    </div>
-  </div>
+        <!-- 기능 1: 실시간 알림 및 메모 (alarm.png) -->
+        <div class="flex flex-col md:flex-row items-center gap-12 md:gap-20">
+            <div class="flex-1 order-2 md:order-1">
+                <div class="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-bold mb-4">Real-time Alert</div>
+                <h3 class="text-3xl font-black text-slate-900 mb-6">실시간 알림 및 메모</h3>
+                <p class="text-slate-600 text-lg leading-relaxed mb-8">
+                    전화가 울리는 순간, PC 화면 우측 하단에 <strong class="text-slate-900">고객 정보가 즉시 팝업</strong>됩니다.<br>
+                    통화와 동시에 메모를 남기세요. 저장된 메모는 다음 상담 때 자동으로 표시되어 빈틈없는 고객 응대가 가능합니다.
+                </p>
+                <ul class="space-y-4 text-slate-500 font-medium">
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-blue-500 mr-3 text-lg"></i>수신 전화 PC 즉시 팝업 알림</li>
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-blue-500 mr-3 text-lg"></i>통화 중 실시간 메모 기록 및 자동 저장</li>
+                </ul>
+            </div>
+            <!-- 이미지 영역 -->
+            <div class="flex-1 w-full order-1 md:order-2">
+                <div class="rounded-2xl bg-slate-900 p-2 window-shadow transform transition hover:scale-[1.02] duration-500">
+                    <div class="flex space-x-1.5 mb-2 px-2 py-1">
+                        <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+                    </div>
+                    <div class="rounded-lg overflow-hidden bg-white aspect-[4/3]">
+                        <img src="images/alarm.png" alt="실시간알림화면" class="object-cover w-full h-full border border-slate-200">
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  <!-- 2. 가이드 섹션 -->
-  <div id="guide" class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-20">
-    <div class="section min-h-fit">
-      <h2 class="text-md font-bold mb-2">3. 연결 설정 방법</h2>
-      <p class="text-sm text-gray-400 mb-4">PC와 앱을 연결하는 방법</p>
-      <div class="video-thumb" data-video="ze9u2zel8QY"><img src="https://img.youtube.com/vi/ze9u2zel8QY/mqdefault.jpg"></div>
-    </div>
-    <div class="section min-h-fit">
-      <h2 class="text-md font-bold mb-2">4. AI 기능 설정</h2>
-      <p class="text-sm text-gray-400 mb-4">음성 텍스트 변환 및 요약</p>
-      <div class="video-thumb" data-video="XAKedYzzzUI"><img src="https://img.youtube.com/vi/XAKedYzzzUI/mqdefault.jpg"></div>
-    </div>
-    <div class="section min-h-fit">
-      <h2 class="text-md font-bold mb-2">5. 부가기능 활용</h2>
-      <p class="text-sm text-gray-400 mb-4">메모, 팝업, 자동 삭제 팁</p>
-      <div class="video-thumb" data-video="edHvCkMFMFM"><img src="https://img.youtube.com/vi/edHvCkMFMFM/mqdefault.jpg"></div>
-    </div>
-  </div>
+        <!-- 기능 2: 상담 기록 공유 (share.png) -->
+        <div class="flex flex-col md:flex-row items-center gap-12 md:gap-20">
+            <!-- 이미지 영역 (좌측) -->
+            <div class="flex-1 w-full">
+                <div class="rounded-2xl bg-slate-900 p-2 window-shadow transform transition hover:scale-[1.02] duration-500">
+                    <div class="flex space-x-1.5 mb-2 px-2 py-1">
+                        <div class="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
+                    </div>
+                    <div class="rounded-lg overflow-hidden bg-white aspect-[4/3]">
+                        <img src="images/share.png" alt="상담공유화면" class="object-cover w-full h-full border border-slate-200">
+                    </div>
+                </div>
+            </div>
+            <div class="flex-1">
+                <div class="inline-block px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-xs font-bold mb-4">Team Collaboration</div>
+                <h3 class="text-3xl font-black text-slate-900 mb-6">상담 기록 실시간 공유</h3>
+                <p class="text-slate-600 text-lg leading-relaxed mb-8">
+                    최대 <strong class="text-slate-900">5명의 상담원</strong>이 하나의 팀처럼 움직입니다.<br>
+                    누가 통화 중인지, 어떤 상담을 했는지 실시간으로 동기화되어 중복 업무를 방지하고 효율적인 협업 환경을 제공합니다.
+                </p>
+                <ul class="space-y-4 text-slate-500 font-medium">
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-indigo-500 mr-3 text-lg"></i>최대 5인 상담원 동시 연결 지원</li>
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-indigo-500 mr-3 text-lg"></i>상담 이력 및 상태 실시간 동기화</li>
+                </ul>
+            </div>
+        </div>
 
-  <!-- 푸터 및 정책 링크 -->
-<footer class="pt-10 border-t border-slate-200 text-center">
-  <div class="flex justify-center space-x-6 mb-6 text-slate-400 text-xs font-bold uppercase tracking-widest">
-      <!-- 파일명을 반드시 소문자로 수정하세요 -->
-      <a href="terms.html" class="hover:text-blue-600 underline">Terms</a>
-      <a href="privacy.html" class="hover:text-blue-600 underline">Privacy</a>
-      <a href="refund.html" class="hover:text-blue-600 underline">Refund</a>
-  </div>
-  <p class="text-slate-300 text-[10px]">© 2025 콜센터만들기. All rights reserved. | Contact: ilseoeng@gmail.com</p>
+        <!-- 기능 3: STT 음성 변환 (chat.png) -->
+        <div class="flex flex-col md:flex-row items-center gap-12 md:gap-20">
+            <div class="flex-1 order-2 md:order-1">
+                <div class="inline-block px-3 py-1 bg-emerald-100 text-emerald-600 rounded-full text-xs font-bold mb-4">Speech To Text</div>
+                <h3 class="text-3xl font-black text-slate-900 mb-6">정확한 STT 음성 변환</h3>
+                <p class="text-slate-600 text-lg leading-relaxed mb-8">
+                    통화 녹음 내용을 일일이 듣지 마세요.<br>
+                    고성능 STT 엔진이 <strong class="text-slate-900">통화 내용을 텍스트로 자동 변환</strong>합니다. 
+                    이제 채팅 내역을 보듯이 통화 내용을 눈으로 읽고 검색할 수 있습니다.
+                </p>
+                <ul class="space-y-4 text-slate-500 font-medium">
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-3 text-lg"></i>통화 녹음 파일 텍스트 자동 변환</li>
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-emerald-500 mr-3 text-lg"></i>키워드 검색으로 과거 통화내역 조회</li>
+                </ul>
+            </div>
+            <!-- 이미지 영역 -->
+            <div class="flex-1 w-full order-1 md:order-2">
+                <div class="rounded-2xl bg-slate-900 p-2 window-shadow transform transition hover:scale-[1.02] duration-500">
+                    <div class="flex space-x-1.5 mb-2 px-2 py-1">
+                        <div class="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
+                    </div>
+                    <div class="rounded-lg overflow-hidden bg-white aspect-[4/3]">
+                        <img src="images/chat.png" alt="STT변환화면" class="object-cover w-full h-full border border-slate-200">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 기능 4: AI 통화 요약 (summary.png) -->
+        <div class="flex flex-col md:flex-row items-center gap-12 md:gap-20">
+            <!-- 이미지 영역 (좌측) -->
+            <div class="flex-1 w-full">
+                <div class="rounded-2xl bg-slate-900 p-2 window-shadow transform transition hover:scale-[1.02] duration-500">
+                    <div class="flex space-x-1.5 mb-2 px-2 py-1">
+                        <div class="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
+                    </div>
+                    <div class="rounded-lg overflow-hidden bg-white aspect-[4/3]">
+                        <img src="images/summary.png" alt="AI요약화면" class="object-cover w-full h-full border border-slate-200">
+                    </div>
+                </div>
+            </div>
+            <div class="flex-1">
+                <div class="inline-block px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-xs font-bold mb-4">AI Summary</div>
+                <h3 class="text-3xl font-black text-slate-900 mb-6">AI 통화 자동 요약</h3>
+                <p class="text-slate-600 text-lg leading-relaxed mb-8">
+                    긴 통화 내용의 핵심만 파악하고 싶으신가요?<br>
+                    AI가 전체 대화를 분석하여 <strong class="text-slate-900">핵심 내용을 3줄로 요약</strong>해 드립니다. 
+                    업무 파악 시간이 획기적으로 단축됩니다.
+                </p>
+                <ul class="space-y-4 text-slate-500 font-medium">
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-purple-500 mr-3 text-lg"></i>AI 기반 통화 내용 자동 분석 및 요약</li>
+                    <li class="flex items-center"><i class="fa-solid fa-circle-check text-purple-500 mr-3 text-lg"></i>상담 요점만 빠르게 파악 가능</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- 4. 착신 전환 홍보 섹션 -->
+<section class="py-24 px-6 bg-slate-900">
+    <div class="max-w-5xl mx-auto text-center text-white">
+        <h2 class="text-3xl md:text-4xl font-black mb-8">기존 전화기는 그대로,<br><span class="text-blue-400">시스템은 스마트하게</span></h2>
+        <p class="text-slate-400 mb-16 max-w-2xl mx-auto text-lg">
+            일반 사무실 전화를 스마트폰으로 착신 전환만 하세요.<br>
+            어디서든 전화 응대가 가능하고, 모든 기록은 사무실 PC에 차곡차곡 쌓입니다.
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div class="step-box p-8 bg-white/5 rounded-[2rem] border border-white/10 hover:bg-white/10 transition">
+                <div class="text-blue-400 text-3xl font-black mb-4">STEP 1</div>
+                <div class="font-bold text-xl mb-2">사무실 전화</div>
+                <div class="text-sm text-slate-400">스마트폰으로 착신 전환 설정</div>
+            </div>
+            <div class="step-box p-8 bg-white/5 rounded-[2rem] border border-white/10 hover:bg-white/10 transition">
+                <div class="text-blue-400 text-3xl font-black mb-4">STEP 2</div>
+                <div class="font-bold text-xl mb-2">스마트폰 수신</div>
+                <div class="text-sm text-slate-400">앱이 전화를 감지하고 PC로 전송</div>
+            </div>
+            <div class="step-box p-8 bg-white/5 rounded-[2rem] border border-white/10 hover:bg-white/10 transition">
+                <div class="text-blue-400 text-3xl font-black mb-4">STEP 3</div>
+                <div class="font-bold text-xl mb-2">PC 실시간 연동</div>
+                <div class="text-sm text-slate-400">알림, 녹음, 기록 자동 저장</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. 푸터 -->
+<footer class="py-16 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+        <div class="flex justify-center space-x-8 mb-8 text-slate-400 text-xs font-bold uppercase tracking-widest">
+            <a href="terms.html" class="hover:text-blue-600 transition">Terms</a>
+            <a href="privacy.html" class="hover:text-blue-600 transition">Privacy</a>
+            <a href="refund.html" class="hover:text-blue-600 transition">Refund</a>
+        </div>
+        <div class="text-slate-400 text-xs space-y-2">
+            <p>© 2026 콜센터만들기. All rights reserved.</p>
+            <p>Contact: <a href="mailto:ilseoeng@gmail.com" class="hover:text-blue-600 underline">ilseoeng@gmail.com</a></p>
+        </div>
+    </div>
 </footer>
-</div>
-
-<!-- 유튜브 팝업 모달 -->
-<div class="video-modal" id="videoModal">
-    <div class="modal-inner bg-black rounded-2xl relative overflow-hidden w-full max-w-4xl mx-4">
-        <div class="modal-close absolute top-2 right-4 text-white text-3xl cursor-pointer z-10" id="closeModal">✕</div>
-        <div id="videoContainer"></div>
-    </div>
-</div>
-
-<script>
-  const modal = document.getElementById('videoModal');
-  const container = document.getElementById('videoContainer');
-  const closeBtn = document.getElementById('closeModal');
-
-  function openVideo(videoId) {
-    container.innerHTML = `<iframe class="w-full h-[300px] md:h-[500px]" src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
-    modal.classList.add('active');
-  }
-
-  function closeModal() {
-    modal.classList.remove('active');
-    container.innerHTML = "";
-  }
-
-  document.querySelectorAll('.video-thumb').forEach(el => {
-    el.addEventListener('click', () => openVideo(el.dataset.video));
-  });
-
-  closeBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-</script>
 
 </body>
 </html>
