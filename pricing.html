@@ -6,7 +6,7 @@
     <title>이용권 충전 센터 | 콜센터만들기</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
-    <!-- 1. 구글 reCAPTCHA 스크립트 추가 -->
+    <!-- 1. 구글 reCAPTCHA 스크립트 -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -35,13 +35,26 @@
 </head>
 <body class="bg-slate-50">
 
-    <nav class="bg-white border-b border-slate-200 py-4 shadow-sm">
-        <div class="max-w-5xl mx-auto px-6 flex justify-between items-center">
-            <a href="index.html" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+    <!-- 상단 네비게이션 -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- 로고 (클릭 시 홈으로 이동) -->
+            <a href="index.html" class="flex items-center space-x-2 hover:opacity-80 transition">
                 <i class="fa-solid fa-clock-rotate-left text-blue-600 text-2xl"></i>
                 <span class="text-xl font-black text-slate-800 tracking-tighter">콜센터만들기</span>
             </a>
-            <span class="text-[10px] bg-blue-600 text-white px-2 py-1 rounded font-bold uppercase">Pricing Center</span>
+            
+            <!-- 우측 메뉴 -->
+            <div class="flex items-center space-x-6">
+                <!-- 사용 가이드 버튼 -->
+                <a href="start.html" class="text-slate-600 font-bold hover:text-blue-600 transition text-sm hidden md:inline-block">
+                    사용 가이드
+                </a>
+                <!-- 이용권 충전 버튼 (현재 페이지) -->
+                <a href="pricing.html" class="px-5 py-2.5 bg-blue-600 text-white rounded-full text-sm font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+                    이용권 충전
+                </a>
+            </div>
         </div>
     </nav>
 
@@ -107,7 +120,7 @@
                 <a href="privacy.html" class="hover:text-blue-600 underline">Privacy</a>
                 <a href="refund.html" class="hover:text-blue-600 underline">Refund</a>
             </div>
-            <p class="text-slate-300 text-[10px]">© 2025 콜센터만들기. All rights reserved.</p>
+            <p class="text-slate-300 text-[10px]">© 2026 콜센터만들기. All rights reserved.</p>
         </footer>
     </main>
 
@@ -135,7 +148,6 @@
         };
 
         window.verifyDevice = async (isAuto = false) => {
-            // 3. 캡차 검증 로직 추가
             if (!isAuto) {
                 const captchaResponse = grecaptcha.getResponse();
                 if (captchaResponse.length === 0) {
@@ -169,7 +181,7 @@
                     }, 100);
                 } else {
                     alert("인증 실패: 정보를 찾을 수 없습니다.");
-                    if (!isAuto) grecaptcha.reset(); // 실패 시 캡차 리셋
+                    if (!isAuto) grecaptcha.reset();
                 }
             } catch (error) { 
                 alert("에러: " + error.message); 
