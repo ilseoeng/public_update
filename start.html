@@ -29,22 +29,22 @@
 </head>
 <body>
 
-<!-- 1. 상단 네비게이션 (메인 페이지와 스타일 통일) -->
+<!-- 1. 상단 네비게이션 (전체 페이지 통일) -->
 <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <!-- 로고 -->
+        <!-- 좌측: 로고 (홈으로 이동) -->
         <a href="index.html" class="flex items-center space-x-2 hover:opacity-80 transition">
             <i class="fa-solid fa-clock-rotate-left text-blue-600 text-2xl"></i>
             <span class="text-xl font-black text-slate-800 tracking-tighter">콜센터만들기</span>
         </a>
         
-        <!-- 우측 메뉴 -->
+        <!-- 우측: 메뉴 -->
         <div class="flex items-center space-x-6">
-            <!-- 홈으로 버튼 -->
-            <a href="index.html" class="text-slate-600 font-bold hover:text-blue-600 transition text-sm hidden md:inline-block">
-                홈으로
+            <!-- 사용 가이드 (현재 페이지 활성화 스타일) -->
+            <a href="start.html" class="text-blue-600 font-bold hover:text-blue-700 transition text-sm hidden md:inline-block">
+                사용 가이드
             </a>
-            <!-- 이용권 충전 버튼 -->
+            <!-- 이용권 충전 -->
             <a href="pricing.html" class="px-5 py-2.5 bg-blue-600 text-white rounded-full text-sm font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200">
                 이용권 충전
             </a>
