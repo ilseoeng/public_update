@@ -25,7 +25,7 @@ jobs:
           FORMATTED_DATE=$(date -d "${{ github.event.release.published_at }}" +'%Y-%m-%d')
           echo "FORMATTED_DATE=$FORMATTED_DATE" >> $GITHUB_ENV
 
-      - name: Update index.html
+      - name: Update start.html
         env:
           # Python 내부로 안전하게 전달하기 위한 환경변수 설정
           NEW_URL: ${{ env.DOWNLOAD_URL }}
@@ -40,7 +40,7 @@ jobs:
           ver = os.environ.get('NEW_VERSION')
           date = os.environ.get('NEW_DATE')
 
-          file_path = 'index.html'
+          file_path = 'start.html'
 
           # 파일이 없거나 URL을 못 찾았을 경우 대비
           if not url:
@@ -79,13 +79,13 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           
-          git add index.html
+          git add start.html
           
           # 변경사항 확인
           if git diff --staged --quiet; then
             echo "변경사항이 없습니다. (이미 최신 상태이거나 파일이 변경되지 않음)"
           else
-            git commit -m "Auto-update index.html to ${{ github.event.release.tag_name }}"
+            git commit -m "Auto-update start.html to ${{ github.event.release.tag_name }}"
             
             # [중요] 원격 브랜치(main)의 최신 내용을 가져와서 충돌 방지
             git pull origin main --rebase
