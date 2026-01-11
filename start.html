@@ -29,17 +29,26 @@
 </head>
 <body>
 
-<!-- 상단 네비게이션 -->
+<!-- 1. 상단 네비게이션 (메인 페이지와 스타일 통일) -->
 <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <!-- 로고 -->
         <a href="index.html" class="flex items-center space-x-2 hover:opacity-80 transition">
             <i class="fa-solid fa-clock-rotate-left text-blue-600 text-2xl"></i>
             <span class="text-xl font-black text-slate-800 tracking-tighter">콜센터만들기</span>
         </a>
-        <!-- 홈으로 돌아가기 버튼 -->
-        <a href="index.html" class="text-sm font-bold text-slate-500 hover:text-slate-900 transition">
-            <i class="fa-solid fa-arrow-left mr-1"></i> 홈으로
-        </a>
+        
+        <!-- 우측 메뉴 -->
+        <div class="flex items-center space-x-6">
+            <!-- 홈으로 버튼 -->
+            <a href="index.html" class="text-slate-600 font-bold hover:text-blue-600 transition text-sm hidden md:inline-block">
+                홈으로
+            </a>
+            <!-- 이용권 충전 버튼 -->
+            <a href="pricing.html" class="px-5 py-2.5 bg-blue-600 text-white rounded-full text-sm font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+                이용권 충전
+            </a>
+        </div>
     </div>
 </nav>
 
@@ -157,7 +166,7 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <!-- 이미지 영역 (폰 가이드 이미지 교체됨) -->
+            <!-- 이미지 영역 -->
             <div class="bg-slate-100 rounded-3xl p-3 border border-slate-200 shadow-inner lg:order-2">
                 <img src="images/phone-guide.png" alt="스마트폰 설정 가이드" class="w-full h-auto rounded-2xl shadow-sm border border-slate-200">
             </div>
