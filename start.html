@@ -10,7 +10,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <style>
-    body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; }
+    body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; overflow-x: hidden; }
     .step-num { 
         background-color: #1e293b; 
         color: white; 
@@ -25,27 +25,36 @@
         flex-shrink: 0;
         margin-top: 0.2rem;
     }
+    .lang-btn { cursor: pointer; transition: color 0.2s; }
+    .lang-btn.active { color: #2563eb; font-weight: 900; text-decoration: underline; }
   </style>
 </head>
 <body>
 
-<!-- 1. 상단 네비게이션 (전체 페이지 통일) -->
+<!-- 1. 상단 네비게이션 -->
 <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <!-- 좌측: 로고 (홈으로 이동) -->
+        <!-- 좌측: 로고 -->
         <a href="index.html" class="flex items-center space-x-2 hover:opacity-80 transition">
             <i class="fa-solid fa-clock-rotate-left text-blue-600 text-2xl"></i>
-            <span class="text-xl font-black text-slate-800 tracking-tighter">콜센터만들기</span>
+            <span class="text-xl font-black text-slate-800 tracking-tighter" data-i18n="logo_text">콜센터만들기</span>
         </a>
         
         <!-- 우측: 메뉴 -->
         <div class="flex items-center space-x-6">
-            <!-- 사용 가이드 (현재 페이지 활성화 스타일) -->
-            <a href="start.html" class="text-blue-600 font-bold hover:text-blue-700 transition text-sm hidden md:inline-block">
+            <!-- 언어 변경 버튼 -->
+            <div class="text-sm font-bold text-slate-400 flex items-center space-x-2 border-r border-slate-300 pr-6 mr-2">
+                <button onclick="changeLanguage('ko')" id="btn-ko" class="lang-btn hover:text-slate-800">KR</button>
+                <span>|</span>
+                <button onclick="changeLanguage('en')" id="btn-en" class="lang-btn hover:text-slate-800">EN</button>
+            </div>
+
+            <!-- 사용 가이드 (현재 페이지 활성화) -->
+            <a href="start.html" class="text-blue-600 font-bold hover:text-blue-700 transition text-sm hidden md:inline-block" data-i18n="nav_guide">
                 사용 가이드
             </a>
             <!-- 이용권 충전 -->
-            <a href="pricing.html" class="px-5 py-2.5 bg-blue-600 text-white rounded-full text-sm font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+            <a href="pricing.html" class="px-5 py-2.5 bg-blue-600 text-white rounded-full text-sm font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200" data-i18n="nav_pricing">
                 이용권 충전
             </a>
         </div>
@@ -54,103 +63,80 @@
 
 <main class="max-w-5xl mx-auto px-6 py-16 space-y-24">
 
-    <!-- 1 & 2. 설치 파일 다운로드 섹션 (자동화 스크립트 타겟 유지) -->
+    <!-- 1. 설치 파일 다운로드 섹션 -->
     <section>
         <div class="text-center mb-12">
             <span class="text-blue-600 font-bold text-sm bg-blue-50 px-3 py-1 rounded-full">Step 1</span>
-            <h1 class="text-3xl md:text-4xl font-black text-slate-900 mt-4 mb-4">프로그램 설치하기</h1>
-            <p class="text-slate-500">PC 프로그램과 스마트폰 앱을 모두 설치해야 연결됩니다.</p>
+            <h1 class="text-3xl md:text-4xl font-black text-slate-900 mt-4 mb-4" data-i18n="guide_page_title">프로그램 설치하기</h1>
+            <p class="text-slate-500" data-i18n="guide_page_desc">PC 프로그램과 스마트폰 앱을 모두 설치해야 연결됩니다.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- 1. PC 다운로드 -->
+            <!-- PC 다운로드 -->
             <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-xl text-center hover:-translate-y-1 transition duration-300">
-                <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-6">
-                    <i class="fa-solid fa-desktop"></i>
-                </div>
-                <h2 class="text-2xl font-bold mb-8 text-slate-800">PC 프로그램 설치</h2>
+                <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-6"><i class="fa-solid fa-desktop"></i></div>
+                <h2 class="text-2xl font-bold mb-8 text-slate-800" data-i18n="dl_pc_title">PC 프로그램 설치</h2>
                 
-                <!-- ★★★ GitHub Actions 자동화 타겟 (ID 유지) ★★★ -->
+                <!-- GitHub Actions 자동화 타겟 (ID 유지) -->
                 <a href="https://github.com/ilseoeng/ilseoeng.github.io/releases/download/tm-v1.0.67/Tm_setup.msi" id="download-btn" class="block w-full py-4 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200 mb-4 text-lg">
-                    <i class="fa-solid fa-download mr-2"></i> PC버전 다운로드
+                    <i class="fa-solid fa-download mr-2"></i> <span data-i18n="dl_pc_btn">PC버전 다운로드</span>
                 </a>
                 
-                <!-- ★★★ 버전 정보 타겟 (ID 유지) ★★★ -->
+                <!-- 버전 정보 타겟 (ID 유지) -->
                 <div id="version-text" class="text-xs text-slate-400 font-bold">Ver: <strong>tm-v1.0.67</strong> (2026-01-09)</div>
             </div>
 
-            <!-- 2. 앱 다운로드 -->
+            <!-- 앱 다운로드 -->
             <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-xl text-center hover:-translate-y-1 transition duration-300">
-                <div class="w-20 h-20 bg-green-50 text-green-600 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-6">
-                    <i class="fa-brands fa-android"></i>
-                </div>
-                <h2 class="text-2xl font-bold mb-8 text-slate-800">모바일 앱 설치</h2>
+                <div class="w-20 h-20 bg-green-50 text-green-600 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-6"><i class="fa-brands fa-android"></i></div>
+                <h2 class="text-2xl font-bold mb-8 text-slate-800" data-i18n="dl_mo_title">모바일 앱 설치</h2>
                 <a href="https://play.google.com/store/apps/details?id=com.companyname.app_test&pli=1" target="_blank" class="block w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition shadow-lg mb-4 text-lg">
-                    <i class="fa-brands fa-google-play mr-2"></i> 구글 플레이 이동
+                    <i class="fa-brands fa-google-play mr-2"></i> <span data-i18n="dl_mo_btn">구글 플레이 이동</span>
                 </a>
-                <div class="text-xs text-slate-400 font-bold">Android 전용</div>
+                <div class="text-xs text-slate-400 font-bold">Android Only</div>
             </div>
         </div>
     </section>
 
-    <!-- 구분선 -->
     <hr class="border-slate-200">
 
-    <!-- 3. PC 설정 가이드 -->
+    <!-- 2. PC 설정 가이드 -->
     <section>
         <div class="flex items-center space-x-4 mb-10">
-            <span class="bg-slate-900 text-white w-10 h-10 rounded-2xl flex items-center justify-center font-black text-lg">3</span>
-            <h2 class="text-3xl font-black text-slate-900">PC 프로그램 설정</h2>
+            <span class="bg-slate-900 text-white w-10 h-10 rounded-2xl flex items-center justify-center font-black text-lg">2</span>
+            <h2 class="text-3xl font-black text-slate-900" data-i18n="pc_step_title">PC 프로그램 설정</h2>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <!-- 이미지 영역 -->
             <div class="bg-slate-100 rounded-3xl p-3 border border-slate-200 shadow-inner">
-                <img src="images/pc-guide.png" alt="PC 설정 가이드" class="w-full h-auto rounded-2xl shadow-sm border border-slate-200">
+                <img src="images/pc-guide.png" alt="PC Guide" class="w-full h-auto rounded-2xl shadow-sm border border-slate-200">
             </div>
-
-            <!-- 설명 영역 -->
             <div class="space-y-2">
                 <ul class="space-y-6 text-slate-700">
                     <li class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
                         <span class="step-num">1</span>
-                        <div>
-                            <strong class="block text-lg mb-1">서버모드 클릭</strong>
-                            <span class="text-sm text-slate-500">프로그램 상단의 '서버모드'를 선택하세요.</span>
-                        </div>
+                        <div><strong class="block text-lg mb-1" data-i18n="pc_step1_t">서버모드 클릭</strong><span class="text-sm text-slate-500" data-i18n="pc_step1_d">프로그램 상단의 '서버모드'를 선택하세요.</span></div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
                         <span class="step-num">2</span>
-                        <div>
-                            <strong class="block text-lg mb-1">비밀번호 입력</strong>
-                            <span class="text-sm text-slate-500">보안을 위해 6자리 이상의 비밀번호를 설정하세요.</span>
-                        </div>
+                        <div><strong class="block text-lg mb-1" data-i18n="pc_step2_t">비밀번호 입력</strong><span class="text-sm text-slate-500" data-i18n="pc_step2_d">보안을 위해 6자리 이상의 비밀번호를 설정하세요.</span></div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-blue-50 rounded-2xl border border-blue-100 shadow-sm ring-2 ring-blue-100">
                         <span class="step-num bg-blue-600">3</span>
                         <div>
-                            <strong class="block text-lg mb-1 text-blue-900">사용자 정보(이름) 입력</strong>
-                            <span class="text-sm text-blue-700 font-medium">
-                                <i class="fa-solid fa-triangle-exclamation mr-1"></i>
-                                중요: 앱의 사용자 정보와 <u class="font-bold">정확히 일치</u>해야 PC 알림을 받을 수 있습니다.
-                            </span>
+                            <strong class="block text-lg mb-1 text-blue-900" data-i18n="pc_step3_t">사용자 정보(이름) 입력</strong>
+                            <span class="text-sm text-blue-700 font-medium"><i class="fa-solid fa-triangle-exclamation mr-1"></i><span data-i18n="pc_step3_d">중요: 앱의 사용자 정보와 정확히 일치해야 알림을 받습니다.</span></span>
                         </div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
                         <span class="step-num">4</span>
-                        <div>
-                            <strong class="block text-lg mb-1">서버 시작 버튼 클릭</strong>
-                            <span class="text-sm text-slate-500">설정이 완료되면 서버를 시작하세요.</span>
-                        </div>
+                        <div><strong class="block text-lg mb-1" data-i18n="pc_step4_t">서버 시작 버튼 클릭</strong><span class="text-sm text-slate-500" data-i18n="pc_step4_d">설정이 완료되면 서버를 시작하세요.</span></div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-slate-900 text-white rounded-2xl shadow-lg">
                         <span class="step-num bg-white text-slate-900">5</span>
                         <div>
-                            <strong class="block text-lg mb-1">원격 코드 발급 완료</strong>
-                            <span class="text-sm text-slate-300">
-                                6자리 원격코드 (예: <span class="font-mono bg-slate-700 px-2 rounded">vpn 123</span>)와<br>
-                                테스트 시간 20분이 부여됩니다.
-                            </span>
+                            <strong class="block text-lg mb-1" data-i18n="pc_step5_t">원격 코드 발급 완료</strong>
+                            <span class="text-sm text-slate-300" data-i18n="pc_step5_d">6자리 원격코드와 테스트 시간 20분이 부여됩니다.</span>
                         </div>
                     </li>
                 </ul>
@@ -158,68 +144,45 @@
         </div>
     </section>
 
-    <!-- 4. 스마트폰 설정 가이드 -->
+    <!-- 3. 스마트폰 설정 가이드 -->
     <section>
         <div class="flex items-center space-x-4 mb-10">
-            <span class="bg-slate-900 text-white w-10 h-10 rounded-2xl flex items-center justify-center font-black text-lg">4</span>
-            <h2 class="text-3xl font-black text-slate-900">스마트폰 앱 설정</h2>
+            <span class="bg-slate-900 text-white w-10 h-10 rounded-2xl flex items-center justify-center font-black text-lg">3</span>
+            <h2 class="text-3xl font-black text-slate-900" data-i18n="mo_step_title">스마트폰 앱 설정</h2>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <!-- 이미지 영역 -->
             <div class="bg-slate-100 rounded-3xl p-3 border border-slate-200 shadow-inner lg:order-2">
-                <img src="images/phone-guide.png" alt="스마트폰 설정 가이드" class="w-full h-auto rounded-2xl shadow-sm border border-slate-200">
+                <img src="images/phone-guide.png" alt="Phone Guide" class="w-full h-auto rounded-2xl shadow-sm border border-slate-200">
             </div>
-
-            <!-- 설명 영역 -->
             <div class="space-y-2 lg:order-1">
                 <ul class="space-y-6 text-slate-700">
                     <li class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
                         <span class="step-num">1</span>
-                        <div>
-                            <strong class="block text-lg mb-1">원격 코드 입력</strong>
-                            <span class="text-sm text-slate-500">PC에서 부여받은 6자리 코드(예: vpn 123)를 입력하세요.</span>
-                        </div>
+                        <div><strong class="block text-lg mb-1" data-i18n="mo_step1_t">원격 코드 입력</strong><span class="text-sm text-slate-500" data-i18n="mo_step1_d">PC에서 부여받은 6자리 코드를 입력하세요.</span></div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
                         <span class="step-num">2</span>
-                        <div>
-                            <strong class="block text-lg mb-1">비밀번호 입력</strong>
-                            <span class="text-sm text-slate-500">PC에서 설정했던 비밀번호를 동일하게 입력하세요.</span>
-                        </div>
+                        <div><strong class="block text-lg mb-1" data-i18n="mo_step2_t">비밀번호 입력</strong><span class="text-sm text-slate-500" data-i18n="mo_step2_d">PC에서 설정했던 비밀번호를 동일하게 입력하세요.</span></div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-blue-50 rounded-2xl border border-blue-100 shadow-sm ring-2 ring-blue-100">
                         <span class="step-num bg-blue-600">3</span>
-                        <div>
-                            <strong class="block text-lg mb-1 text-blue-900">사용자 정보 입력</strong>
-                            <span class="text-sm text-blue-700 font-medium">PC에 입력한 이름과 똑같이 입력해야 합니다.</span>
-                        </div>
+                        <div><strong class="block text-lg mb-1 text-blue-900" data-i18n="mo_step3_t">사용자 정보 입력</strong><span class="text-sm text-blue-700 font-medium" data-i18n="mo_step3_d">PC에 입력한 이름과 똑같이 입력해야 합니다.</span></div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
                         <span class="step-num">4</span>
                         <div>
-                            <strong class="block text-lg mb-1">녹음 폴더 선택</strong>
-                            <span class="text-sm text-slate-500">
-                                통화 녹음 파일이 저장되는 폴더를 지정하세요.<br>
-                                <span class="text-xs bg-slate-100 px-2 py-1 rounded text-slate-600 mt-1 inline-block">갤럭시 기준: Recordings/Call</span>
-                            </span>
+                            <strong class="block text-lg mb-1" data-i18n="mo_step4_t">녹음 폴더 선택</strong>
+                            <span class="text-sm text-slate-500"><span data-i18n="mo_step4_d">통화 녹음 파일이 저장되는 폴더를 지정하세요.</span><br><span class="text-xs bg-slate-100 px-2 py-1 rounded text-slate-600 mt-1 inline-block">Recordings/Call</span></span>
                         </div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
                         <span class="step-num">5</span>
-                        <div>
-                            <strong class="block text-lg mb-1">서비스 시작</strong>
-                            <span class="text-sm text-slate-500">'백그라운드 서비스 시작' 버튼을 누르세요.</span>
-                        </div>
+                        <div><strong class="block text-lg mb-1" data-i18n="mo_step5_t">서비스 시작</strong><span class="text-sm text-slate-500" data-i18n="mo_step5_d">'백그라운드 서비스 시작' 버튼을 누르세요.</span></div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-slate-900 text-white rounded-2xl shadow-lg">
                         <span class="step-num bg-white text-slate-900">6</span>
-                        <div>
-                            <strong class="block text-lg mb-1">최초 연결 승인</strong>
-                            <span class="text-sm text-slate-300">
-                                PC 화면에 뜨는 승인 요청을 수락하면 연결이 완료됩니다.
-                            </span>
-                        </div>
+                        <div><strong class="block text-lg mb-1" data-i18n="mo_step6_t">최초 연결 승인</strong><span class="text-sm text-slate-300" data-i18n="mo_step6_d">PC 화면에 뜨는 승인 요청을 수락하면 연결됩니다.</span></div>
                     </li>
                 </ul>
             </div>
@@ -228,10 +191,127 @@
 
 </main>
 
-<footer class="py-10 text-center text-slate-400 text-xs border-t border-slate-200 mt-10 bg-white">
-    <p class="mb-2">© 2026 콜센터만들기. All rights reserved.</p>
-    <a href="mailto:ilseoeng@gmail.com" class="hover:text-blue-600 transition">Contact Support</a>
+<footer class="py-16 bg-white border-t border-slate-200">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+        <div class="flex justify-center space-x-8 mb-8 text-slate-400 text-xs font-bold uppercase tracking-widest">
+            <a href="terms.html" class="hover:text-blue-600 transition">Terms</a>
+            <a href="privacy.html" class="hover:text-blue-600 transition">Privacy</a>
+            <a href="refund.html" class="hover:text-blue-600 transition">Refund</a>
+        </div>
+        <div class="text-slate-400 text-xs space-y-2">
+            <p>© 2026 <span data-i18n="logo_text">콜센터만들기</span>. All rights reserved.</p>
+            <p>Contact: <a href="mailto:ilseoeng@gmail.com" class="hover:text-blue-600 underline">ilseoeng@gmail.com</a></p>
+        </div>
+    </div>
 </footer>
+
+<!-- JS: 다국어 스크립트 -->
+<script>
+    const translations = {
+        ko: {
+            logo_text: "콜센터만들기",
+            nav_guide: "사용 가이드",
+            nav_pricing: "이용권 충전",
+            
+            guide_page_title: "프로그램 설치하기",
+            guide_page_desc: "PC 프로그램과 스마트폰 앱을 모두 설치해야 연결됩니다.",
+            
+            dl_pc_title: "PC 프로그램 설치",
+            dl_pc_btn: "PC버전 다운로드",
+            dl_mo_title: "모바일 앱 설치",
+            dl_mo_btn: "구글 플레이 이동",
+
+            pc_step_title: "PC 프로그램 설정",
+            pc_step1_t: "서버모드 클릭",
+            pc_step1_d: "프로그램 상단의 '서버모드'를 선택하세요.",
+            pc_step2_t: "비밀번호 입력",
+            pc_step2_d: "보안을 위해 6자리 이상의 비밀번호를 설정하세요.",
+            pc_step3_t: "사용자 정보(이름) 입력",
+            pc_step3_d: "중요: 앱의 사용자 정보와 정확히 일치해야 알림을 받습니다.",
+            pc_step4_t: "서버 시작 버튼 클릭",
+            pc_step4_d: "설정이 완료되면 서버를 시작하세요.",
+            pc_step5_t: "원격 코드 발급 완료",
+            pc_step5_d: "6자리 원격코드와 테스트 시간 20분이 부여됩니다.",
+
+            mo_step_title: "스마트폰 앱 설정",
+            mo_step1_t: "원격 코드 입력",
+            mo_step1_d: "PC에서 부여받은 6자리 코드를 입력하세요.",
+            mo_step2_t: "비밀번호 입력",
+            mo_step2_d: "PC에서 설정했던 비밀번호를 동일하게 입력하세요.",
+            mo_step3_t: "사용자 정보 입력",
+            mo_step3_d: "PC에 입력한 이름과 똑같이 입력해야 합니다.",
+            mo_step4_t: "녹음 폴더 선택",
+            mo_step4_d: "통화 녹음 파일이 저장되는 폴더를 지정하세요.",
+            mo_step5_t: "서비스 시작",
+            mo_step5_d: "'백그라운드 서비스 시작' 버튼을 누르세요.",
+            mo_step6_t: "최초 연결 승인",
+            mo_step6_d: "PC 화면에 뜨는 승인 요청을 수락하면 연결됩니다."
+        },
+        en: {
+            logo_text: "Call Center Maker",
+            nav_guide: "User Guide",
+            nav_pricing: "Pricing",
+            
+            guide_page_title: "Installation",
+            guide_page_desc: "You must install both the PC program and the Mobile App.",
+            
+            dl_pc_title: "Install PC Program",
+            dl_pc_btn: "Download for PC",
+            dl_mo_title: "Install Mobile App",
+            dl_mo_btn: "Go to Google Play",
+
+            pc_step_title: "PC Setup Guide",
+            pc_step1_t: "Click Server Mode",
+            pc_step1_d: "Select 'Server Mode' at the top of the program.",
+            pc_step2_t: "Enter Password",
+            pc_step2_d: "Set a password of at least 6 digits for security.",
+            pc_step3_t: "Enter User Info (Name)",
+            pc_step3_d: "Important: Must match the app's user info exactly to receive alerts.",
+            pc_step4_t: "Click Start Server",
+            pc_step4_d: "Click start after completing the settings.",
+            pc_step5_t: "Code Generated",
+            pc_step5_d: "You will receive a 6-digit remote code and 20 mins of test time.",
+
+            mo_step_title: "Mobile App Setup",
+            mo_step1_t: "Enter Remote Code",
+            mo_step1_d: "Enter the 6-digit code from your PC.",
+            mo_step2_t: "Enter Password",
+            mo_step2_d: "Enter the same password you set on the PC.",
+            mo_step3_t: "Enter User Info",
+            mo_step3_d: "Enter the exact same name as entered on the PC.",
+            mo_step4_t: "Select Folder",
+            mo_step4_d: "Select the folder where call recordings are saved.",
+            mo_step5_t: "Start Service",
+            mo_step5_d: "Click the 'Start Background Service' button.",
+            mo_step6_t: "Connection Approval",
+            mo_step6_d: "Accept the approval request on the PC screen to connect."
+        }
+    };
+
+    function changeLanguage(lang) {
+        const elements = document.querySelectorAll('[data-i18n]');
+        elements.forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            if (translations[lang] && translations[lang][key]) {
+                element.innerHTML = translations[lang][key];
+            }
+        });
+
+        document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+        document.getElementById('btn-ko').classList.toggle('text-slate-400', lang !== 'ko');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        document.getElementById('btn-en').classList.toggle('text-slate-400', lang !== 'en');
+
+        localStorage.setItem('preferredLang', lang);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedLang = localStorage.getItem('preferredLang');
+        const userLang = navigator.language || navigator.userLanguage;
+        const defaultLang = savedLang || (userLang.startsWith('ko') ? 'ko' : 'en');
+        changeLanguage(defaultLang);
+    });
+</script>
 
 </body>
 </html>
