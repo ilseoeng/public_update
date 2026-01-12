@@ -3,46 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>이용약관 (Terms of Service)</title>
+    <title>이용약관 | 콜센터만들기</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; line-height: 1.6; padding: 20px; max-width: 800px; margin: 0 auto; color: #333; }
-        h1 { border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        h2 { margin-top: 30px; font-size: 1.2rem; border-left: 5px solid #2563eb; padding-left: 10px; }
-        p { margin-bottom: 15px; font-size: 0.95rem; }
-        ul { margin-bottom: 15px; font-size: 0.95rem; }
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; }
+        .lang-btn { cursor: pointer; transition: color 0.2s; }
+        .lang-btn.active { color: #2563eb; font-weight: 900; text-decoration: underline; }
+        
+        /* 약관 내용 스타일 */
+        .terms-content h3 { font-size: 1.25rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; color: #1e293b; }
+        .terms-content p { margin-bottom: 1rem; line-height: 1.7; color: #475569; }
+        .terms-content ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1rem; color: #475569; }
+        .terms-content li { margin-bottom: 0.5rem; }
     </style>
 </head>
 <body>
-    <h1>이용약관 (Terms of Service)</h1>
-    <p><strong>시행일: 2024년 5월 20일</strong></p>
 
-    <h2>제1조 (목적)</h2>
-    <p>본 약관은 'AI 스마트 콜 매니저'(이하 "서비스")를 제공하는 개발자(이하 "회사")와 서비스를 이용하는 회원(이하 "이용자") 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.</p>
+    <!-- 1. 상단 네비게이션 (공통) -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- 좌측: 로고 -->
+            <a href="index.html" class="flex items-center space-x-2 hover:opacity-80 transition">
+                <i class="fa-solid fa-clock-rotate-left text-blue-600 text-2xl"></i>
+                <span class="text-xl font-black text-slate-800 tracking-tighter" data-i18n="logo_text">콜센터만들기</span>
+            </a>
+            
+            <!-- 우측: 메뉴 -->
+            <div class="flex items-center space-x-6">
+                <!-- 언어 변경 버튼 -->
+                <div class="text-sm font-bold text-slate-400 flex items-center space-x-2 border-r border-slate-300 pr-6 mr-2">
+                    <button onclick="changeLanguage('ko')" id="btn-ko" class="lang-btn hover:text-slate-800">KR</button>
+                    <span>|</span>
+                    <button onclick="changeLanguage('en')" id="btn-en" class="lang-btn hover:text-slate-800">EN</button>
+                </div>
 
-    <h2>제2조 (서비스의 제공)</h2>
-    <p>본 서비스는 PC와 스마트폰을 연결하여 통화 기록 관리, 녹음, AI 요약 등의 기능을 제공하는 소프트웨어입니다. </p>
+                <!-- 사용 가이드 -->
+                <a href="start.html" class="text-slate-600 font-bold hover:text-blue-600 transition text-sm hidden md:inline-block" data-i18n="nav_guide">
+                    사용 가이드
+                </a>
+                <!-- 이용권 충전 -->
+                <a href="pricing.html" class="px-5 py-2.5 bg-blue-600 text-white rounded-full text-sm font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200" data-i18n="nav_pricing">
+                    이용권 충전
+                </a>
+            </div>
+        </div>
+    </nav>
 
-    <h2>제3조 (이용자의 의무)</h2>
-    <p>이용자는 다음 각 호의 행위를 하여서는 안 됩니다.</p>
-    <ul>
-        <li>타인의 정보를 도용하거나 부정하게 사용하는 행위</li>
-        <li>서비스를 이용하여 얻은 정보를 회사의 승낙 없이 영리 목적으로 이용하는 행위</li>
-        <li>서비스의 안정적 운영을 방해할 목적으로 다량의 정보를 전송하거나 해킹을 시도하는 행위</li>
-        <li>기타 관계 법령에 위배되는 행위</li>
-    </ul>
+    <!-- 2. 본문 (이용약관) -->
+    <main class="max-w-4xl mx-auto px-6 py-16">
+        <div class="bg-white rounded-[2.5rem] border border-slate-200 p-8 md:p-12 shadow-sm">
+            <div class="border-b border-slate-100 pb-8 mb-8">
+                <h1 class="text-3xl md:text-4xl font-black text-slate-900 mb-4" data-i18n="terms_title">이용약관</h1>
+                <p class="text-slate-400 text-sm" data-i18n="last_updated">최종 수정일: 2026년 1월 12일</p>
+            </div>
 
-    <h2>제4조 (결제 및 환불)</h2>
-    <p>1. 본 서비스의 유료 결제는 글로벌 결제 대행사 Paddle을 통해 이루어집니다.</p>
-    <p>2. 이용자는 구매 후 제품의 하자가 있거나 사용하지 않은 경우, 구매일로부터 7일 이내에 환불을 요청할 수 있습니다.</p>
-    <p>3. 이미 제품을 활성화(라이선스 등록)하였거나 사용한 경우, 디지털 콘텐츠의 특성상 환불이 제한될 수 있습니다.</p>
+            <!-- 약관 내용이 들어갈 곳 -->
+            <div class="terms-content" data-i18n="terms_body">
+                <!-- JS에서 내용이 주입됩니다 -->
+            </div>
+        </div>
+    </main>
 
-    <h2>제5조 (책임의 한계)</h2>
-    <p>1. 회사는 천재지변 또는 이에 준하는 불가항력으로 인해 서비스를 제공할 수 없는 경우에는 서비스 제공에 관한 책임이 면제됩니다.</p>
-    <p>2. 회사는 이용자의 귀책사유로 인한 서비스 이용의 장애에 대하여 책임을 지지 않습니다.</p>
-    <p>3. 본 서비스는 보조 도구이며, 데이터의 영구적인 보관을 보장하지 않습니다. 중요 데이터는 반드시 별도로 백업해야 합니다.</p>
+    <!-- 3. 푸터 -->
+    <footer class="py-16 bg-slate-50 border-t border-slate-200 text-center">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex justify-center space-x-8 mb-8 text-slate-400 text-xs font-bold uppercase tracking-widest">
+                <a href="terms.html" class="text-blue-600 underline">Terms</a>
+                <a href="privacy.html" class="hover:text-blue-600 transition">Privacy</a>
+                <a href="refund.html" class="hover:text-blue-600 transition">Refund</a>
+            </div>
+            <div class="text-slate-400 text-xs space-y-2">
+                <p>© 2026 <span data-i18n="logo_text">콜센터만들기</span>. All rights reserved.</p>
+                <p>Contact: <a href="mailto:ilseoeng@gmail.com" class="hover:text-blue-600 underline">ilseoeng@gmail.com</a></p>
+            </div>
+        </div>
+    </footer>
 
-    <h2>제6조 (문의하기)</h2>
-    <p>서비스 이용과 관련된 문의사항은 아래 연락처로 문의해 주시기 바랍니다.</p>
-    <p>이메일: <strong>ilseoengapp@gmail.com</strong></p>
+    <!-- 다국어 스크립트 -->
+    <script>
+        const translations = {
+            ko: {
+                logo_text: "콜센터만들기",
+                nav_guide: "사용 가이드",
+                nav_pricing: "이용권 충전",
+                terms_title: "이용약관",
+                last_updated: "최종 수정일: 2026년 1월 12일",
+                terms_body: `
+                    <h3>제1조 (목적)</h3>
+                    <p>본 약관은 '콜센터만들기'(이하 "서비스")가 제공하는 PC 프로그램 및 모바일 앱 서비스의 이용과 관련하여 회사와 회원의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.</p>
+                    
+                    <h3>제2조 (서비스의 정의)</h3>
+                    <p>"서비스"란 회원이 스마트폰과 PC를 연동하여 통화 기록 관리, 녹음 파일 전송, AI 요약 등의 기능을 이용할 수 있도록 제공하는 제반 시스템을 의미합니다.</p>
+                    
+                    <h3>제3조 (회원의 의무)</h3>
+                    <ul>
+                        <li>회원은 서비스를 이용함에 있어 관계 법령 및 본 약관을 준수해야 합니다.</li>
+                        <li>타인의 개인정보를 도용하거나 불법적인 목적으로 서비스를 이용해서는 안 됩니다.</li>
+                        <li>서비스 이용 시 발생하는 데이터 요금은 회원이 부담합니다.</li>
+                    </ul>
+
+                    <h3>제4조 (결제 및 환불)</h3>
+                    <p>본 서비스의 유료 결제는 글로벌 결제 대행사(Paddle)를 통해 이루어집니다. 결제 후 사용 내역이 없는 경우 7일 이내 환불이 가능하며, 이미 사용한 이용권에 대해서는 환불이 제한될 수 있습니다.</p>
+
+                    <h3>제5조 (책임의 한계)</h3>
+                    <p>회사는 천재지변, 서버 장애 또는 회원의 귀책사유로 인한 서비스 이용 장애에 대하여 책임을 지지 않습니다. 또한, 회원이 서비스에 저장한 데이터의 유실에 대비하여 회원은 별도로 중요 데이터를 백업해야 합니다.</p>
+                `
+            },
+            en: {
+                logo_text: "Call Center Maker",
+                nav_guide: "User Guide",
+                nav_pricing: "Pricing",
+                terms_title: "Terms of Service",
+                last_updated: "Last Updated: January 12, 2026",
+                terms_body: `
+                    <h3>Article 1 (Purpose)</h3>
+                    <p>These Terms of Service aim to define the rights, obligations, and responsibilities of the company and members regarding the use of the PC program and mobile app services provided by 'Call Center Maker' (hereinafter referred to as the "Service").</p>
+                    
+                    <h3>Article 2 (Definition of Service)</h3>
+                    <p>"Service" refers to the system that allows members to connect their smartphones and PCs to use features such as call log management, recording file transfer, and AI summary.</p>
+                    
+                    <h3>Article 3 (Member Obligations)</h3>
+                    <ul>
+                        <li>Members must comply with relevant laws and these Terms when using the Service.</li>
+                        <li>Members must not steal others' personal information or use the Service for illegal purposes.</li>
+                        <li>Data charges incurred while using the Service are the responsibility of the member.</li>
+                    </ul>
+
+                    <h3>Article 4 (Payment and Refund)</h3>
+                    <p>Paid services are processed through a global payment gateway (Paddle). Refunds are available within 7 days if there is no usage history after payment. Refunds may be restricted for vouchers that have already been used.</p>
+
+                    <h3>Article 5 (Limitation of Liability)</h3>
+                    <p>The Company is not responsible for service interruptions caused by natural disasters, server failures, or member's fault. In addition, members should back up important data separately in preparation for potential data loss.</p>
+                `
+            }
+        };
+
+        function changeLanguage(lang) {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+
+            document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+            document.getElementById('btn-ko').classList.toggle('text-slate-400', lang !== 'ko');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            document.getElementById('btn-en').classList.toggle('text-slate-400', lang !== 'en');
+
+            localStorage.setItem('preferredLang', lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLang');
+            const userLang = navigator.language || navigator.userLanguage;
+            const defaultLang = savedLang || (userLang.startsWith('ko') ? 'ko' : 'en');
+            changeLanguage(defaultLang);
+        });
+    </script>
+
 </body>
 </html>
