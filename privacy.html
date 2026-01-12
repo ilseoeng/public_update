@@ -3,44 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>개인정보처리방침 (Privacy Policy)</title>
+    <title>개인정보처리방침 | 콜센터만들기</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; line-height: 1.6; padding: 20px; max-width: 800px; margin: 0 auto; color: #333; }
-        h1 { border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        h2 { margin-top: 30px; font-size: 1.2rem; border-left: 5px solid #2563eb; padding-left: 10px; }
-        p { margin-bottom: 15px; font-size: 0.95rem; }
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8fafc; }
+        .lang-btn { cursor: pointer; transition: color 0.2s; }
+        .lang-btn.active { color: #2563eb; font-weight: 900; text-decoration: underline; }
+        
+        .policy-content h3 { font-size: 1.25rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; color: #1e293b; }
+        .policy-content p { margin-bottom: 1rem; line-height: 1.7; color: #475569; }
+        .policy-content ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1rem; color: #475569; }
+        .policy-content li { margin-bottom: 0.5rem; }
     </style>
 </head>
 <body>
-    <h1>개인정보처리방침 (Privacy Policy)</h1>
-    <p><strong>시행일: 2024년 5월 20일</strong></p>
 
-    <p>'AI 스마트 콜 매니저'(이하 "서비스")는 이용자의 개인정보를 소중히 다루며, 개인정보 보호법을 준수합니다.</p>
+    <!-- 상단 네비게이션 -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2 hover:opacity-80 transition">
+                <i class="fa-solid fa-clock-rotate-left text-blue-600 text-2xl"></i>
+                <span class="text-xl font-black text-slate-800 tracking-tighter" data-i18n="logo_text">콜센터만들기</span>
+            </a>
+            <div class="flex items-center space-x-6">
+                <div class="text-sm font-bold text-slate-400 flex items-center space-x-2 border-r border-slate-300 pr-6 mr-2">
+                    <button onclick="changeLanguage('ko')" id="btn-ko" class="lang-btn hover:text-slate-800">KR</button>
+                    <span>|</span>
+                    <button onclick="changeLanguage('en')" id="btn-en" class="lang-btn hover:text-slate-800">EN</button>
+                </div>
+                <a href="start.html" class="text-slate-600 font-bold hover:text-blue-600 transition text-sm hidden md:inline-block" data-i18n="nav_guide">사용 가이드</a>
+                <a href="pricing.html" class="px-5 py-2.5 bg-blue-600 text-white rounded-full text-sm font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200" data-i18n="nav_pricing">이용권 충전</a>
+            </div>
+        </div>
+    </nav>
 
-    <h2>1. 수집하는 개인정보의 항목</h2>
-    <p>서비스는 회원가입 및 원활한 고객상담, 서비스 제공을 위해 아래와 같은 개인정보를 수집할 수 있습니다.</p>
-    <ul>
-        <li>이메일 주소 (라이선스 관리용)</li>
-        <li>기기 식별 고유번호 (라이선스 인증용)</li>
-        <li>결제 정보 (Paddle을 통해 처리되며, 개발자가 직접 카드 정보를 저장하지 않습니다)</li>
-    </ul>
+    <!-- 본문 -->
+    <main class="max-w-4xl mx-auto px-6 py-16">
+        <div class="bg-white rounded-[2.5rem] border border-slate-200 p-8 md:p-12 shadow-sm">
+            <div class="border-b border-slate-100 pb-8 mb-8">
+                <h1 class="text-3xl md:text-4xl font-black text-slate-900 mb-4" data-i18n="privacy_title">개인정보처리방침</h1>
+                <p class="text-slate-400 text-sm" data-i18n="last_updated">최종 수정일: 2026년 1월 12일</p>
+            </div>
+            <div class="policy-content" data-i18n="privacy_body">
+                <!-- JS 내용 주입 -->
+            </div>
+        </div>
+    </main>
 
-    <h2>2. 개인정보의 수집 및 이용 목적</h2>
-    <p>수집한 개인정보는 다음의 목적을 위해 활용합니다.</p>
-    <ul>
-        <li>서비스 제공 및 콘텐츠 이용</li>
-        <li>구매 및 요금 결제, 환불 처리</li>
-        <li>부정 이용 방지 및 비인가 사용 방지</li>
-    </ul>
+    <!-- 푸터 -->
+    <footer class="py-16 bg-slate-50 border-t border-slate-200 text-center">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex justify-center space-x-8 mb-8 text-slate-400 text-xs font-bold uppercase tracking-widest">
+                <a href="terms.html" class="hover:text-blue-600 transition">Terms</a>
+                <a href="privacy.html" class="text-blue-600 underline">Privacy</a>
+                <a href="refund.html" class="hover:text-blue-600 transition">Refund</a>
+            </div>
+            <div class="text-slate-400 text-xs space-y-2">
+                <p>© 2026 <span data-i18n="logo_text">콜센터만들기</span>. All rights reserved.</p>
+                <p>Contact: <a href="mailto:ilseoeng@gmail.com" class="hover:text-blue-600 underline">ilseoeng@gmail.com</a></p>
+            </div>
+        </div>
+    </footer>
 
-    <h2>3. 개인정보의 보유 및 이용 기간</h2>
-    <p>원칙적으로 개인정보 수집 및 이용 목적이 달성된 후에는 해당 정보를 지체 없이 파기합니다. 단, 관계 법령에 의해 보존할 필요가 있는 경우 일정 기간 보관합니다.</p>
+    <script>
+        const translations = {
+            ko: {
+                logo_text: "콜센터만들기",
+                nav_guide: "사용 가이드",
+                nav_pricing: "이용권 충전",
+                privacy_title: "개인정보처리방침",
+                last_updated: "최종 수정일: 2026년 1월 12일",
+                privacy_body: `
+                    <h3>1. 수집하는 개인정보 항목</h3>
+                    <p>회사는 서비스 제공을 위해 최소한의 개인정보만을 수집합니다.</p>
+                    <ul>
+                        <li>필수항목: 기기 식별자(UUID), 접속 로그, 서비스 이용 기록</li>
+                        <li>결제 시: 결제 관련 정보 (Paddle 결제 대행사를 통해 처리되며, 회사는 카드번호를 직접 저장하지 않습니다)</li>
+                    </ul>
+                    
+                    <h3>2. 개인정보의 수집 및 이용 목적</h3>
+                    <p>수집한 개인정보는 다음의 목적을 위해 활용됩니다.</p>
+                    <ul>
+                        <li>서비스 제공: PC와 모바일 간의 연결 및 데이터 동기화</li>
+                        <li>회원 관리: 본인 확인, 부정이용 방지</li>
+                        <li>신규 서비스 개발 및 마케팅 광고에의 활용</li>
+                    </ul>
 
-    <h2>4. 개인정보의 제3자 제공</h2>
-    <p>회사는 이용자의 개인정보를 원칙적으로 외부에 제공하지 않습니다. 단, 법령의 규정에 의거하거나, 수사 목적으로 법령에 정해진 절차와 방법에 따라 수사기관의 요구가 있는 경우는 예외로 합니다.</p>
+                    <h3>3. 개인정보의 제3자 제공</h3>
+                    <p>회사는 이용자의 개인정보를 원칙적으로 외부에 제공하지 않습니다. 다만, 법령의 규정에 의거하거나, 수사 목적으로 법령에 정해진 절차와 방법에 따라 수사기관의 요구가 있는 경우는 예외로 합니다.</p>
 
-    <h2>5. 문의처</h2>
-    <p>개인정보 관련 문의는 아래 이메일로 연락 주시기 바랍니다.</p>
-    <p>이메일: <strong>ilseoengapp@gmail.com</strong></p>
+                    <h3>4. 데이터의 저장 및 보호</h3>
+                    <p>통화 녹음 파일 및 상세 상담 기록은 회사의 서버에 영구 저장되지 않으며, 사용자의 PC 로컬 환경에 저장되는 것을 원칙으로 합니다. 회사는 중계 과정에서의 보안을 최우선으로 합니다.</p>
+                `
+            },
+            en: {
+                logo_text: "Call Center Maker",
+                nav_guide: "User Guide",
+                nav_pricing: "Pricing",
+                privacy_title: "Privacy Policy",
+                last_updated: "Last Updated: January 12, 2026",
+                privacy_body: `
+                    <h3>1. Information We Collect</h3>
+                    <p>We collect only the minimum amount of personal information necessary to provide the service.</p>
+                    <ul>
+                        <li>Required: Device ID (UUID), access logs, service usage records.</li>
+                        <li>Payment: Payment information (Processed via Paddle; we do not store credit card numbers directly).</li>
+                    </ul>
+                    
+                    <h3>2. Purpose of Collection and Use</h3>
+                    <p>The collected information is used for the following purposes:</p>
+                    <ul>
+                        <li>Service Provision: Connection and data synchronization between PC and Mobile.</li>
+                        <li>Member Management: Identity verification, prevention of unauthorized use.</li>
+                        <li>Development of new services and marketing.</li>
+                    </ul>
+
+                    <h3>3. Provision to Third Parties</h3>
+                    <p>We do not provide users' personal information to third parties in principle. However, exceptions are made when required by law or upon request by investigative agencies according to legal procedures.</p>
+
+                    <h3>4. Data Storage and Protection</h3>
+                    <p>Call recording files and detailed consultation records are not permanently stored on our servers. They are primarily stored in the user's local PC environment. We prioritize security during the relay process.</p>
+                `
+            }
+        };
+
+        function changeLanguage(lang) {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+            document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+            document.getElementById('btn-ko').classList.toggle('text-slate-400', lang !== 'ko');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            document.getElementById('btn-en').classList.toggle('text-slate-400', lang !== 'en');
+            localStorage.setItem('preferredLang', lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLang');
+            const userLang = navigator.language || navigator.userLanguage;
+            const defaultLang = savedLang || (userLang.startsWith('ko') ? 'ko' : 'en');
+            changeLanguage(defaultLang);
+        });
+    </script>
+
 </body>
 </html>
