@@ -83,37 +83,22 @@
             </a>
         </div>
 <!-- Demo Video (YouTube) -->
-<div class="mt-16 max-w-4xl mx-auto relative group px-4">
-  <!-- 배경 글로우 효과 -->
-  <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur opacity-10 group-hover:opacity-25 transition duration-1000"></div>
+<div class="mt-12 max-w-4xl mx-auto relative group px-4">
+  <!-- 배경 글로우 (모바일에서는 은은하게) -->
+  <div class="absolute -inset-1 bg-gradient-to-r from-blue-600/10 to-indigo-600/10 rounded-[2rem] blur-xl transition duration-1000"></div>
   
-  <div class="relative rounded-[2rem] bg-white border border-slate-200 shadow-2xl overflow-hidden">
-    <!-- 비디오 상단 헤더 -->
-    <div class="px-6 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50/80">
-      <div class="flex items-center gap-4">
-        <div class="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-200">
-          <i class="fa-solid fa-play text-white text-xl"></i>
-        </div>
-        <div>
-          <p class="text-base font-black text-slate-900 leading-none mb-1">서비스 소개 영상</p>
-          <p class="text-xs text-slate-500 font-medium">AI 스마트 콜 매니저의 실제 구동 화면을 확인하세요.</p>
-        </div>
-      </div>
-      
-      <div class="flex items-center">
-        <a href="https://youtu.be/uayMqj2rWes?si=LO9z1fLsjPsMokqT" target="_blank"
-           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#FF0000] text-white text-sm font-bold hover:bg-[#CC0000] transition-all shadow-lg shadow-red-100 hover:-translate-y-0.5">
-          <i class="fa-brands fa-youtube text-lg"></i>
-          YouTube에서 보기
-        </a>
-      </div>
+  <div class="relative rounded-[2rem] bg-white border border-slate-200 shadow-xl overflow-hidden">
+    <!-- 비디오 상단 헤더: 아이콘 제거 및 텍스트 정렬 -->
+    <div class="px-6 py-5 bg-slate-50/80 border-b border-slate-100">
+      <h3 class="text-lg font-black text-slate-900 leading-none mb-1.5">서비스 소개 영상</h3>
+      <p class="text-xs text-slate-500 font-medium">AI 스마트 콜 매니저가 어떻게 작동하는지 확인해 보세요.</p>
     </div>
 
-    <!-- 16:9 비디오 프레임 -->
+    <!-- 16:9 비디오 프레임: 화질 유도 파라미터 적용 -->
     <div class="relative w-full overflow-hidden bg-black" style="padding-top:56.25%;">
       <iframe
         class="absolute inset-0 w-full h-full"
-        src="https://www.youtube.com/embed/uayMqj2rWes?rel=0&showinfo=0"
+        src="https://www.youtube.com/embed/uayMqj2rWes?rel=0&vq=hd720"
         title="AI 스마트 콜 매니저 소개 영상"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -121,12 +106,20 @@
       </iframe>
     </div>
 
-    <!-- 하단 상태바 -->
-    <div class="px-6 py-3 bg-white border-t border-slate-100 flex items-center gap-2">
-      <span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
-      <p class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">
-        Official Demo Video • 01:00
-      </p>
+    <!-- 하단 영역: 문구 제거 및 YouTube 바로가기 링크 추가 -->
+    <div class="px-6 py-4 bg-white flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <span class="flex h-2 w-2 rounded-full bg-blue-500"></span>
+        <span class="text-[11px] text-slate-400 font-bold uppercase tracking-widest">Demo Video</span>
+      </div>
+      
+      <!-- 유튜브에서 보기 링크 -->
+      <a href="https://youtu.be/uayMqj2rWes?si=LO9z1fLsjPsMokqT" target="_blank" 
+         class="flex items-center gap-1.5 text-slate-500 hover:text-red-600 transition-colors">
+        <i class="fa-brands fa-youtube text-lg"></i>
+        <span class="text-sm font-bold">YouTube에서 보기</span>
+        <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5"></i>
+      </a>
     </div>
   </div>
 </div>
