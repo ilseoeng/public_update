@@ -81,9 +81,14 @@ jobs:
         env:
           REPO: ${{ github.repository }}
           TAG:  ${{ github.event.release.tag_name }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # ✅ [추가됨] 토큰 환경변수 추가
         run: |
           $api = "https://api.github.com/repos/$env:REPO/releases/tags/$env:TAG"
-          $headers = @{ "User-Agent" = "gh-actions-appcast" }
+          $headers = @{ 
+              "User-Agent"    = "gh-actions-appcast"
+              "Authorization" = "token $env:GITHUB_TOKEN"
+          }
+          
           $r = Invoke-RestMethod -Uri $api -Headers $headers -Method Get -UseBasicParsing
 
           $asset = $r.assets | Where-Object { $_.name -match '\.msi$' } | Select-Object -First 1
