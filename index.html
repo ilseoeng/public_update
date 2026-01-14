@@ -81,27 +81,26 @@
             </a>
         </div>
 <!-- Demo Video (YouTube) -->
-<div class="mt-16 max-w-4xl mx-auto relative group">
-  <!-- 배경 글로우 효과 (데코레이션) -->
-  <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur opacity-20 group-hover:opacity-30 transition duration-1000"></div>
+<div class="mt-16 max-w-4xl mx-auto relative group px-4">
+  <!-- 배경 글로우 효과 -->
+  <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] blur opacity-10 group-hover:opacity-25 transition duration-1000"></div>
   
   <div class="relative rounded-[2rem] bg-white border border-slate-200 shadow-2xl overflow-hidden">
-    <!-- 비디오 상단 헤더 영역 -->
-    <div class="px-8 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50/50">
+    <!-- 비디오 상단 헤더 -->
+    <div class="px-6 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-50/80">
       <div class="flex items-center gap-4">
         <div class="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-200">
           <i class="fa-solid fa-play text-white text-xl"></i>
         </div>
         <div>
-          <p class="text-lg font-black text-slate-900 leading-none mb-1">서비스 소개 영상</p>
-          <p class="text-sm text-slate-500 font-medium">1분 안에 알아보는 AI 스마트 콜 매니저</p>
+          <p class="text-base font-black text-slate-900 leading-none mb-1">서비스 소개 영상</p>
+          <p class="text-xs text-slate-500 font-medium">AI 스마트 콜 매니저의 실제 구동 화면을 확인하세요.</p>
         </div>
       </div>
       
-      <!-- 유튜브 버튼만 강조 -->
       <div class="flex items-center">
         <a href="https://youtu.be/uayMqj2rWes?si=LO9z1fLsjPsMokqT" target="_blank"
-           class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#FF0000] text-white text-sm font-bold hover:bg-[#CC0000] transition-all shadow-lg shadow-red-100 hover:-translate-y-0.5">
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#FF0000] text-white text-sm font-bold hover:bg-[#CC0000] transition-all shadow-lg shadow-red-100 hover:-translate-y-0.5">
           <i class="fa-brands fa-youtube text-lg"></i>
           YouTube에서 보기
         </a>
@@ -112,7 +111,7 @@
     <div class="relative w-full overflow-hidden bg-black" style="padding-top:56.25%;">
       <iframe
         class="absolute inset-0 w-full h-full"
-        src="https://www.youtube.com/embed/YOUR_VIDEO_ID?rel=0&showinfo=0"
+        src="https://www.youtube.com/embed/uayMqj2rWes?rel=0&showinfo=0"
         title="AI 스마트 콜 매니저 소개 영상"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -120,16 +119,15 @@
       </iframe>
     </div>
 
-    <!-- 하단 설명바 -->
-    <div class="px-8 py-4 bg-white border-t border-slate-100">
-      <div class="flex items-center gap-3 text-slate-500">
-        <span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
-        <p class="text-xs font-semibold tracking-tight uppercase">
-          ※ 실제 스마트폰-PC 연동 구동 화면이 포함되어 있습니다.
-        </p>
-      </div>
+    <!-- 하단 상태바 -->
+    <div class="px-6 py-3 bg-white border-t border-slate-100 flex items-center gap-2">
+      <span class="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+      <p class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">
+        Official Demo Video • 01:00
+      </p>
     </div>
   </div>
+</div>
 </div>
 </section>
 
@@ -242,7 +240,7 @@
 </section>
 
 <!-- 4. 착신 전환 홍보 -->
-<section class="py-24 px-6 bg-slate-900">
+<section class="py-24 px-6 bg-slate-900 overflow-hidden">
     <div class="max-w-5xl mx-auto text-center text-white">
         <h2 class="text-3xl md:text-4xl font-black mb-8" data-i18n="step_title">기존 전화기는 그대로,<br><span class="text-blue-400">시스템은 스마트하게</span></h2>
         <p class="text-slate-400 mb-16 max-w-2xl mx-auto text-lg" data-i18n="step_desc">
@@ -250,34 +248,41 @@
             어디서든 전화 응대가 가능하고, 모든 기록은 사무실 PC에 차곡차곡 쌓입니다.
         </p>
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            <div class="step-box p-8 bg-white/5 rounded-[2rem] border border-white/10 hover:bg-white/10 transition">
-                <div class="text-blue-400 text-3xl font-black mb-4">STEP 1</div>
-                <div class="font-bold text-xl mb-2" data-i18n="step1_title">사무실 전화</div>
-                <div class="text-sm text-slate-400" data-i18n="step1_desc">스마트폰으로 착신 전환 설정</div>
+        <!-- 단계별 카드 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+            <div class="step-box p-10 bg-white/5 rounded-[2.5rem] border border-white/10 hover:bg-white/10 transition group">
+                <div class="text-blue-400 text-3xl font-black mb-4 group-hover:scale-110 transition-transform">STEP 1</div>
+                <div class="font-bold text-xl mb-3" data-i18n="step1_title">사무실 전화</div>
+                <div class="text-sm text-slate-400 leading-relaxed" data-i18n="step1_desc">스마트폰으로 착신 전환 설정</div>
             </div>
-            <div class="step-box p-8 bg-white/5 rounded-[2rem] border border-white/10 hover:bg-white/10 transition">
-                <div class="text-blue-400 text-3xl font-black mb-4">STEP 2</div>
-                <div class="font-bold text-xl mb-2" data-i18n="step2_title">스마트폰 수신</div>
-                <div class="text-sm text-slate-400" data-i18n="step2_desc">앱이 전화를 감지하고 PC로 전송</div>
+            <div class="step-box p-10 bg-white/5 rounded-[2.5rem] border border-white/10 hover:bg-white/10 transition group">
+                <div class="text-blue-400 text-3xl font-black mb-4 group-hover:scale-110 transition-transform">STEP 2</div>
+                <div class="font-bold text-xl mb-3" data-i18n="step2_title">스마트폰 수신</div>
+                <div class="text-sm text-slate-400 leading-relaxed" data-i18n="step2_desc">앱이 전화를 감지하고 PC로 전송</div>
             </div>
-            <div class="step-box p-8 bg-white/5 rounded-[2rem] border border-white/10 hover:bg-white/10 transition">
-                <div class="text-blue-400 text-3xl font-black mb-4">STEP 3</div>
-                <div class="font-bold text-xl mb-2" data-i18n="step3_title">PC 실시간 연동</div>
-                <div class="text-sm text-slate-400" data-i18n="step3_desc">알림, 녹음, 기록 자동 저장</div>
+            <div class="step-box p-10 bg-white/5 rounded-[2.5rem] border border-white/10 hover:bg-white/10 transition group">
+                <div class="text-blue-400 text-3xl font-black mb-4 group-hover:scale-110 transition-transform">STEP 3</div>
+                <div class="font-bold text-xl mb-3" data-i18n="step3_title">PC 실시간 연동</div>
+                <div class="text-sm text-slate-400 leading-relaxed" data-i18n="step3_desc">알림, 녹음, 기록 자동 저장</div>
             </div>
         </div>
 
-  <!-- 하단 추가 버튼 영역 -->
-        <div class="flex justify-center">
+        <!-- 하단 강력한 CTA 버튼 -->
+        <div class="relative inline-block group">
+            <!-- 버튼 뒤 광채 효과 -->
+            <div class="absolute -inset-4 bg-blue-600 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition duration-500"></div>
+            
             <a href="start.html" 
-               class="group relative inline-flex items-center gap-3 px-12 py-5 bg-blue-600 text-white rounded-2xl font-black text-xl hover:bg-blue-500 transition-all shadow-2xl shadow-blue-900/20 transform hover:-translate-y-1"
+               class="relative flex items-center gap-4 px-12 py-6 bg-blue-600 text-white rounded-2xl font-black text-2xl hover:bg-blue-500 transition-all shadow-2xl transform hover:-translate-y-1 active:scale-95"
                data-i18n="hero_btn_start">
                 지금 바로 시작하기
-                <i class="fa-solid fa-chevron-right text-sm group-hover:translate-x-1 transition-transform"></i>
+                <i class="fa-solid fa-arrow-right text-xl group-hover:translate-x-2 transition-transform"></i>
             </a>
         </div>
-        <p class="mt-6 text-slate-500 text-sm font-medium" data-i18n="feat_main_desc">추가 장비 없이 지금 바로 도입해 보세요.</p>
+        
+        <p class="mt-8 text-slate-500 text-sm font-medium tracking-wide">
+            <i class="fa-solid fa-check-circle text-blue-500 mr-2"></i> 별도의 약정이나 초기 설치비가 없습니다.
+        </p>
     </div>
 </section>
 
