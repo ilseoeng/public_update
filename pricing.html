@@ -12,7 +12,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
         body { font-family: 'Noto Sans KR', sans-serif; }
-        .disabled-section { opacity: 0.1; pointer-events: none; filter: grayscale(1); transition: all 0.6s ease; }
+        /* disabled-section 클래스 삭제됨 (이제 항상 잘 보임) */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .lang-btn { cursor: pointer; transition: color 0.2s; }
@@ -69,7 +69,7 @@
 
     <main class="max-w-5xl mx-auto px-0 md:px-6 py-8 md:py-12">
         <!-- 1. 기기 인증 섹션 -->
-        <section class="bg-white rounded-[2rem] shadow-xl border p-6 md:p-10 mb-12 max-w-lg mx-auto mx-4">
+        <section id="authSection" class="bg-white rounded-[2rem] shadow-xl border p-6 md:p-10 mb-12 max-w-lg mx-auto mx-4 transition-all duration-500">
             <div class="text-center mb-8">
                 <h2 class="text-xl font-black text-slate-900 mb-2" data-i18n="auth_title">1. 기기 정보 인증</h2>
                 <p class="text-slate-400 text-xs" data-i18n="auth_desc">원격 코드와 비밀번호를 입력해주세요.</p>
@@ -88,8 +88,9 @@
             <p id="statusMsg" class="mt-6 text-[11px] font-bold text-center text-slate-300" data-i18n="status_wait">인증 완료 후 충전 시간을 선택할 수 있습니다.</p>
         </section>
 
-        <!-- 2. 충전 시간 선택 섹션 -->
-        <div id="pricingSection" class="disabled-section">
+        <!-- 2. 충전 시간 선택 섹션 (이제 잠금 해제됨) -->
+        <!-- class="disabled-section" 제거됨 -->
+        <div id="pricingSection">
             <div class="text-center mb-6 md:mb-12">
                 <h2 class="text-2xl font-black text-slate-900" data-i18n="price_title">2. 충전 시간 선택</h2>
                 <p class="md:hidden text-slate-400 text-[10px] mt-1" data-i18n="price_swipe"><i class="fa-solid fa-arrow-left"></i> 좌우로 밀어서 선택 <i class="fa-solid fa-arrow-right"></i></p>
@@ -147,6 +148,9 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // 인증 상태를 저장하는 전역 변수
+        window.isDeviceVerified = false;
+
         // --- 다국어 데이터 및 함수 ---
         window.translations = {
             ko: {
@@ -166,7 +170,8 @@
                 p60_price: "₩5,000",
                 p180_title: "180분",
                 p180_price: "₩12,000",
-                btn_buy: "구매하기"
+                btn_buy: "구매하기",
+                msg_verify_first: "⚠️ 결제를 진행하려면 먼저 상단에서 [기기 인증]을 완료해주세요."
             },
             en: {
                 logo_text: "Call Center Maker",
@@ -185,7 +190,8 @@
                 p60_price: "$5.00",
                 p180_title: "180 Mins",
                 p180_price: "$12.00",
-                btn_buy: "Buy Now"
+                btn_buy: "Buy Now",
+                msg_verify_first: "⚠️ Please complete [Device Verification] above before purchasing."
             }
         };
 
@@ -227,7 +233,6 @@
             const codeInput = document.getElementById('remoteCode');
             const pwInput = document.getElementById('password');
             const statusMsg = document.getElementById('statusMsg');
-            const pricingSection = document.getElementById('pricingSection');
             
             let rawCode = codeInput.value.trim().toLowerCase();
             const password = pwInput.value.trim();
@@ -239,16 +244,19 @@
                 if (!querySnapshot.empty) {
                     if (!isAuto) alert("Success! / 인증 성공!");
                     
-                    // 현재 언어 설정을 확인하여 메시지 표시
+                    // 인증 성공 처리
+                    window.isDeviceVerified = true; // 인증 상태 True로 변경
+
                     const curLang = localStorage.getItem('preferredLang') || 'ko';
                     statusMsg.innerHTML = window.translations[curLang].status_ok;
 
-                    pricingSection.classList.remove('disabled-section');
+                    // 더 이상 disabled-section 제거할 필요 없음 (항상 보이니까)
+                    
                     codeInput.disabled = true; pwInput.disabled = true;
                     document.getElementById('verifyBtn').style.display = "none";
                     
                     setTimeout(() => {
-                        pricingSection.scrollIntoView({ behavior: 'smooth' });
+                        document.getElementById('pricingSection').scrollIntoView({ behavior: 'smooth' });
                         setTimeout(centerBestPlan, 500);
                     }, 100);
                 } else {
@@ -262,6 +270,17 @@
         };
 
         window.pay = (plan) => {
+            // 결제 버튼 누를 때 인증 여부 체크
+            if (!window.isDeviceVerified) {
+                const curLang = localStorage.getItem('preferredLang') || 'ko';
+                alert(window.translations[curLang].msg_verify_first);
+                
+                // 인증 섹션으로 스크롤 올리기
+                document.getElementById('authSection').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('remoteCode').focus();
+                return;
+            }
+
             const machine_id = document.getElementById('remoteCode').value;
             let pId = "";
             if (plan === '30min') pId = "pri_01kdze89gfya79z9rjwmxswhat";
@@ -275,13 +294,11 @@
         };
 
         window.addEventListener('DOMContentLoaded', () => {
-            // 언어 설정 초기화
             const savedLang = localStorage.getItem('preferredLang');
             const userLang = navigator.language || navigator.userLanguage;
             const defaultLang = savedLang || (userLang.startsWith('ko') ? 'ko' : 'en');
             window.changeLanguage(defaultLang);
 
-            // URL 파라미터 자동 인증
             const urlParams = new URLSearchParams(window.location.search);
             const code = urlParams.get('code'); 
             const pw = urlParams.get('pw');     
