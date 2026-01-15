@@ -12,7 +12,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
         body { font-family: 'Noto Sans KR', sans-serif; }
-        /* disabled-section 클래스 삭제됨 (이제 항상 잘 보임) */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .lang-btn { cursor: pointer; transition: color 0.2s; }
@@ -37,30 +36,30 @@
 </head>
 <body class="bg-slate-50">
 
-    <!-- 상단 네비게이션 -->
+    <!-- 상단 네비게이션 (모바일 최적화 적용됨) -->
     <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <!-- 좌측: 로고 -->
-            <a href="index.html" class="flex items-center space-x-2 hover:opacity-80 transition">
-                <i class="fa-solid fa-clock-rotate-left text-blue-600 text-2xl"></i>
-                <span class="text-xl font-black text-slate-800 tracking-tighter" data-i18n="logo_text">콜센터만들기</span>
+        <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
+            <!-- 좌측: 로고 (모바일 크기 축소 및 줄바꿈 방지) -->
+            <a href="index.html" class="flex items-center space-x-1.5 hover:opacity-80 transition shrink-0">
+                <i class="fa-solid fa-clock-rotate-left text-blue-600 text-xl md:text-2xl"></i>
+                <span class="text-lg md:text-xl font-black text-slate-800 tracking-tighter" data-i18n="logo_text">콜센터만들기</span>
             </a>
             
-            <!-- 우측: 메뉴 -->
-            <div class="flex items-center space-x-6">
+            <!-- 우측: 메뉴 (여백 및 글자 크기 최적화) -->
+            <div class="flex items-center space-x-2 md:space-x-6">
                 <!-- 언어 변경 버튼 -->
-                <div class="text-sm font-bold text-slate-400 flex items-center space-x-2 border-r border-slate-300 pr-6 mr-2">
-                    <button onclick="changeLanguage('ko')" id="btn-ko" class="lang-btn hover:text-slate-800">KR</button>
-                    <span>|</span>
-                    <button onclick="changeLanguage('en')" id="btn-en" class="lang-btn hover:text-slate-800">EN</button>
+                <div class="flex items-center space-x-1.5 text-[11px] md:text-sm font-bold text-slate-400 border-slate-300 md:border-r md:pr-6">
+                    <button onclick="changeLanguage('ko')" id="btn-ko" class="lang-btn hover:text-slate-800 transition-colors">KR</button>
+                    <span class="text-slate-200">|</span>
+                    <button onclick="changeLanguage('en')" id="btn-en" class="lang-btn hover:text-slate-800 transition-colors">EN</button>
                 </div>
 
-                <!-- 사용 가이드 -->
+                <!-- 사용 가이드 (모바일 숨김) -->
                 <a href="start.html" class="text-slate-600 font-bold hover:text-blue-600 transition text-sm hidden md:inline-block" data-i18n="nav_guide">
                     사용 가이드
                 </a>
-                <!-- 이용권 충전 (현재 페이지) -->
-                <a href="pricing.html" class="px-5 py-2.5 bg-blue-600 text-white rounded-full text-sm font-bold hover:bg-blue-700 transition shadow-lg shadow-blue-200" data-i18n="nav_pricing">
+                <!-- 이용권 충전 (모바일 폰트/여백 축소, 줄바꿈 방지) -->
+                <a href="pricing.html" class="px-3 py-2 md:px-5 md:py-2.5 bg-blue-600 text-white rounded-full text-[11px] md:text-sm font-black hover:bg-blue-700 transition shadow-lg shadow-blue-200 whitespace-nowrap" data-i18n="nav_pricing">
                     이용권 충전
                 </a>
             </div>
@@ -88,8 +87,7 @@
             <p id="statusMsg" class="mt-6 text-[11px] font-bold text-center text-slate-300" data-i18n="status_wait">인증 완료 후 충전 시간을 선택할 수 있습니다.</p>
         </section>
 
-        <!-- 2. 충전 시간 선택 섹션 (이제 잠금 해제됨) -->
-        <!-- class="disabled-section" 제거됨 -->
+        <!-- 2. 충전 시간 선택 섹션 -->
         <div id="pricingSection">
             <div class="text-center mb-6 md:mb-12">
                 <h2 class="text-2xl font-black text-slate-900" data-i18n="price_title">2. 충전 시간 선택</h2>
@@ -245,13 +243,11 @@
                     if (!isAuto) alert("Success! / 인증 성공!");
                     
                     // 인증 성공 처리
-                    window.isDeviceVerified = true; // 인증 상태 True로 변경
+                    window.isDeviceVerified = true; 
 
                     const curLang = localStorage.getItem('preferredLang') || 'ko';
                     statusMsg.innerHTML = window.translations[curLang].status_ok;
 
-                    // 더 이상 disabled-section 제거할 필요 없음 (항상 보이니까)
-                    
                     codeInput.disabled = true; pwInput.disabled = true;
                     document.getElementById('verifyBtn').style.display = "none";
                     
@@ -270,12 +266,9 @@
         };
 
         window.pay = (plan) => {
-            // 결제 버튼 누를 때 인증 여부 체크
             if (!window.isDeviceVerified) {
                 const curLang = localStorage.getItem('preferredLang') || 'ko';
                 alert(window.translations[curLang].msg_verify_first);
-                
-                // 인증 섹션으로 스크롤 올리기
                 document.getElementById('authSection').scrollIntoView({ behavior: 'smooth' });
                 document.getElementById('remoteCode').focus();
                 return;
