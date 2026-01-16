@@ -15,7 +15,6 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .lang-btn { cursor: pointer; transition: all 0.2s; color: #94a3b8; font-weight: 700; }
         .lang-btn.active { color: #2563eb !important; font-weight: 900; text-decoration: underline; text-underline-offset: 4px; }
-
         @media (max-width: 768px) {
             .pricing-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-left: 10vw; padding-right: 10vw; }
             .pricing-card { width: 80vw; flex-shrink: 0; scroll-snap-align: center; margin-right: 15px; }
@@ -30,7 +29,6 @@
                 <i class="fa-solid fa-clock-rotate-left text-blue-600 text-xl md:text-2xl"></i>
                 <span class="text-lg md:text-xl font-black text-slate-800 tracking-tighter" data-i18n="logo_text">콜센터만들기</span>
             </a>
-            
             <div class="flex items-center space-x-2 md:space-x-6">
                 <div class="flex items-center space-x-1.5 text-[11px] md:text-sm border-slate-300 md:border-r md:pr-6">
                     <button onclick="changeLanguage('ko')" id="btn-ko" class="lang-btn">KR</button>
@@ -60,9 +58,6 @@
         </section>
 
         <div id="pricingSection">
-            <div class="text-center mb-6 md:mb-12">
-                <h2 class="text-2xl font-black text-slate-900" data-i18n="price_title">2. 충전 시간 선택</h2>
-            </div>
             <div id="pricingSlider" class="pricing-container no-scrollbar md:grid md:grid-cols-3 md:gap-6 pb-10">
                 <div class="pricing-card bg-white rounded-[2rem] p-8 border shadow-sm flex flex-col items-center">
                     <h3 class="text-xl font-black" data-i18n="p30_title">30분</h3>
@@ -87,7 +82,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Firebase 초기화
         const firebaseConfig = {
             apiKey: "AIzaSyCsdo-gps3z3nvwJ_EjNe0e4ZI4s4QH7XM",
             projectId: "gen-lang-client-0349319821",
@@ -110,8 +104,7 @@
                 auth_title: "1. 기기 정보 인증", auth_desc: "원격 코드와 비밀번호를 입력해주세요.",
                 btn_verify: "인증하기", status_wait: "인증 완료 후 충전 시간을 선택할 수 있습니다.",
                 status_ok: "✅ 인증 완료! 이용권을 선택해 주세요.",
-                price_title: "2. 충전 시간 선택", p30_title: "30분", p30_price: "₩3,000",
-                p60_title: "60분", p60_price: "₩5,000", p180_title: "180분", p180_price: "₩12,000",
+                p30_title: "30분", p30_price: "₩3,000", p60_title: "60분", p60_price: "₩5,000", p180_title: "180분", p180_price: "₩12,000",
                 btn_buy: "구매하기", msg_verify_first: "⚠️ 결제를 진행하려면 먼저 상단에서 [기기 인증]을 완료해주세요."
             },
             en: {
@@ -119,8 +112,7 @@
                 auth_title: "1. Device Verification", auth_desc: "Please enter your Remote Code and Password.",
                 btn_verify: "Verify", status_wait: "You can select a plan after verification.",
                 status_ok: "✅ Verified! Please select a plan.",
-                price_title: "2. Select Time Plan", p30_title: "30 Mins", p30_price: "$3.00",
-                p60_title: "60 Mins", p60_price: "$5.00", p180_title: "180 Mins", p180_price: "$12.00",
+                p30_title: "30 Mins", p30_price: "$3.00", p60_title: "60 Mins", p60_price: "$5.00", p180_title: "180 Mins", p180_price: "$12.00",
                 btn_buy: "Buy Now", msg_verify_first: "⚠️ Please complete [Device Verification] first."
             }
         };
@@ -138,34 +130,27 @@
 
         window.verifyDevice = async (isAuto = false) => {
             if (!isAuto && typeof grecaptcha !== "undefined") {
-                if (grecaptcha.getResponse().length === 0) {
-                    alert("로봇이 아님을 증명해 주세요."); return;
-                }
+                if (grecaptcha.getResponse().length === 0) { alert("reCAPTCHA 인증이 필요합니다."); return; }
             }
             const codeInput = document.getElementById('remoteCode');
             const pwInput = document.getElementById('password');
             let rawCode = codeInput.value.trim().toLowerCase();
             const password = pwInput.value.trim();
-
-            if (rawCode.length === 6 && !rawCode.includes(" ")) {
-                rawCode = rawCode.substring(0, 3) + " " + rawCode.substring(3);
-            }
+            if (rawCode.length === 6 && !rawCode.includes(" ")) rawCode = rawCode.substring(0, 3) + " " + rawCode.substring(3);
 
             try {
                 const q = query(collection(db, "devices"), where("serial_code", "==", rawCode), where("password", "==", password));
                 const querySnapshot = await getDocs(q);
                 if (!querySnapshot.empty) {
                     window.isDeviceVerified = true;
-                    alert(window.currentLang === 'ko' ? "인증 성공!" : "Verification Success!");
+                    alert("인증 성공!");
                     document.getElementById('statusMsg').innerHTML = window.translations[window.currentLang].status_ok;
                     document.getElementById('pricingSection').scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    alert("인증 실패: 정보를 확인하세요.");
-                }
-            } catch (e) { alert("Error: " + e.message); }
+                } else { alert("인증 실패!"); }
+            } catch (e) { alert(e.message); }
         };
 
-        // [수정] 결제 함수 - 고객 정보 없이도 창이 뜨도록 수정
+        // [해결] customer 부분을 제거하여 validation 에러를 방지
         window.pay = (plan) => {
             if (!window.isDeviceVerified) {
                 alert(window.translations[window.currentLang].msg_verify_first);
@@ -175,8 +160,6 @@
 
             const machine_id = document.getElementById('remoteCode').value;
             let pId = "";
-            let country = (window.currentLang === 'ko') ? "KR" : "US";
-
             if (window.currentLang === 'ko') {
                 if (plan === '30min') pId = "pri_01kf2ej2vz3rd54k9zhewxba8m"; 
                 else if (plan === '1hour') pId = "pri_01kf2ekn8da5k779rfaqzpah83";
@@ -187,16 +170,13 @@
                 else if (plan === '3hours') pId = "pri_01kf2f788ebpq41mhf0zjxrh18";
             }
 
-            // Paddle Checkout 호출 최적화
             Paddle.Checkout.open({
                 settings: {
                     displayMode: "overlay",
+                    theme: "light",
                     locale: window.currentLang === 'ko' ? "ko" : "en"
                 },
                 items: [{ priceId: pId, quantity: 1 }],
-                customer: {
-                    address: { countryCode: country }
-                },
                 customData: { machine_id: machine_id }
             });
         };
