@@ -14,7 +14,7 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* 언어 버튼 활성화 시 파란색 + 두꺼운 글씨 + 밑줄 */
+        /* 언어 버튼 활성화 시 스타일 */
         .lang-btn { cursor: pointer; transition: all 0.2s; color: #94a3b8; font-weight: 700; }
         .lang-btn.active { color: #2563eb !important; font-weight: 900; text-decoration: underline; text-underline-offset: 4px; }
 
@@ -35,7 +35,6 @@
             
             <div class="flex items-center space-x-2 md:space-x-6">
                 <div class="flex items-center space-x-1.5 text-[11px] md:text-sm border-slate-300 md:border-r md:pr-6">
-                    <!-- 언어 버튼: 초기 상태 확인을 위해 onclick 연결 -->
                     <button onclick="changeLanguage('ko')" id="btn-ko" class="lang-btn">KR</button>
                     <span class="text-slate-200">|</span>
                     <button onclick="changeLanguage('en')" id="btn-en" class="lang-btn">EN</button>
@@ -46,7 +45,6 @@
     </nav>
 
     <main class="max-w-5xl mx-auto px-0 md:px-6 py-8 md:py-12">
-        <!-- 1. 기기 인증 섹션 -->
         <section id="authSection" class="bg-white rounded-[2rem] shadow-xl border p-6 md:p-10 mb-12 max-w-lg mx-auto mx-4">
             <div class="text-center mb-8">
                 <h2 class="text-xl font-black text-slate-900 mb-2" data-i18n="auth_title">1. 기기 정보 인증</h2>
@@ -63,7 +61,6 @@
             <p id="statusMsg" class="mt-6 text-[11px] font-bold text-center text-slate-300" data-i18n="status_wait">인증 완료 후 충전 시간을 선택할 수 있습니다.</p>
         </section>
 
-        <!-- 2. 충전 시간 선택 섹션 -->
         <div id="pricingSection">
             <div class="text-center mb-6 md:mb-12">
                 <h2 class="text-2xl font-black text-slate-900" data-i18n="price_title">2. 충전 시간 선택</h2>
@@ -92,6 +89,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+        // Firebase 초기화
         const firebaseConfig = {
             apiKey: "AIzaSyCsdo-gps3z3nvwJ_EjNe0e4ZI4s4QH7XM",
             projectId: "gen-lang-client-0349319821",
@@ -100,12 +98,15 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        Paddle.Initialize({ token: 'test_d786258e7de5e845de5554e2ef2', environment: 'sandbox' });
+        // [수정] Paddle 초기화 - 에러 방지를 위해 Environment를 먼저 설정
+        if (typeof Paddle !== 'undefined') {
+            Paddle.Environment.set('sandbox');
+            Paddle.Initialize({ token: 'test_d786258e7de5e845de5554e2ef2' });
+        }
 
-        // 전역 변수 (중요: window에 등록)
+        // 전역 상태 및 데이터
         window.isDeviceVerified = false;
         window.currentLang = 'ko'; 
-
         window.translations = {
             ko: {
                 logo_text: "콜센터만들기", nav_pricing: "이용권 충전",
@@ -127,28 +128,23 @@
             }
         };
 
-        // [핵심] 언어 변경 및 체크 함수
+        // [해결] 모든 함수를 window 객체에 할당하여 HTML에서 호출 가능하게 함
         window.changeLanguage = (lang) => {
-            window.currentLang = lang; // 현재 언어 상태 업데이트
-            
-            // 1. 텍스트 변경
+            window.currentLang = lang;
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (window.translations[lang][key]) el.innerHTML = window.translations[lang][key];
             });
-
-            // 2. 버튼 시각적 체크 (Active 클래스 교체)
             document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-
             localStorage.setItem('preferredLang', lang);
-            console.log("현재 모드 체크:", window.currentLang);
         };
 
-        // 기기 인증
         window.verifyDevice = async (isAuto = false) => {
-            if (!isAuto && grecaptcha.getResponse().length === 0) {
-                alert("로봇이 아님을 증명해 주세요."); return;
+            if (!isAuto && typeof grecaptcha !== "undefined") {
+                if (grecaptcha.getResponse().length === 0) {
+                    alert("로봇이 아님을 증명해 주세요."); return;
+                }
             }
             const codeInput = document.getElementById('remoteCode');
             const pwInput = document.getElementById('password');
@@ -175,14 +171,12 @@
             } catch (e) { alert("Error: " + e.message); }
         };
 
-        // 결제 (언어 모드 체크하여 Price ID 선택)
         window.pay = (plan) => {
             if (!window.isDeviceVerified) {
                 alert(window.translations[window.currentLang].msg_verify_first);
                 document.getElementById('authSection').scrollIntoView({ behavior: 'smooth' });
                 return;
             }
-
             const machine_id = document.getElementById('remoteCode').value;
             let pId = "";
             let country = (window.currentLang === 'ko') ? "KR" : "US";
@@ -204,8 +198,8 @@
             });
         };
 
-        // 페이지 로드 시 초기 언어 체크 및 설정
-        window.addEventListener('DOMContentLoaded', () => {
+        // 초기 실행
+        document.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('preferredLang') || (navigator.language.startsWith('ko') ? 'ko' : 'en');
             window.changeLanguage(savedLang);
         });
