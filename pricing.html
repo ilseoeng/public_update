@@ -13,8 +13,11 @@
         body { font-family: 'Noto Sans KR', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .lang-btn { cursor: pointer; transition: color 0.2s; }
-        .lang-btn.active { color: #2563eb; font-weight: 900; text-decoration: underline; }
+        
+        /* 언어 버튼 활성화 시 파란색 + 두꺼운 글씨 + 밑줄 */
+        .lang-btn { cursor: pointer; transition: all 0.2s; color: #94a3b8; font-weight: 700; }
+        .lang-btn.active { color: #2563eb !important; font-weight: 900; text-decoration: underline; text-underline-offset: 4px; }
+
         @media (max-width: 768px) {
             .pricing-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-left: 10vw; padding-right: 10vw; }
             .pricing-card { width: 80vw; flex-shrink: 0; scroll-snap-align: center; margin-right: 15px; }
@@ -29,13 +32,15 @@
                 <i class="fa-solid fa-clock-rotate-left text-blue-600 text-xl md:text-2xl"></i>
                 <span class="text-lg md:text-xl font-black text-slate-800 tracking-tighter" data-i18n="logo_text">콜센터만들기</span>
             </a>
+            
             <div class="flex items-center space-x-2 md:space-x-6">
-                <div class="flex items-center space-x-1.5 text-[11px] md:text-sm font-bold text-slate-400 border-slate-300 md:border-r md:pr-6">
-                    <button onclick="changeLanguage('ko')" id="btn-ko" class="lang-btn hover:text-slate-800 transition-colors">KR</button>
+                <div class="flex items-center space-x-1.5 text-[11px] md:text-sm border-slate-300 md:border-r md:pr-6">
+                    <!-- 언어 버튼: 초기 상태 확인을 위해 onclick 연결 -->
+                    <button onclick="changeLanguage('ko')" id="btn-ko" class="lang-btn">KR</button>
                     <span class="text-slate-200">|</span>
-                    <button onclick="changeLanguage('en')" id="btn-en" class="lang-btn hover:text-slate-800 transition-colors">EN</button>
+                    <button onclick="changeLanguage('en')" id="btn-en" class="lang-btn">EN</button>
                 </div>
-                <a href="pricing.html" class="px-3 py-2 md:px-5 md:py-2.5 bg-blue-600 text-white rounded-full text-[11px] md:text-sm font-black hover:bg-blue-700 transition shadow-lg shadow-blue-200 whitespace-nowrap" data-i18n="nav_pricing">이용권 충전</a>
+                <a href="pricing.html" class="px-3 py-2 md:px-5 md:py-2.5 bg-blue-600 text-white rounded-full text-[11px] md:text-sm font-black hover:bg-blue-700 shadow-lg" data-i18n="nav_pricing">이용권 충전</a>
             </div>
         </div>
     </nav>
@@ -48,12 +53,12 @@
                 <p class="text-slate-400 text-xs" data-i18n="auth_desc">원격 코드와 비밀번호를 입력해주세요.</p>
             </div>
             <div class="space-y-4">
-                <input type="text" id="remoteCode" placeholder="예: vm6 292" class="w-full px-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-xl text-center text-2xl font-black text-blue-600 focus:border-blue-500 uppercase outline-none">
-                <input type="password" id="password" placeholder="Password" class="w-full px-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-xl text-center text-xl font-bold focus:border-blue-500 outline-none">
-                <div class="flex justify-center py-2 scale-90 md:scale-100">
+                <input type="text" id="remoteCode" placeholder="예: vm6 292" class="w-full px-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-xl text-center text-2xl font-black text-blue-600 outline-none uppercase">
+                <input type="password" id="password" placeholder="Password" class="w-full px-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-xl text-center text-xl font-bold outline-none">
+                <div class="flex justify-center py-2">
                     <div class="g-recaptcha" data-sitekey="6LfgnEQsAAAAABjeS4ssb-FvLMDSun59SrBFjaZP"></div>
                 </div>
-                <button onclick="verifyDevice()" id="verifyBtn" class="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-lg hover:bg-blue-700 transition shadow-lg" data-i18n="btn_verify">인증하기</button>
+                <button onclick="verifyDevice()" id="verifyBtn" class="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-lg hover:bg-blue-700 shadow-lg" data-i18n="btn_verify">인증하기</button>
             </div>
             <p id="statusMsg" class="mt-6 text-[11px] font-bold text-center text-slate-300" data-i18n="status_wait">인증 완료 후 충전 시간을 선택할 수 있습니다.</p>
         </section>
@@ -62,27 +67,22 @@
         <div id="pricingSection">
             <div class="text-center mb-6 md:mb-12">
                 <h2 class="text-2xl font-black text-slate-900" data-i18n="price_title">2. 충전 시간 선택</h2>
-                <p class="md:hidden text-slate-400 text-[10px] mt-1" data-i18n="price_swipe">좌우로 밀어서 선택</p>
             </div>
-            <div id="pricingSlider" class="pricing-container no-scrollbar md:grid md:grid-cols-3 md:gap-6 md:px-0 pb-10">
-                <div id="card-30min" class="pricing-card bg-white rounded-[2rem] p-8 border shadow-sm flex flex-col items-center">
-                    <i class="fa-regular fa-clock text-3xl text-blue-500 mb-4"></i>
-                    <h3 class="text-xl font-black text-slate-900" data-i18n="p30_title">30분</h3>
+            <div id="pricingSlider" class="pricing-container no-scrollbar md:grid md:grid-cols-3 md:gap-6 pb-10">
+                <div class="pricing-card bg-white rounded-[2rem] p-8 border shadow-sm flex flex-col items-center">
+                    <h3 class="text-xl font-black" data-i18n="p30_title">30분</h3>
                     <div class="text-3xl font-black text-slate-800 my-6" data-i18n="p30_price">₩3,000</div>
-                    <button onclick="pay('30min')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black active:scale-95 transition" data-i18n="btn_buy">구매하기</button>
+                    <button onclick="pay('30min')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black" data-i18n="btn_buy">구매하기</button>
                 </div>
-                <div id="card-1hour" class="pricing-card bg-white rounded-[2rem] p-8 border-4 border-blue-500 shadow-2xl flex flex-col items-center relative z-10">
-                    <div class="absolute -top-4 bg-blue-500 text-white px-5 py-1 rounded-full text-[10px] font-black tracking-widest uppercase">Best</div>
-                    <i class="fa-solid fa-stopwatch text-3xl text-blue-500 mb-4"></i>
-                    <h3 class="text-xl font-black text-slate-900" data-i18n="p60_title">60분</h3>
+                <div class="pricing-card bg-white rounded-[2rem] p-8 border-4 border-blue-500 shadow-2xl flex flex-col items-center">
+                    <h3 class="text-xl font-black" data-i18n="p60_title">60분</h3>
                     <div class="text-3xl font-black text-blue-600 my-6" data-i18n="p60_price">₩5,000</div>
-                    <button onclick="pay('1hour')" class="w-full py-4 bg-blue-600 text-white rounded-2xl font-black active:scale-95 transition" data-i18n="btn_buy">구매하기</button>
+                    <button onclick="pay('1hour')" class="w-full py-4 bg-blue-600 text-white rounded-2xl font-black" data-i18n="btn_buy">구매하기</button>
                 </div>
-                <div id="card-3hours" class="pricing-card bg-white rounded-[2rem] p-8 border shadow-sm flex flex-col items-center">
-                    <i class="fa-solid fa-hourglass-half text-3xl text-slate-400 mb-4"></i>
-                    <h3 class="text-xl font-black text-slate-900" data-i18n="p180_title">180분</h3>
+                <div class="pricing-card bg-white rounded-[2rem] p-8 border shadow-sm flex flex-col items-center">
+                    <h3 class="text-xl font-black" data-i18n="p180_title">180분</h3>
                     <div class="text-3xl font-black text-slate-800 my-6" data-i18n="p180_price">₩12,000</div>
-                    <button onclick="pay('3hours')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black active:scale-95 transition" data-i18n="btn_buy">구매하기</button>
+                    <button onclick="pay('3hours')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black" data-i18n="btn_buy">구매하기</button>
                 </div>
             </div>
         </div>
@@ -100,13 +100,11 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // 1. 초기값 설정
-        window.isDeviceVerified = false;
+        Paddle.Initialize({ token: 'test_d786258e7de5e845de5554e2ef2', environment: 'sandbox' });
 
-        Paddle.Initialize({ 
-            token: 'test_d786258e7de5e845de5554e2ef2', 
-            environment: 'sandbox' 
-        });
+        // 전역 변수 (중요: window에 등록)
+        window.isDeviceVerified = false;
+        window.currentLang = 'ko'; 
 
         window.translations = {
             ko: {
@@ -116,32 +114,38 @@
                 status_ok: "✅ 인증 완료! 이용권을 선택해 주세요.",
                 price_title: "2. 충전 시간 선택", p30_title: "30분", p30_price: "₩3,000",
                 p60_title: "60분", p60_price: "₩5,000", p180_title: "180분", p180_price: "₩12,000",
-                btn_buy: "구매하기", 
-                msg_verify_first: "⚠️ 결제를 진행하려면 먼저 상단에서 [기기 인증]을 완료해주세요."
+                btn_buy: "구매하기", msg_verify_first: "⚠️ 결제를 진행하려면 먼저 상단에서 [기기 인증]을 완료해주세요."
             },
             en: {
                 logo_text: "Call Center Maker", nav_pricing: "Pricing",
                 auth_title: "1. Device Verification", auth_desc: "Please enter your Remote Code and Password.",
-                btn_verify: "Verify", status_wait: "Select a plan after verification.",
+                btn_verify: "Verify", status_wait: "You can select a plan after verification.",
                 status_ok: "✅ Verified! Please select a plan.",
                 price_title: "2. Select Time Plan", p30_title: "30 Mins", p30_price: "$3.00",
                 p60_title: "60 Mins", p60_price: "$5.00", p180_title: "180 Mins", p180_price: "$12.00",
-                btn_buy: "Buy Now",
-                msg_verify_first: "⚠️ Please complete [Device Verification] first."
+                btn_buy: "Buy Now", msg_verify_first: "⚠️ Please complete [Device Verification] first."
             }
         };
 
-        // 2. 전역 함수로 등록 (이게 되어야 HTML의 onclick에서 호출 가능)
+        // [핵심] 언어 변경 및 체크 함수
         window.changeLanguage = (lang) => {
+            window.currentLang = lang; // 현재 언어 상태 업데이트
+            
+            // 1. 텍스트 변경
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (window.translations[lang][key]) el.innerHTML = window.translations[lang][key];
             });
+
+            // 2. 버튼 시각적 체크 (Active 클래스 교체)
             document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
             localStorage.setItem('preferredLang', lang);
+            console.log("현재 모드 체크:", window.currentLang);
         };
 
+        // 기기 인증
         window.verifyDevice = async (isAuto = false) => {
             if (!isAuto && grecaptcha.getResponse().length === 0) {
                 alert("로봇이 아님을 증명해 주세요."); return;
@@ -160,40 +164,30 @@
                 const querySnapshot = await getDocs(q);
                 if (!querySnapshot.empty) {
                     window.isDeviceVerified = true;
-                    const curLang = localStorage.getItem('preferredLang') || 'ko';
-                    document.getElementById('statusMsg').innerHTML = window.translations[curLang].status_ok;
+                    alert(window.currentLang === 'ko' ? "인증 성공!" : "Verification Success!");
+                    document.getElementById('statusMsg').innerHTML = window.translations[window.currentLang].status_ok;
                     codeInput.disabled = true; pwInput.disabled = true;
                     document.getElementById('verifyBtn').style.display = "none";
                     document.getElementById('pricingSection').scrollIntoView({ behavior: 'smooth' });
                 } else {
-                    alert("인증 실패: 정보를 확인하세요.");
-                    if (!isAuto) grecaptcha.reset();
+                    alert(window.currentLang === 'ko' ? "인증 실패: 정보를 확인하세요." : "Auth Failed: Check info.");
                 }
             } catch (e) { alert("Error: " + e.message); }
         };
 
-        // 3. 결제 함수 (미인증 시 팝업 로직 강화)
+        // 결제 (언어 모드 체크하여 Price ID 선택)
         window.pay = (plan) => {
-            console.log("결제 시도:", plan, "인증상태:", window.isDeviceVerified);
-
-            if (window.isDeviceVerified === false) {
-                const curLang = localStorage.getItem('preferredLang') || 'ko';
-                const msg = window.translations[curLang].msg_verify_first;
-                
-                alert(msg); // 팝업창 띄움
-                
+            if (!window.isDeviceVerified) {
+                alert(window.translations[window.currentLang].msg_verify_first);
                 document.getElementById('authSection').scrollIntoView({ behavior: 'smooth' });
-                document.getElementById('remoteCode').focus();
                 return;
             }
 
-            // 인증된 경우 Paddle 결제창 실행
             const machine_id = document.getElementById('remoteCode').value;
-            const curLang = localStorage.getItem('preferredLang') || 'ko';
             let pId = "";
-            let country = (curLang === 'ko') ? "KR" : "US";
+            let country = (window.currentLang === 'ko') ? "KR" : "US";
 
-            if (curLang === 'ko') {
+            if (window.currentLang === 'ko') {
                 if (plan === '30min') pId = "pri_01kf2ej2vz3rd54k9zhewxba8m"; 
                 else if (plan === '1hour') pId = "pri_01kf2ekn8da5k779rfaqzpah83";
                 else if (plan === '3hours') pId = "pri_01kf2emynse3p9kfcjez5n4vvg";
@@ -210,8 +204,10 @@
             });
         };
 
+        // 페이지 로드 시 초기 언어 체크 및 설정
         window.addEventListener('DOMContentLoaded', () => {
-            window.changeLanguage(localStorage.getItem('preferredLang') || 'ko');
+            const savedLang = localStorage.getItem('preferredLang') || (navigator.language.startsWith('ko') ? 'ko' : 'en');
+            window.changeLanguage(savedLang);
         });
     </script>
 </body>
