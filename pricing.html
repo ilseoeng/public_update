@@ -13,8 +13,6 @@
         body { font-family: 'Noto Sans KR', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* 언어 버튼 활성화 시 스타일 */
         .lang-btn { cursor: pointer; transition: all 0.2s; color: #94a3b8; font-weight: 700; }
         .lang-btn.active { color: #2563eb !important; font-weight: 900; text-decoration: underline; text-underline-offset: 4px; }
 
@@ -98,13 +96,12 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // [수정] Paddle 초기화 - 에러 방지를 위해 Environment를 먼저 설정
+        // Paddle 초기화 (Sandbox)
         if (typeof Paddle !== 'undefined') {
             Paddle.Environment.set('sandbox');
             Paddle.Initialize({ token: 'test_d786258e7de5e845de5554e2ef2' });
         }
 
-        // 전역 상태 및 데이터
         window.isDeviceVerified = false;
         window.currentLang = 'ko'; 
         window.translations = {
@@ -128,7 +125,6 @@
             }
         };
 
-        // [해결] 모든 함수를 window 객체에 할당하여 HTML에서 호출 가능하게 함
         window.changeLanguage = (lang) => {
             window.currentLang = lang;
             document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -162,21 +158,21 @@
                     window.isDeviceVerified = true;
                     alert(window.currentLang === 'ko' ? "인증 성공!" : "Verification Success!");
                     document.getElementById('statusMsg').innerHTML = window.translations[window.currentLang].status_ok;
-                    codeInput.disabled = true; pwInput.disabled = true;
-                    document.getElementById('verifyBtn').style.display = "none";
                     document.getElementById('pricingSection').scrollIntoView({ behavior: 'smooth' });
                 } else {
-                    alert(window.currentLang === 'ko' ? "인증 실패: 정보를 확인하세요." : "Auth Failed: Check info.");
+                    alert("인증 실패: 정보를 확인하세요.");
                 }
             } catch (e) { alert("Error: " + e.message); }
         };
 
+        // [수정] 결제 함수 - 고객 정보 없이도 창이 뜨도록 수정
         window.pay = (plan) => {
             if (!window.isDeviceVerified) {
                 alert(window.translations[window.currentLang].msg_verify_first);
                 document.getElementById('authSection').scrollIntoView({ behavior: 'smooth' });
                 return;
             }
+
             const machine_id = document.getElementById('remoteCode').value;
             let pId = "";
             let country = (window.currentLang === 'ko') ? "KR" : "US";
@@ -191,15 +187,21 @@
                 else if (plan === '3hours') pId = "pri_01kf2f788ebpq41mhf0zjxrh18";
             }
 
+            // Paddle Checkout 호출 최적화
             Paddle.Checkout.open({
+                settings: {
+                    displayMode: "overlay",
+                    locale: window.currentLang === 'ko' ? "ko" : "en"
+                },
                 items: [{ priceId: pId, quantity: 1 }],
-                customer: { address: { countryCode: country } },
+                customer: {
+                    address: { countryCode: country }
+                },
                 customData: { machine_id: machine_id }
             });
         };
 
-        // 초기 실행
-        document.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('preferredLang') || (navigator.language.startsWith('ko') ? 'ko' : 'en');
             window.changeLanguage(savedLang);
         });
