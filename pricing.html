@@ -90,7 +90,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Paddle 초기화 (Sandbox)
+        // Paddle 초기화
         if (typeof Paddle !== 'undefined') {
             Paddle.Environment.set('sandbox');
             Paddle.Initialize({ token: 'test_d786258e7de5e845de5554e2ef2' });
@@ -98,6 +98,8 @@
 
         window.isDeviceVerified = false;
         window.currentLang = 'ko'; 
+        
+        // ... (번역 객체 window.translations 부분은 기존과 동일하므로 생략 가능하지만, 전체 복사해서 쓰시라고 아래에 포함합니다) ...
         window.translations = {
             ko: {
                 logo_text: "콜센터만들기", nav_pricing: "이용권 충전",
@@ -128,29 +130,48 @@
             localStorage.setItem('preferredLang', lang);
         };
 
+        // ★ 핵심 수정 1: verifyDevice 함수 (자동 모드 지원)
         window.verifyDevice = async (isAuto = false) => {
+            // isAuto가 true면(앱에서 왔으면) 캡차 검사를 건너뜁니다.
             if (!isAuto && typeof grecaptcha !== "undefined") {
                 if (grecaptcha.getResponse().length === 0) { alert("reCAPTCHA 인증이 필요합니다."); return; }
             }
+
             const codeInput = document.getElementById('remoteCode');
             const pwInput = document.getElementById('password');
             let rawCode = codeInput.value.trim().toLowerCase();
             const password = pwInput.value.trim();
+            
+            // 코드 포맷팅 (3자리 띄어쓰기)
             if (rawCode.length === 6 && !rawCode.includes(" ")) rawCode = rawCode.substring(0, 3) + " " + rawCode.substring(3);
+
+            // 값이 없으면 중단
+            if (!rawCode || !password) return;
 
             try {
                 const q = query(collection(db, "devices"), where("serial_code", "==", rawCode), where("password", "==", password));
                 const querySnapshot = await getDocs(q);
+                
                 if (!querySnapshot.empty) {
                     window.isDeviceVerified = true;
-                    alert("인증 성공!");
+                    // 자동일 때는 alert 창을 띄우지 않고 조용히 성공 처리
+                    if (!isAuto) alert("인증 성공!"); 
+                    
                     document.getElementById('statusMsg').innerHTML = window.translations[window.currentLang].status_ok;
-                    document.getElementById('pricingSection').scrollIntoView({ behavior: 'smooth' });
-                } else { alert("인증 실패!"); }
-            } catch (e) { alert(e.message); }
+                    
+                    // 인증 성공 시 자동으로 가격표 섹션으로 스크롤 이동
+                    setTimeout(() => {
+                        document.getElementById('pricingSection').scrollIntoView({ behavior: 'smooth' });
+                    }, 500);
+                } else { 
+                    alert("인증 실패! 코드와 비밀번호를 확인해주세요."); 
+                }
+            } catch (e) { 
+                console.error(e);
+                alert("인증 오류: " + e.message); 
+            }
         };
 
-        // [해결] customer 부분을 제거하여 validation 에러를 방지
         window.pay = (plan) => {
             if (!window.isDeviceVerified) {
                 alert(window.translations[window.currentLang].msg_verify_first);
@@ -181,10 +202,27 @@
             });
         };
 
+        // ★ 핵심 수정 2: 페이지 로드 시 URL 파라미터 처리
         window.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('preferredLang') || (navigator.language.startsWith('ko') ? 'ko' : 'en');
             window.changeLanguage(savedLang);
+
+            // URL에서 code와 pw 가져오기
+            const urlParams = new URLSearchParams(window.location.search);
+            const codeParam = urlParams.get('code');
+            const pwParam = urlParams.get('pw');
+
+            // 값이 있으면 입력창에 채우기
+            if (codeParam) document.getElementById('remoteCode').value = codeParam;
+            if (pwParam) document.getElementById('password').value = pwParam;
+
+            // 둘 다 있으면 '자동 인증(캡차패스)' 실행
+            if (codeParam && pwParam) {
+                // 약간의 딜레이 후 실행 (DB 연결 초기화 안정성 확보)
+                setTimeout(() => verifyDevice(true), 500);
+            }
         });
     </script>
 </body>
 </html>
+
