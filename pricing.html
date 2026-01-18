@@ -78,7 +78,7 @@
         </div>
     </main>
 
-    <script type="module">
+   <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -129,7 +129,6 @@
         };
 
         window.verifyDevice = async (isAuto = false) => {
-            // isAuto가 true면 캡차 검사를 건너뜀
             if (!isAuto && typeof grecaptcha !== "undefined") {
                 if (grecaptcha.getResponse().length === 0) { alert("reCAPTCHA 인증이 필요합니다."); return; }
             }
@@ -155,7 +154,6 @@
                         document.getElementById('pricingSection').scrollIntoView({ behavior: 'smooth' });
                     }, 500);
                 } else { 
-                    // 자동 시도였다가 실패하면 캡차를 다시 보여줄 수도 있음 (선택사항)
                     alert("인증 실패! 코드와 비밀번호를 확인해주세요."); 
                 }
             } catch (e) { 
@@ -188,8 +186,7 @@
             });
         };
 
-        // ★ 시간 제한 검사 로직 적용
-       window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('preferredLang') || (navigator.language.startsWith('ko') ? 'ko' : 'en');
             window.changeLanguage(savedLang);
 
@@ -198,25 +195,25 @@
             const pwParam = urlParams.get('pw');
             const tParam = urlParams.get('t');
 
-            // 값 채워넣기
             if (codeParam) document.getElementById('remoteCode').value = codeParam;
             if (pwParam) document.getElementById('password').value = pwParam;
 
-            // 시간 및 파라미터 체크
             if (codeParam && pwParam && tParam) {
                 const now = Date.now();
                 const requestTime = parseInt(tParam);
 
-                // 3분(180초) 이내 접속 시
+                // 3분 이내 접속 시
                 if (!isNaN(requestTime) && Math.abs(now - requestTime) < 180000) {
                     
-                    // ★ [수정됨] ID를 사용하여 확실하게 숨김 처리
-                    const captchaBox = document.getElementById('recaptcha-box');
-                    if (captchaBox) {
-                        captchaBox.style.display = 'none';
+                    // ★ [강력 수정] g-recaptcha 클래스를 찾아서 그 부모를 숨김
+                    const captchaEl = document.querySelector('.g-recaptcha');
+                    if (captchaEl && captchaEl.parentNode) {
+                        captchaEl.parentNode.style.display = 'none';
+                    } else if (captchaEl) {
+                        // 만약 부모가 없으면(그럴 리 없지만) 본체라도 숨김
+                        captchaEl.style.display = 'none';
                     }
 
-                    // 자동 인증 실행
                     setTimeout(() => verifyDevice(true), 500);
                 }
             }
@@ -224,6 +221,7 @@
     </script>
 </body>
 </html>
+
 
 
 
