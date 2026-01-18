@@ -49,9 +49,9 @@
             <div class="space-y-4">
                 <input type="text" id="remoteCode" placeholder="예: vm6 292" class="w-full px-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-xl text-center text-2xl font-black text-blue-600 outline-none uppercase">
                 <input type="password" id="password" placeholder="Password" class="w-full px-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-xl text-center text-xl font-bold outline-none">
-                <div class="flex justify-center py-2">
-                    <div class="g-recaptcha" data-sitekey="6LfgnEQsAAAAABjeS4ssb-FvLMDSun59SrBFjaZP"></div>
-                </div>
+<div id="recaptcha-box" class="flex justify-center py-2">
+    <div class="g-recaptcha" data-sitekey="6LfgnEQsAAAAABjeS4ssb-FvLMDSun59SrBFjaZP"></div>
+</div>
                 <button onclick="verifyDevice()" id="verifyBtn" class="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-lg hover:bg-blue-700 shadow-lg" data-i18n="btn_verify">인증하기</button>
             </div>
             <p id="statusMsg" class="mt-6 text-[11px] font-bold text-center text-slate-300" data-i18n="status_wait">인증 완료 후 충전 시간을 선택할 수 있습니다.</p>
@@ -189,43 +189,41 @@
         };
 
         // ★ 시간 제한 검사 로직 적용
-        window.addEventListener('DOMContentLoaded', () => {
+       window.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('preferredLang') || (navigator.language.startsWith('ko') ? 'ko' : 'en');
             window.changeLanguage(savedLang);
 
             const urlParams = new URLSearchParams(window.location.search);
             const codeParam = urlParams.get('code');
             const pwParam = urlParams.get('pw');
-            const tParam = urlParams.get('t'); // 시간 토큰 가져오기
+            const tParam = urlParams.get('t');
 
+            // 값 채워넣기
             if (codeParam) document.getElementById('remoteCode').value = codeParam;
             if (pwParam) document.getElementById('password').value = pwParam;
 
+            // 시간 및 파라미터 체크
             if (codeParam && pwParam && tParam) {
-                // 1. 현재 시간(밀리초)
                 const now = Date.now();
-                // 2. URL에 있는 시간
                 const requestTime = parseInt(tParam);
 
-                // 3. 시간 차이 계산 (3분 = 180,000 밀리초)
-                // 미래의 시간(서버 시간차 고려)이거나, 과거 3분 이내라면 통과
+                // 3분(180초) 이내 접속 시
                 if (!isNaN(requestTime) && Math.abs(now - requestTime) < 180000) {
                     
-                    // 캡차 숨기기
-                    const captchaContainer = document.querySelector('.g-recaptcha').parentNode; 
-                    if (captchaContainer) captchaContainer.style.display = 'none';
+                    // ★ [수정됨] ID를 사용하여 확실하게 숨김 처리
+                    const captchaBox = document.getElementById('recaptcha-box');
+                    if (captchaBox) {
+                        captchaBox.style.display = 'none';
+                    }
 
                     // 자동 인증 실행
                     setTimeout(() => verifyDevice(true), 500);
-
-                } else {
-                    console.log("링크 유효기간 만료 또는 잘못된 접근");
-                    // 유효기간 지났으므로 캡차 숨기지 않음 & 자동 인증 안 함
                 }
             }
         });
     </script>
 </body>
 </html>
+
 
 
