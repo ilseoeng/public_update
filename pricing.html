@@ -310,6 +310,7 @@
                 else if (plan === '1hour') pId = "pri_01khhpay2arxw9jtes10e45tdx";
                 else if (plan === '3hours') pId = "pri_01khhp8kd7rfft8fczav8341yn";
             }
+            console.log("Starting Checkout with:", { priceId: pId, machine_id: machine_id, lang: window.currentLang });
             Paddle.Checkout.open({
                 settings: { displayMode: "overlay", theme: "light", locale: window.currentLang === 'ko' ? "ko" : "en" },
                 items: [{ priceId: pId, quantity: 1 }],
