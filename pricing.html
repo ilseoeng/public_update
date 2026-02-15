@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,15 +11,44 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
-        body { font-family: 'Noto Sans KR', sans-serif; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .lang-btn { cursor: pointer; transition: all 0.2s; color: #94a3b8; font-weight: 700; }
-        .lang-btn.active { color: #2563eb !important; font-weight: 900; text-decoration: underline; text-underline-offset: 4px; }
-        .pricing-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .pricing-card:hover { transform: translateY(-10px); }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .lang-btn {
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #94a3b8;
+            font-weight: 700;
+        }
+
+        .lang-btn.active {
+            color: #2563eb !important;
+            font-weight: 900;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .pricing-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
     </style>
 </head>
+
 <body class="bg-slate-50">
 
     <!-- 네비게이션 (사용자 가이드 추가) -->
@@ -26,40 +56,52 @@
         <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
             <a href="index.html" class="flex items-center space-x-1.5 hover:opacity-80 transition shrink-0">
                 <i class="fa-solid fa-clock-rotate-left text-blue-600 text-xl md:text-2xl"></i>
-                <span class="text-lg md:text-xl font-black text-slate-800 tracking-tighter" data-i18n="logo_text">Call Center Maker</span>
+                <span class="text-lg md:text-xl font-black text-slate-800 tracking-tighter" data-i18n="logo_text">Call
+                    Center Maker</span>
             </a>
             <div class="flex items-center space-x-4 md:space-x-8">
                 <!-- 언어 선택 -->
-                <div class="flex items-center space-x-1.5 text-[11px] md:text-sm font-bold border-slate-300 border-r pr-4 md:pr-8">
+                <div
+                    class="flex items-center space-x-1.5 text-[11px] md:text-sm font-bold border-slate-300 border-r pr-4 md:pr-8">
                     <button onclick="changeLanguage('ko')" id="btn-ko" class="lang-btn">KR</button>
                     <span class="text-slate-200">|</span>
                     <button onclick="changeLanguage('en')" id="btn-en" class="lang-btn">EN</button>
                 </div>
                 <!-- 사용자 가이드 링크 -->
-                <a href="guide.html" class="text-slate-600 hover:text-blue-600 font-bold text-[11px] md:text-sm transition" data-i18n="nav_guide">사용자 가이드</a>
+                <a href="guide.html"
+                    class="text-slate-600 hover:text-blue-600 font-bold text-[11px] md:text-sm transition"
+                    data-i18n="nav_guide">사용자 가이드</a>
                 <!-- 이용권 충전 버튼 -->
-                <a href="pricing.html" class="px-3 py-2 md:px-5 md:py-2 bg-blue-600 text-white rounded-full text-[11px] md:text-sm font-black hover:bg-blue-700 shadow-lg transition" data-i18n="nav_pricing">Pricing</a>
+                <a href="pricing.html"
+                    class="px-3 py-2 md:px-5 md:py-2 bg-blue-600 text-white rounded-full text-[11px] md:text-sm font-black hover:bg-blue-700 shadow-lg transition"
+                    data-i18n="nav_pricing">Pricing</a>
             </div>
         </div>
     </nav>
 
     <main class="max-w-5xl mx-auto px-4 md:px-6 py-8 md:py-12">
-        
+
         <!-- 1. 기기 인증 섹션 -->
-        <section id="authSection" class="bg-white rounded-[2.5rem] shadow-xl border border-slate-100 p-6 md:p-10 mb-12 max-w-lg mx-auto">
+        <section id="authSection"
+            class="bg-white rounded-[2.5rem] shadow-xl border border-slate-100 p-6 md:p-10 mb-12 max-w-lg mx-auto">
             <div class="text-center mb-8">
                 <h2 class="text-xl font-black text-slate-900 mb-2" data-i18n="auth_title">1. 기기 정보 인증</h2>
                 <p class="text-slate-400 text-xs" data-i18n="auth_desc">이용권 충전을 위해 원격 코드와 비밀번호를 입력해주세요.</p>
             </div>
             <div class="space-y-4">
-                <input type="text" id="remoteCode" placeholder="예: vm6 292" class="w-full px-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-center text-2xl font-black text-blue-600 outline-none focus:border-blue-500 transition uppercase">
-                <input type="password" id="password" placeholder="Password" class="w-full px-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-center text-xl font-bold outline-none focus:border-blue-500 transition">
+                <input type="text" id="remoteCode" placeholder="예: vm6 292" autocomplete="off"
+                    class="w-full px-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-center text-2xl font-black text-blue-600 focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-200 outline-none transition uppercase">
+                <input type="password" id="password" placeholder="Password" autocomplete="current-password"
+                    class="w-full px-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl text-center text-xl font-bold focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-200 outline-none transition">
                 <div id="recaptcha-box" class="flex justify-center py-2">
                     <div class="g-recaptcha" data-sitekey="6LfgnEQsAAAAABjeS4ssb-FvLMDSun59SrBFjaZP"></div>
                 </div>
-                <button onclick="verifyDevice()" id="verifyBtn" class="w-full py-4 bg-blue-600 text-white rounded-2xl font-black text-lg hover:bg-blue-700 shadow-lg transition transform active:scale-95" data-i18n="btn_verify">인증하기</button>
+                <button onclick="verifyDevice()" id="verifyBtn"
+                    class="w-full py-4 bg-blue-600 text-white rounded-2xl font-black text-lg hover:bg-blue-700 shadow-lg transition transform active:scale-95"
+                    data-i18n="btn_verify">인증하기</button>
             </div>
-            <p id="statusMsg" class="mt-6 text-[11px] font-bold text-center text-slate-300" data-i18n="status_wait">인증 완료 후 충전 시간을 선택할 수 있습니다.</p>
+            <p id="statusMsg" class="mt-6 text-[11px] font-bold text-center text-slate-300" data-i18n="status_wait">인증
+                완료 후 충전 시간을 선택할 수 있습니다.</p>
         </section>
 
         <!-- 2. 서비스 기능 설명 -->
@@ -70,25 +112,31 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-blue-50/50 p-6 rounded-3xl border border-blue-100 text-center">
-                    <div class="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <div
+                        class="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                         <i class="fa-solid fa-microphone-lines text-xl"></i>
                     </div>
                     <h4 class="font-black text-slate-800 mb-2" data-i18n="f1_title">음성 통화 STT 기록</h4>
-                    <p class="text-xs text-slate-500 leading-relaxed" data-i18n="f1_desc">모든 통화 내용을 실시간으로 분석하여 정교한 텍스트 기록으로 변환합니다.</p>
+                    <p class="text-xs text-slate-500 leading-relaxed" data-i18n="f1_desc">모든 통화 내용을 실시간으로 분석하여 정교한 텍스트
+                        기록으로 변환합니다.</p>
                 </div>
                 <div class="bg-indigo-50/50 p-6 rounded-3xl border border-indigo-100 text-center">
-                    <div class="w-12 h-12 bg-indigo-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <div
+                        class="w-12 h-12 bg-indigo-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                         <i class="fa-solid fa-brain text-xl"></i>
                     </div>
                     <h4 class="font-black text-slate-800 mb-2" data-i18n="f2_title">AI 통화 핵심 요약</h4>
-                    <p class="text-xs text-slate-500 leading-relaxed" data-i18n="f2_desc">인공지능이 긴 대화의 핵심 내용을 파악하여 한눈에 보기 쉽게 요약해 드립니다.</p>
+                    <p class="text-xs text-slate-500 leading-relaxed" data-i18n="f2_desc">인공지능이 긴 대화의 핵심 내용을 파악하여 한눈에 보기
+                        쉽게 요약해 드립니다.</p>
                 </div>
                 <div class="bg-cyan-50/50 p-6 rounded-3xl border border-cyan-100 text-center">
-                    <div class="w-12 h-12 bg-cyan-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <div
+                        class="w-12 h-12 bg-cyan-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                         <i class="fa-solid fa-mobile-screen-button text-xl"></i>
                     </div>
                     <h4 class="font-black text-slate-800 mb-2" data-i18n="f3_title">언제 어디서든 원격 접속</h4>
-                    <p class="text-xs text-slate-500 leading-relaxed" data-i18n="f3_desc">장소에 상관없이 PC와 모바일 앱을 통해 실시간으로 통화 내역을 확인하고 관리합니다.</p>
+                    <p class="text-xs text-slate-500 leading-relaxed" data-i18n="f3_desc">장소에 상관없이 PC와 모바일 앱을 통해 실시간으로
+                        통화 내역을 확인하고 관리합니다.</p>
                 </div>
             </div>
         </div>
@@ -97,20 +145,39 @@
         <div id="pricingSection" class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-10">
             <!-- 카드들 생략 (이전과 동일) -->
             <div class="pricing-card bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-sm flex flex-col">
-                <div class="mb-8"><span class="text-blue-600 font-black text-sm uppercase tracking-widest">Basic</span><h3 class="text-2xl font-black text-slate-800 mt-1" data-i18n="p30_title">30분 이용권</h3></div>
-                <div class="mb-8"><span class="text-4xl font-black text-slate-900" data-i18n="p30_price">₩3,000</span></div>
-                <button onclick="pay('30min')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black hover:bg-black transition" data-i18n="btn_buy">구매하기</button>
+                <div class="mb-8"><span class="text-blue-600 font-black text-sm uppercase tracking-widest">Basic</span>
+                    <h3 class="text-2xl font-black text-slate-800 mt-1" data-i18n="p30_title">30분 이용권</h3>
+                </div>
+                <div class="mb-8"><span class="text-4xl font-black text-slate-900" data-i18n="p30_price">₩3,000</span>
+                </div>
+                <button onclick="pay('30min')"
+                    class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black hover:bg-black transition"
+                    data-i18n="btn_buy">구매하기</button>
             </div>
-            <div class="pricing-card bg-white rounded-[2.5rem] p-8 border-4 border-blue-500 shadow-2xl flex flex-col relative scale-105 z-10">
-                <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-blue-500 text-white px-6 py-1.5 rounded-full text-xs font-black shadow-lg" data-i18n="popular">BEST CHOICE</div>
-                <div class="mb-8"><span class="text-blue-600 font-black text-sm uppercase tracking-widest">Standard</span><h3 class="text-2xl font-black text-slate-800 mt-1" data-i18n="p60_title">60분 이용권</h3></div>
-                <div class="mb-8"><span class="text-4xl font-black text-slate-900" data-i18n="p60_price">₩5,000</span></div>
-                <button onclick="pay('1hour')" class="w-full py-4 bg-blue-600 text-white rounded-2xl font-black hover:bg-blue-700 transition shadow-lg" data-i18n="btn_buy">구매하기</button>
+            <div
+                class="pricing-card bg-white rounded-[2.5rem] p-8 border-4 border-blue-500 shadow-2xl flex flex-col relative scale-105 z-10">
+                <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-blue-500 text-white px-6 py-1.5 rounded-full text-xs font-black shadow-lg"
+                    data-i18n="popular">BEST CHOICE</div>
+                <div class="mb-8"><span
+                        class="text-blue-600 font-black text-sm uppercase tracking-widest">Standard</span>
+                    <h3 class="text-2xl font-black text-slate-800 mt-1" data-i18n="p60_title">60분 이용권</h3>
+                </div>
+                <div class="mb-8"><span class="text-4xl font-black text-slate-900" data-i18n="p60_price">₩5,000</span>
+                </div>
+                <button onclick="pay('1hour')"
+                    class="w-full py-4 bg-blue-600 text-white rounded-2xl font-black hover:bg-blue-700 transition shadow-lg"
+                    data-i18n="btn_buy">구매하기</button>
             </div>
             <div class="pricing-card bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-sm flex flex-col">
-                <div class="mb-8"><span class="text-blue-600 font-black text-sm uppercase tracking-widest">Premium</span><h3 class="text-2xl font-black text-slate-800 mt-1" data-i18n="p180_title">180분 이용권</h3></div>
-                <div class="mb-8"><span class="text-4xl font-black text-slate-900" data-i18n="p180_price">₩12,000</span></div>
-                <button onclick="pay('3hours')" class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black hover:bg-black transition" data-i18n="btn_buy">구매하기</button>
+                <div class="mb-8"><span
+                        class="text-blue-600 font-black text-sm uppercase tracking-widest">Premium</span>
+                    <h3 class="text-2xl font-black text-slate-800 mt-1" data-i18n="p180_title">180분 이용권</h3>
+                </div>
+                <div class="mb-8"><span class="text-4xl font-black text-slate-900" data-i18n="p180_price">₩12,000</span>
+                </div>
+                <button onclick="pay('3hours')"
+                    class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black hover:bg-black transition"
+                    data-i18n="btn_buy">구매하기</button>
             </div>
         </div>
     </main>
@@ -127,7 +194,8 @@
             <!-- 카피라이트 및 연락처 -->
             <div class="text-slate-400 text-xs space-y-3">
                 <p>© 2026 Call Center Maker. All rights reserved.</p>
-                <p>Contact: <a href="mailto:ilseoengapp@gmail.com" class="hover:text-blue-600 font-medium">ilseoengapp@gmail.com</a></p>
+                <p>Contact: <a href="mailto:ilseoengapp@gmail.com"
+                        class="hover:text-blue-600 font-medium">ilseoengapp@gmail.com</a></p>
             </div>
         </div>
     </footer>
@@ -145,13 +213,13 @@
         const db = getFirestore(app);
 
         if (typeof Paddle !== 'undefined') {
-            Paddle.Environment.set('sandbox'); 
-            Paddle.Initialize({ token: 'test_d786258e7de5e845de5554e2ef2' });
+            Paddle.Environment.set('production');
+            Paddle.Initialize({ token: 'live_15a1740f8b90366c35ac356abbc' });
         }
 
         window.isDeviceVerified = false;
-        window.currentLang = 'ko'; 
-        
+        window.currentLang = 'ko';
+
         window.translations = {
             ko: {
                 logo_text: "Call Center Maker", nav_pricing: "Pricing", nav_guide: "사용자 가이드",
@@ -165,7 +233,7 @@
                 p30_title: "30분 이용권", p30_price: "₩3,000",
                 p60_title: "60분 이용권", p60_price: "₩5,000",
                 p180_title: "180분 이용권", p180_price: "₩12,000",
-                popular: "인기", btn_buy: "구매하기", 
+                popular: "인기", btn_buy: "구매하기",
                 msg_verify_first: "⚠️ 결제를 진행하려면 먼저 상단에서 [기기 인증]을 완료해주세요.",
                 footer_terms: "이용약관", footer_privacy: "개인정보처리방침", footer_refund: "환불정책"
             },
@@ -181,7 +249,7 @@
                 p30_title: "30 Min Voucher", p30_price: "$3.00",
                 p60_title: "60 Min Voucher", p60_price: "$5.00",
                 p180_title: "180 Min Voucher", p180_price: "$12.00",
-                popular: "BEST CHOICE", btn_buy: "Buy Now", 
+                popular: "BEST CHOICE", btn_buy: "Buy Now",
                 msg_verify_first: "⚠️ Please complete [Device Verification] first.",
                 footer_terms: "Terms", footer_privacy: "Privacy", footer_refund: "Refund"
             }
@@ -219,8 +287,8 @@
                         alert(window.currentLang === 'ko' ? "인증 성공!" : "Verification Success!");
                         document.getElementById('pricingSection').scrollIntoView({ behavior: 'smooth' });
                     }
-                } else { 
-                    alert(window.currentLang === 'ko' ? "인증 실패! 코드와 비밀번호를 확인해주세요." : "Verification Failed! Please check again."); 
+                } else {
+                    alert(window.currentLang === 'ko' ? "인증 실패! 코드와 비밀번호를 확인해주세요." : "Verification Failed! Please check again.");
                 }
             } catch (e) { console.error(e); alert("Error: " + e.message); }
         };
@@ -234,13 +302,13 @@
             const machine_id = document.getElementById('remoteCode').value;
             let pId = "";
             if (window.currentLang === 'ko') {
-                if (plan === '30min') pId = "pri_01kf2ej2vz3rd54k9zhewxba8m"; 
-                else if (plan === '1hour') pId = "pri_01kf2ekn8da5k779rfaqzpah83";
-                else if (plan === '3hours') pId = "pri_01kf2emynse3p9kfcjez5n4vvg";
+                if (plan === '30min') pId = "pri_01kdze89gfya79z9rjwmxswhat";
+                else if (plan === '1hour') pId = "pri_01kdzecpcresbd5dx14bk69a49";
+                else if (plan === '3hours') pId = "pri_01kdzef4qmyzdykd61m332g414";
             } else {
-                if (plan === '30min') pId = "pri_01kf2f4ng3x56svqw9f320nx4p"; 
-                else if (plan === '1hour') pId = "pri_01kf2f6c18s5e2w0cjfbj95j5x";
-                else if (plan === '3hours') pId = "pri_01kf2f788ebpq41mhf0zjxrh18";
+                if (plan === '30min') pId = "pri_01khhpbh3er2aqj2qbh4y04w7h";
+                else if (plan === '1hour') pId = "pri_01khhpay2arxw9jtes10e45tdx";
+                else if (plan === '3hours') pId = "pri_01khhp8kd7rfft8fczav8341yn";
             }
             Paddle.Checkout.open({
                 settings: { displayMode: "overlay", theme: "light", locale: window.currentLang === 'ko' ? "ko" : "en" },
@@ -270,4 +338,5 @@
         });
     </script>
 </body>
+
 </html>
