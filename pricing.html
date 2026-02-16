@@ -54,26 +54,26 @@
     <!-- 네비게이션 (사용자 가이드 추가) -->
     <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
-            <a href="index.html" class="flex items-center space-x-1.5 hover:opacity-80 transition shrink-0">
-                <i class="fa-solid fa-clock-rotate-left text-blue-600 text-xl md:text-2xl"></i>
-                <span class="text-lg md:text-xl font-black text-slate-800 tracking-tighter" data-i18n="logo_text">Call
+            <a href="index.html" class="flex items-center space-x-1 hover:opacity-80 transition shrink-0">
+                <i class="fa-solid fa-clock-rotate-left text-blue-600 text-lg md:text-2xl"></i>
+                <span class="text-base md:text-xl font-black text-slate-800 tracking-tighter" data-i18n="logo_text">Call
                     Center Maker</span>
             </a>
-            <div class="flex items-center space-x-4 md:space-x-8">
+            <div class="flex items-center space-x-2 md:space-x-8">
                 <!-- 언어 선택 -->
                 <div
-                    class="flex items-center space-x-1.5 text-[11px] md:text-sm font-bold border-slate-300 border-r pr-4 md:pr-8">
+                    class="flex items-center space-x-1 text-[10px] md:text-sm font-bold border-slate-300 md:border-r md:pr-8">
                     <button onclick="changeLanguage('ko')" id="btn-ko" class="lang-btn">KR</button>
                     <span class="text-slate-200">|</span>
                     <button onclick="changeLanguage('en')" id="btn-en" class="lang-btn">EN</button>
                 </div>
                 <!-- 사용자 가이드 링크 -->
-                <a href="guide.html"
-                    class="text-slate-600 hover:text-blue-600 font-bold text-[11px] md:text-sm transition"
-                    data-i18n="nav_guide">사용자 가이드</a>
+                <a href="start.html"
+                    class="text-slate-600 hover:text-blue-600 font-bold text-[10px] md:text-sm transition whitespace-nowrap"
+                    data-i18n="nav_guide">사용 가이드</a>
                 <!-- 이용권 충전 버튼 -->
                 <a href="pricing.html"
-                    class="px-3 py-2 md:px-5 md:py-2 bg-blue-600 text-white rounded-full text-[11px] md:text-sm font-black hover:bg-blue-700 shadow-lg transition"
+                    class="px-2 py-1.5 md:px-5 md:py-2 bg-blue-600 text-white rounded-full text-[10px] md:text-sm font-black hover:bg-blue-700 shadow-lg transition whitespace-nowrap"
                     data-i18n="nav_pricing">Pricing</a>
             </div>
         </div>
@@ -222,7 +222,7 @@
 
         window.translations = {
             ko: {
-                logo_text: "Call Center Maker", nav_pricing: "Pricing", nav_guide: "사용자 가이드",
+                logo_text: "Call Center Maker", nav_pricing: "Pricing", nav_guide: "사용 가이드",
                 auth_title: "1. 기기 정보 인증", auth_desc: "이용권 충전을 위해 원격 코드와 비밀번호를 입력해주세요.",
                 btn_verify: "인증하기", status_wait: "인증 완료 후 충전 시간을 선택할 수 있습니다.",
                 status_ok: "✅ 인증 완료! 이용권을 선택해 주세요.",
