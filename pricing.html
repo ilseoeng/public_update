@@ -141,10 +141,12 @@
             </div>
         </div>
 
-        <!-- 3. 이용권 선택 카드 -->
-        <div id="pricingSection" class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-10">
-            <!-- 카드들 생략 (이전과 동일) -->
-            <div class="pricing-card bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-sm flex flex-col">
+        <!-- 3. 이용권 선택 카드 (모바일 슬라이더 적용) -->
+        <div id="pricingSection"
+            class="flex md:grid md:grid-cols-3 gap-6 md:gap-8 pb-16 overflow-x-auto snap-x snap-mandatory no-scrollbar px-4 md:px-0">
+            <!-- 30분 이용권 -->
+            <div
+                class="pricing-card shrink-0 w-[85%] md:w-auto snap-center bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-sm flex flex-col">
                 <div class="mb-8"><span class="text-blue-600 font-black text-sm uppercase tracking-widest">Basic</span>
                     <h3 class="text-2xl font-black text-slate-800 mt-1" data-i18n="p30_title">30분 이용권</h3>
                 </div>
@@ -154,8 +156,9 @@
                     class="w-full py-4 bg-slate-900 text-white rounded-2xl font-black hover:bg-black transition"
                     data-i18n="btn_buy">구매하기</button>
             </div>
-            <div
-                class="pricing-card bg-white rounded-[2.5rem] p-8 border-4 border-blue-500 shadow-2xl flex flex-col relative scale-105 z-10">
+            <!-- 60분 이용권 (BEST CHOICE) -->
+            <div id="card-60"
+                class="pricing-card shrink-0 w-[85%] md:w-auto snap-center bg-white rounded-[2.5rem] p-8 border-4 border-blue-500 shadow-2xl flex flex-col relative scale-105 z-10">
                 <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-blue-500 text-white px-6 py-1.5 rounded-full text-xs font-black shadow-lg"
                     data-i18n="popular">BEST CHOICE</div>
                 <div class="mb-8"><span
@@ -168,7 +171,9 @@
                     class="w-full py-4 bg-blue-600 text-white rounded-2xl font-black hover:bg-blue-700 transition shadow-lg"
                     data-i18n="btn_buy">구매하기</button>
             </div>
-            <div class="pricing-card bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-sm flex flex-col">
+            <!-- 180분 이용권 -->
+            <div
+                class="pricing-card shrink-0 w-[85%] md:w-auto snap-center bg-white rounded-[2.5rem] p-8 border border-slate-200 shadow-sm flex flex-col">
                 <div class="mb-8"><span
                         class="text-blue-600 font-black text-sm uppercase tracking-widest">Premium</span>
                     <h3 class="text-2xl font-black text-slate-800 mt-1" data-i18n="p180_title">180분 이용권</h3>
@@ -334,6 +339,16 @@
                     const captchaBox = document.getElementById('recaptcha-box');
                     if (captchaBox) captchaBox.style.display = 'none';
                     setTimeout(() => verifyDevice(true), 500);
+                }
+            }
+
+            // 모바일일 경우 60분 카드를 중앙으로 초기화
+            if (window.innerWidth < 768) {
+                const pricingContainer = document.getElementById('pricingSection');
+                const card60 = document.getElementById('card-60');
+                if (pricingContainer && card60) {
+                    const scrollLeft = card60.offsetLeft - (pricingContainer.offsetWidth / 2) + (card60.offsetWidth / 2);
+                    pricingContainer.scrollTo({ left: scrollLeft, behavior: 'auto' });
                 }
             }
         });
