@@ -40,11 +40,16 @@
         }
 
         .pricing-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform, opacity;
         }
 
         .pricing-card:hover {
             transform: translateY(-10px);
+        }
+
+        .shadow-3d {
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1), 0 10px 20px -5px rgba(0, 0, 0, 0.05);
         }
     </style>
 </head>
@@ -143,7 +148,7 @@
 
         <!-- 3. 이용권 선택 카드 (모바일 슬라이더 적용) -->
         <div id="pricingSection"
-            class="flex md:grid md:grid-cols-3 gap-4 md:gap-8 pb-16 overflow-x-auto snap-x snap-mandatory no-scrollbar px-4 md:px-0">
+            class="flex md:grid md:grid-cols-3 gap-0 md:gap-8 pt-16 pb-16 overflow-x-auto snap-x snap-mandatory no-scrollbar px-[14%] md:px-0">
             <!-- 30분 이용권 -->
             <div
                 class="pricing-card shrink-0 w-[72%] md:w-auto snap-center bg-white rounded-[2.5rem] p-6 md:p-8 border border-slate-200 shadow-sm flex flex-col">
@@ -346,13 +351,44 @@
                 }
             }
 
-            // 모바일일 경우 60분 카드를 중앙으로 초기화
+            // 모바일일 경우 3D 캐러셀 효과
             if (window.innerWidth < 768) {
                 const pricingContainer = document.getElementById('pricingSection');
+                const cards = pricingContainer.querySelectorAll('.pricing-card');
                 const card60 = document.getElementById('card-60');
-                if (pricingContainer && card60) {
+
+                const updateCarousel = () => {
+                    const containerCenter = pricingContainer.scrollLeft + pricingContainer.offsetWidth / 2;
+
+                    cards.forEach(card => {
+                        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+                        const distance = Math.abs(containerCenter - cardCenter);
+                        const maxDistance = pricingContainer.offsetWidth;
+
+                        // 중앙에서 멀어질수록 작아지고 투명해짐
+                        const scale = Math.max(0.85, 1 - (distance / maxDistance) * 0.3);
+                        const opacity = Math.max(0.4, 1 - (distance / maxDistance) * 0.8);
+
+                        card.style.transform = `scale(${scale})`;
+                        card.style.opacity = opacity;
+
+                        // 그림자 효과 강조
+                        if (scale > 0.95) {
+                            card.classList.add('shadow-3d');
+                        } else {
+                            card.classList.remove('shadow-3d');
+                        }
+                    });
+                };
+
+                pricingContainer.addEventListener('scroll', updateCarousel);
+
+                // 초기 중앙 정렬 및 효과 적용
+                if (card60) {
                     const scrollLeft = card60.offsetLeft - (pricingContainer.offsetWidth / 2) + (card60.offsetWidth / 2);
                     pricingContainer.scrollTo({ left: scrollLeft, behavior: 'auto' });
+                    // scrollTo 이후 브라우저가 위치를 잡을 시간을 줌
+                    setTimeout(updateCarousel, 100);
                 }
             }
         });
