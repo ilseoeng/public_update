@@ -124,3 +124,5 @@ tm_update/appcast.xml -text
 tm_update/appcast.xml.signature -text
 tm_update/appcast.xml -text
 tm_update/appcast.xml.signature -text
+tm_update/appcast.xml -text
+tm_update/appcast.xml.signature -text
