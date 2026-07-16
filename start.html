@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>시작하기 - AI 스마트 콜 매니저</title>
+  <title>?쒖옉?섍린 - AI ?ㅻ쭏??肄?留ㅻ땲?</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -31,31 +31,31 @@
 </head>
 <body>
 
-<!-- 1. 상단 네비게이션 (모바일 최적화 적용됨) -->
+<!-- 1. ?곷떒 ?ㅻ퉬寃뚯씠??(紐⑤컮??理쒖쟻???곸슜?? -->
 <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
-        <!-- 좌측: 로고 (모바일 크기 축소 및 줄바꿈 방지) -->
+        <!-- 醫뚯륫: 濡쒓퀬 (紐⑤컮???ш린 異뺤냼 諛?以꾨컮轅?諛⑹?) -->
         <a href="index.html" class="flex items-center space-x-1.5 hover:opacity-80 transition shrink-0">
             <i class="fa-solid fa-clock-rotate-left text-blue-600 text-xl md:text-2xl"></i>
-            <span class="text-lg md:text-xl font-black text-slate-800 tracking-tighter" data-i18n="logo_text">콜센터만들기</span>
+            <span class="text-lg md:text-xl font-black text-slate-800 tracking-tighter" data-i18n="logo_text">肄쒖꽱?곕쭔?ㅺ린</span>
         </a>
         
-        <!-- 우측: 메뉴 (여백 및 글자 크기 최적화) -->
+        <!-- ?곗륫: 硫붾돱 (?щ갚 諛?湲???ш린 理쒖쟻?? -->
         <div class="flex items-center space-x-2 md:space-x-6">
-            <!-- 언어 변경 버튼 -->
+            <!-- ?몄뼱 蹂寃?踰꾪듉 -->
             <div class="flex items-center space-x-1.5 text-[11px] md:text-sm font-bold text-slate-400 border-slate-300 md:border-r md:pr-6">
                 <button onclick="changeLanguage('ko')" id="btn-ko" class="lang-btn hover:text-slate-800 transition-colors">KR</button>
                 <span class="text-slate-200">|</span>
                 <button onclick="changeLanguage('en')" id="btn-en" class="lang-btn hover:text-slate-800 transition-colors">EN</button>
             </div>
 
-            <!-- 사용 가이드 (모바일 숨김) -->
+            <!-- ?ъ슜 媛?대뱶 (紐⑤컮???④?) -->
             <a href="start.html" class="text-blue-600 font-bold hover:text-blue-700 transition text-sm hidden md:inline-block" data-i18n="nav_guide">
-                사용 가이드
+                ?ъ슜 媛?대뱶
             </a>
-            <!-- 이용권 충전 (모바일 폰트/여백 축소, 줄바꿈 방지) -->
+            <!-- ?댁슜沅?異⑹쟾 (紐⑤컮???고듃/?щ갚 異뺤냼, 以꾨컮轅?諛⑹?) -->
             <a href="pricing.html" class="px-3 py-2 md:px-5 md:py-2.5 bg-blue-600 text-white rounded-full text-[11px] md:text-sm font-black hover:bg-blue-700 transition shadow-lg shadow-blue-200 whitespace-nowrap" data-i18n="nav_pricing">
-                이용권 충전
+                ?댁슜沅?異⑹쟾
             </a>
         </div>
     </div>
@@ -63,35 +63,35 @@
 
 <main class="max-w-5xl mx-auto px-6 py-16 space-y-24">
 
-    <!-- 1. 설치 파일 다운로드 섹션 -->
+    <!-- 1. ?ㅼ튂 ?뚯씪 ?ㅼ슫濡쒕뱶 ?뱀뀡 -->
     <section>
         <div class="text-center mb-12">
             <span class="text-blue-600 font-bold text-sm bg-blue-50 px-3 py-1 rounded-full">Step 1</span>
-            <h1 class="text-3xl md:text-4xl font-black text-slate-900 mt-4 mb-4" data-i18n="guide_page_title">프로그램 설치하기</h1>
-            <p class="text-slate-500" data-i18n="guide_page_desc">PC 프로그램과 스마트폰 앱을 모두 설치해야 연결됩니다.</p>
+            <h1 class="text-3xl md:text-4xl font-black text-slate-900 mt-4 mb-4" data-i18n="guide_page_title">?꾨줈洹몃옩 ?ㅼ튂?섍린</h1>
+            <p class="text-slate-500" data-i18n="guide_page_desc">PC ?꾨줈洹몃옩怨??ㅻ쭏?명룿 ?깆쓣 紐⑤몢 ?ㅼ튂?댁빞 ?곌껐?⑸땲??</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- PC 다운로드 -->
+            <!-- PC ?ㅼ슫濡쒕뱶 -->
             <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-xl text-center hover:-translate-y-1 transition duration-300">
                 <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-6"><i class="fa-solid fa-desktop"></i></div>
-                <h2 class="text-2xl font-bold mb-8 text-slate-800" data-i18n="dl_pc_title">PC 프로그램 설치</h2>
+                <h2 class="text-2xl font-bold mb-8 text-slate-800" data-i18n="dl_pc_title">PC ?꾨줈洹몃옩 ?ㅼ튂</h2>
                 
-                <!-- GitHub Actions 자동화 타겟 (ID 유지) -->
-        <a href="https://github.com/ilseoeng/ilseoeng.github.io/releases/download/tm-v1.0.92/Tm_setup.msi" id="download-btn" class="btn">💾 최신 버전 다운로드</a>
-                    <i class="fa-solid fa-download mr-2"></i> <span data-i18n="dl_pc_btn">PC버전 다운로드</span>
+                <!-- GitHub Actions ?먮룞???寃?(ID ?좎?) -->
+        <a href="https://github.com/ilseoeng/ilseoeng.github.io/releases/download/tm-v1.0.92/Tm_setup.msi" id="download-btn" class="btn">?뮶 理쒖떊 踰꾩쟾 ?ㅼ슫濡쒕뱶</a>
+                    <i class="fa-solid fa-download mr-2"></i> <span data-i18n="dl_pc_btn">PC踰꾩쟾 ?ㅼ슫濡쒕뱶</span>
                 </a>
                 
-                <!-- 버전 정보 타겟 (ID 유지) -->
+                <!-- 踰꾩쟾 ?뺣낫 ?寃?(ID ?좎?) -->
         <div id="version-text" class="mt-2 text-xs text-gray-400">Ver: <strong>tm-v1.0.92</strong> (2026-07-16)</div>
             </div>
 
-            <!-- 앱 다운로드 -->
+            <!-- ???ㅼ슫濡쒕뱶 -->
             <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-xl text-center hover:-translate-y-1 transition duration-300">
                 <div class="w-20 h-20 bg-green-50 text-green-600 rounded-3xl flex items-center justify-center text-4xl mx-auto mb-6"><i class="fa-brands fa-android"></i></div>
-                <h2 class="text-2xl font-bold mb-8 text-slate-800" data-i18n="dl_mo_title">모바일 앱 설치</h2>
+                <h2 class="text-2xl font-bold mb-8 text-slate-800" data-i18n="dl_mo_title">紐⑤컮?????ㅼ튂</h2>
                 <a href="https://play.google.com/store/apps/details?id=com.companyname.app_test&pli=1" target="_blank" class="block w-full py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition shadow-lg mb-4 text-lg">
-                    <i class="fa-brands fa-google-play mr-2"></i> <span data-i18n="dl_mo_btn">구글 플레이 이동</span>
+                    <i class="fa-brands fa-google-play mr-2"></i> <span data-i18n="dl_mo_btn">援ш? ?뚮젅???대룞</span>
                 </a>
                 <div class="text-xs text-slate-400 font-bold">Android Only</div>
             </div>
@@ -100,11 +100,11 @@
 
     <hr class="border-slate-200">
 
-    <!-- 2. PC 설정 가이드 -->
+    <!-- 2. PC ?ㅼ젙 媛?대뱶 -->
     <section>
         <div class="flex items-center space-x-4 mb-10">
             <span class="bg-slate-900 text-white w-10 h-10 rounded-2xl flex items-center justify-center font-black text-lg">2</span>
-            <h2 class="text-3xl font-black text-slate-900" data-i18n="pc_step_title">PC 프로그램 설정</h2>
+            <h2 class="text-3xl font-black text-slate-900" data-i18n="pc_step_title">PC ?꾨줈洹몃옩 ?ㅼ젙</h2>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
@@ -115,28 +115,28 @@
                 <ul class="space-y-6 text-slate-700">
                     <li class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
                         <span class="step-num">1</span>
-                        <div><strong class="block text-lg mb-1" data-i18n="pc_step1_t">서버모드 클릭</strong><span class="text-sm text-slate-500" data-i18n="pc_step1_d">프로그램 상단의 '서버모드'를 선택하세요.</span></div>
+                        <div><strong class="block text-lg mb-1" data-i18n="pc_step1_t">?쒕쾭紐⑤뱶 ?대┃</strong><span class="text-sm text-slate-500" data-i18n="pc_step1_d">?꾨줈洹몃옩 ?곷떒??'?쒕쾭紐⑤뱶'瑜??좏깮?섏꽭??</span></div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
                         <span class="step-num">2</span>
-                        <div><strong class="block text-lg mb-1" data-i18n="pc_step2_t">비밀번호 입력</strong><span class="text-sm text-slate-500" data-i18n="pc_step2_d">보안을 위해 6자리 이상의 비밀번호를 설정하세요.</span></div>
+                        <div><strong class="block text-lg mb-1" data-i18n="pc_step2_t">鍮꾨?踰덊샇 ?낅젰</strong><span class="text-sm text-slate-500" data-i18n="pc_step2_d">蹂댁븞???꾪빐 6?먮━ ?댁긽??鍮꾨?踰덊샇瑜??ㅼ젙?섏꽭??</span></div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-blue-50 rounded-2xl border border-blue-100 shadow-sm ring-2 ring-blue-100">
                         <span class="step-num bg-blue-600">3</span>
                         <div>
-                            <strong class="block text-lg mb-1 text-blue-900" data-i18n="pc_step3_t">사용자 정보(이름) 입력</strong>
-                            <span class="text-sm text-blue-700 font-medium"><i class="fa-solid fa-triangle-exclamation mr-1"></i><span data-i18n="pc_step3_d">중요: 앱의 사용자 정보와 정확히 일치해야 알림을 받습니다.</span></span>
+                            <strong class="block text-lg mb-1 text-blue-900" data-i18n="pc_step3_t">?ъ슜???뺣낫(?대쫫) ?낅젰</strong>
+                            <span class="text-sm text-blue-700 font-medium"><i class="fa-solid fa-triangle-exclamation mr-1"></i><span data-i18n="pc_step3_d">以묒슂: ?깆쓽 ?ъ슜???뺣낫? ?뺥솗???쇱튂?댁빞 ?뚮┝??諛쏆뒿?덈떎.</span></span>
                         </div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
                         <span class="step-num">4</span>
-                        <div><strong class="block text-lg mb-1" data-i18n="pc_step4_t">서버 시작 버튼 클릭</strong><span class="text-sm text-slate-500" data-i18n="pc_step4_d">설정이 완료되면 서버를 시작하세요.</span></div>
+                        <div><strong class="block text-lg mb-1" data-i18n="pc_step4_t">?쒕쾭 ?쒖옉 踰꾪듉 ?대┃</strong><span class="text-sm text-slate-500" data-i18n="pc_step4_d">?ㅼ젙???꾨즺?섎㈃ ?쒕쾭瑜??쒖옉?섏꽭??</span></div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-slate-900 text-white rounded-2xl shadow-lg">
                         <span class="step-num bg-white text-slate-900">5</span>
                         <div>
-                            <strong class="block text-lg mb-1" data-i18n="pc_step5_t">원격 코드 발급 완료</strong>
-                            <span class="text-sm text-slate-300" data-i18n="pc_step5_d">6자리 원격코드와 테스트 시간 20분이 부여됩니다.</span>
+                            <strong class="block text-lg mb-1" data-i18n="pc_step5_t">?먭꺽 肄붾뱶 諛쒓툒 ?꾨즺</strong>
+                            <span class="text-sm text-slate-300" data-i18n="pc_step5_d">6?먮━ ?먭꺽肄붾뱶? ?뚯뒪???쒓컙 20遺꾩씠 遺?щ맗?덈떎.</span>
                         </div>
                     </li>
                 </ul>
@@ -144,11 +144,11 @@
         </div>
     </section>
 
-    <!-- 3. 스마트폰 설정 가이드 -->
+    <!-- 3. ?ㅻ쭏?명룿 ?ㅼ젙 媛?대뱶 -->
     <section>
         <div class="flex items-center space-x-4 mb-10">
             <span class="bg-slate-900 text-white w-10 h-10 rounded-2xl flex items-center justify-center font-black text-lg">3</span>
-            <h2 class="text-3xl font-black text-slate-900" data-i18n="mo_step_title">스마트폰 앱 설정</h2>
+            <h2 class="text-3xl font-black text-slate-900" data-i18n="mo_step_title">?ㅻ쭏?명룿 ???ㅼ젙</h2>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
@@ -159,30 +159,30 @@
                 <ul class="space-y-6 text-slate-700">
                     <li class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
                         <span class="step-num">1</span>
-                        <div><strong class="block text-lg mb-1" data-i18n="mo_step1_t">원격 코드 입력</strong><span class="text-sm text-slate-500" data-i18n="mo_step1_d">PC에서 부여받은 6자리 코드를 입력하세요.</span></div>
+                        <div><strong class="block text-lg mb-1" data-i18n="mo_step1_t">?먭꺽 肄붾뱶 ?낅젰</strong><span class="text-sm text-slate-500" data-i18n="mo_step1_d">PC?먯꽌 遺?щ컺? 6?먮━ 肄붾뱶瑜??낅젰?섏꽭??</span></div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
                         <span class="step-num">2</span>
-                        <div><strong class="block text-lg mb-1" data-i18n="mo_step2_t">비밀번호 입력</strong><span class="text-sm text-slate-500" data-i18n="mo_step2_d">PC에서 설정했던 비밀번호를 동일하게 입력하세요.</span></div>
+                        <div><strong class="block text-lg mb-1" data-i18n="mo_step2_t">鍮꾨?踰덊샇 ?낅젰</strong><span class="text-sm text-slate-500" data-i18n="mo_step2_d">PC?먯꽌 ?ㅼ젙?덈뜕 鍮꾨?踰덊샇瑜??숈씪?섍쾶 ?낅젰?섏꽭??</span></div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-blue-50 rounded-2xl border border-blue-100 shadow-sm ring-2 ring-blue-100">
                         <span class="step-num bg-blue-600">3</span>
-                        <div><strong class="block text-lg mb-1 text-blue-900" data-i18n="mo_step3_t">사용자 정보 입력</strong><span class="text-sm text-blue-700 font-medium" data-i18n="mo_step3_d">PC에 입력한 이름과 똑같이 입력해야 합니다.</span></div>
+                        <div><strong class="block text-lg mb-1 text-blue-900" data-i18n="mo_step3_t">?ъ슜???뺣낫 ?낅젰</strong><span class="text-sm text-blue-700 font-medium" data-i18n="mo_step3_d">PC???낅젰???대쫫怨??묎컳???낅젰?댁빞 ?⑸땲??</span></div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
                         <span class="step-num">4</span>
                         <div>
-                            <strong class="block text-lg mb-1" data-i18n="mo_step4_t">녹음 폴더 선택</strong>
-                            <span class="text-sm text-slate-500"><span data-i18n="mo_step4_d">통화 녹음 파일이 저장되는 폴더를 지정하세요.</span><br><span class="text-xs bg-slate-100 px-2 py-1 rounded text-slate-600 mt-1 inline-block">Recordings/Call</span></span>
+                            <strong class="block text-lg mb-1" data-i18n="mo_step4_t">?뱀쓬 ?대뜑 ?좏깮</strong>
+                            <span class="text-sm text-slate-500"><span data-i18n="mo_step4_d">?듯솕 ?뱀쓬 ?뚯씪????λ릺???대뜑瑜?吏?뺥븯?몄슂.</span><br><span class="text-xs bg-slate-100 px-2 py-1 rounded text-slate-600 mt-1 inline-block">Recordings/Call</span></span>
                         </div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
                         <span class="step-num">5</span>
-                        <div><strong class="block text-lg mb-1" data-i18n="mo_step5_t">서비스 시작</strong><span class="text-sm text-slate-500" data-i18n="mo_step5_d">'백그라운드 서비스 시작' 버튼을 누르세요.</span></div>
+                        <div><strong class="block text-lg mb-1" data-i18n="mo_step5_t">?쒕퉬???쒖옉</strong><span class="text-sm text-slate-500" data-i18n="mo_step5_d">'諛깃렇?쇱슫???쒕퉬???쒖옉' 踰꾪듉???꾨Ⅴ?몄슂.</span></div>
                     </li>
                     <li class="flex items-start gap-4 p-4 bg-slate-900 text-white rounded-2xl shadow-lg">
                         <span class="step-num bg-white text-slate-900">6</span>
-                        <div><strong class="block text-lg mb-1" data-i18n="mo_step6_t">최초 연결 승인</strong><span class="text-sm text-slate-300" data-i18n="mo_step6_d">PC 화면에 뜨는 승인 요청을 수락하면 연결됩니다.</span></div>
+                        <div><strong class="block text-lg mb-1" data-i18n="mo_step6_t">理쒖큹 ?곌껐 ?뱀씤</strong><span class="text-sm text-slate-300" data-i18n="mo_step6_d">PC ?붾㈃???⑤뒗 ?뱀씤 ?붿껌???섎씫?섎㈃ ?곌껐?⑸땲??</span></div>
                     </li>
                 </ul>
             </div>
@@ -199,53 +199,53 @@
             <a href="refund.html" class="hover:text-blue-600 transition">Refund</a>
         </div>
         <div class="text-slate-400 text-xs space-y-2">
-            <p>© 2026 <span data-i18n="logo_text">콜센터만들기</span>. All rights reserved.</p>
+            <p>짤 2026 <span data-i18n="logo_text">肄쒖꽱?곕쭔?ㅺ린</span>. All rights reserved.</p>
             <p>Contact: <a href="mailto:ilseoengapp@gmail.com" class="hover:text-blue-600 underline">ilseoengapp@gmail.com</a></p>
         </div>
     </div>
 </footer>
 
-<!-- JS: 다국어 스크립트 -->
+<!-- JS: ?ㅺ뎅???ㅽ겕由쏀듃 -->
 <script>
     const translations = {
         ko: {
-            logo_text: "콜센터만들기",
-            nav_guide: "사용 가이드",
-            nav_pricing: "이용권 충전",
+            logo_text: "肄쒖꽱?곕쭔?ㅺ린",
+            nav_guide: "?ъ슜 媛?대뱶",
+            nav_pricing: "?댁슜沅?異⑹쟾",
             
-            guide_page_title: "프로그램 설치하기",
-            guide_page_desc: "PC 프로그램과 스마트폰 앱을 모두 설치해야 연결됩니다.",
+            guide_page_title: "?꾨줈洹몃옩 ?ㅼ튂?섍린",
+            guide_page_desc: "PC ?꾨줈洹몃옩怨??ㅻ쭏?명룿 ?깆쓣 紐⑤몢 ?ㅼ튂?댁빞 ?곌껐?⑸땲??",
             
-            dl_pc_title: "PC 프로그램 설치",
-            dl_pc_btn: "PC버전 다운로드",
-            dl_mo_title: "모바일 앱 설치",
-            dl_mo_btn: "구글 플레이 이동",
+            dl_pc_title: "PC ?꾨줈洹몃옩 ?ㅼ튂",
+            dl_pc_btn: "PC踰꾩쟾 ?ㅼ슫濡쒕뱶",
+            dl_mo_title: "紐⑤컮?????ㅼ튂",
+            dl_mo_btn: "援ш? ?뚮젅???대룞",
 
-            pc_step_title: "PC 프로그램 설정",
-            pc_step1_t: "서버모드 클릭",
-            pc_step1_d: "프로그램 상단의 '서버모드'를 선택하세요.",
-            pc_step2_t: "비밀번호 입력",
-            pc_step2_d: "보안을 위해 6자리 이상의 비밀번호를 설정하세요.",
-            pc_step3_t: "사용자 정보(이름) 입력",
-            pc_step3_d: "중요: 앱의 사용자 정보와 정확히 일치해야 알림을 받습니다.",
-            pc_step4_t: "서버 시작 버튼 클릭",
-            pc_step4_d: "설정이 완료되면 서버를 시작하세요.",
-            pc_step5_t: "원격 코드 발급 완료",
-            pc_step5_d: "6자리 원격코드와 테스트 시간 20분이 부여됩니다.",
+            pc_step_title: "PC ?꾨줈洹몃옩 ?ㅼ젙",
+            pc_step1_t: "?쒕쾭紐⑤뱶 ?대┃",
+            pc_step1_d: "?꾨줈洹몃옩 ?곷떒??'?쒕쾭紐⑤뱶'瑜??좏깮?섏꽭??",
+            pc_step2_t: "鍮꾨?踰덊샇 ?낅젰",
+            pc_step2_d: "蹂댁븞???꾪빐 6?먮━ ?댁긽??鍮꾨?踰덊샇瑜??ㅼ젙?섏꽭??",
+            pc_step3_t: "?ъ슜???뺣낫(?대쫫) ?낅젰",
+            pc_step3_d: "以묒슂: ?깆쓽 ?ъ슜???뺣낫? ?뺥솗???쇱튂?댁빞 ?뚮┝??諛쏆뒿?덈떎.",
+            pc_step4_t: "?쒕쾭 ?쒖옉 踰꾪듉 ?대┃",
+            pc_step4_d: "?ㅼ젙???꾨즺?섎㈃ ?쒕쾭瑜??쒖옉?섏꽭??",
+            pc_step5_t: "?먭꺽 肄붾뱶 諛쒓툒 ?꾨즺",
+            pc_step5_d: "6?먮━ ?먭꺽肄붾뱶? ?뚯뒪???쒓컙 20遺꾩씠 遺?щ맗?덈떎.",
 
-            mo_step_title: "스마트폰 앱 설정",
-            mo_step1_t: "원격 코드 입력",
-            mo_step1_d: "PC에서 부여받은 6자리 코드를 입력하세요.",
-            mo_step2_t: "비밀번호 입력",
-            mo_step2_d: "PC에서 설정했던 비밀번호를 동일하게 입력하세요.",
-            mo_step3_t: "사용자 정보 입력",
-            mo_step3_d: "PC에 입력한 이름과 똑같이 입력해야 합니다.",
-            mo_step4_t: "녹음 폴더 선택",
-            mo_step4_d: "통화 녹음 파일이 저장되는 폴더를 지정하세요.",
-            mo_step5_t: "서비스 시작",
-            mo_step5_d: "'백그라운드 서비스 시작' 버튼을 누르세요.",
-            mo_step6_t: "최초 연결 승인",
-            mo_step6_d: "PC 화면에 뜨는 승인 요청을 수락하면 연결됩니다."
+            mo_step_title: "?ㅻ쭏?명룿 ???ㅼ젙",
+            mo_step1_t: "?먭꺽 肄붾뱶 ?낅젰",
+            mo_step1_d: "PC?먯꽌 遺?щ컺? 6?먮━ 肄붾뱶瑜??낅젰?섏꽭??",
+            mo_step2_t: "鍮꾨?踰덊샇 ?낅젰",
+            mo_step2_d: "PC?먯꽌 ?ㅼ젙?덈뜕 鍮꾨?踰덊샇瑜??숈씪?섍쾶 ?낅젰?섏꽭??",
+            mo_step3_t: "?ъ슜???뺣낫 ?낅젰",
+            mo_step3_d: "PC???낅젰???대쫫怨??묎컳???낅젰?댁빞 ?⑸땲??",
+            mo_step4_t: "?뱀쓬 ?대뜑 ?좏깮",
+            mo_step4_d: "?듯솕 ?뱀쓬 ?뚯씪????λ릺???대뜑瑜?吏?뺥븯?몄슂.",
+            mo_step5_t: "?쒕퉬???쒖옉",
+            mo_step5_d: "'諛깃렇?쇱슫???쒕퉬???쒖옉' 踰꾪듉???꾨Ⅴ?몄슂.",
+            mo_step6_t: "理쒖큹 ?곌껐 ?뱀씤",
+            mo_step6_d: "PC ?붾㈃???⑤뒗 ?뱀씤 ?붿껌???섎씫?섎㈃ ?곌껐?⑸땲??"
         },
         en: {
             logo_text: "Call Center Maker",
@@ -315,3 +315,4 @@
 
 </body>
 </html>
+
