@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle">
   <channel>
-    <title>TM Server</title>
-    <description>Most recent changes with links to updates</description>
+    <title>TM SERVER</title>
+    <link>https://raw.githubusercontent.com/ilseoeng/ilseoeng.github.io/main/tm_update/appcast.xml</link>
+    <description>TM SERVER update</description>
     <language>en</language>
     <item>
-      <title>TM Server 1.0.101</title>
-      <pubDate>Wed, 22 Jul 2026 11:21:32 +00:00</pubDate>
-      <sparkle:version>1.0.101</sparkle:version>
-      <sparkle:shortVersionString>1.0.101</sparkle:shortVersionString>
-      <enclosure url="https://github.com/ilseoeng/ilseoeng.github.io/releases/download/tm-v1.0.101/Tm_setup.msi" sparkle:version="1.0.101" sparkle:shortVersionString="1.0.101" length="55827456" sparkle:os="windows" type="application/octet-stream" sparkle:criticalUpdate="false" sparkle:signature="dsGO5SISDLxQYeuB3FAKw+WV048bKU7CR9j2TyXcXItQob6ozdwVhndNtA4oattwQ2DzXVDfvg7YBT+yfE4oDw==" />
+      <title>TM SERVER 1.0.97.0</title>
+      <pubDate>Mon, 27 Jul 2026 11:25:08 +09:00</pubDate>
+      <sparkle:version>1.0.97.0</sparkle:version>
+      <sparkle:shortVersionString>1.0.97.0</sparkle:shortVersionString>
+      <enclosure url="https://github.com/ilseoeng/ilseoeng.github.io/releases/download/v1.0.97.0/Tm_setup.msi" sparkle:version="1.0.97.0" sparkle:shortVersionString="1.0.97.0" length="176010240" sparkle:os="windows" type="application/octet-stream" sparkle:criticalUpdate="false" sparkle:signature="Z7oTMNgMosmztdNEXNWVkc7KBCfGLLy1/2hgGqOMsmSjvGNcPhpi1bn8YJCXsVzx9abIg+y1ATCcEJmHzwLsBw==" />
     </item>
   </channel>
 </rss>
