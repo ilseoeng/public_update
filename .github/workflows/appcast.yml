@@ -43,9 +43,10 @@ jobs:
           git config core.autocrlf false
           git config core.eol lf
           if (-not (Test-Path .gitattributes)) { New-Item -ItemType File -Path .gitattributes | Out-Null }
-          # here-string 대신 안전하게 한 줄씩 추가
-          Add-Content -Path .gitattributes -Value "tm_update/appcast.xml -text"
-          Add-Content -Path .gitattributes -Value "tm_update/appcast.xml.signature -text"
+          $required = @("tm_update/appcast.xml -text", "tm_update/appcast.xml.signature -text")
+          $existing = @(Get-Content -Path .gitattributes)
+          $missing = @($required | Where-Object { $_ -notin $existing })
+          if ($missing.Count -gt 0) { Add-Content -Path .gitattributes -Value $missing }
 
       - name: Setup .NET
         if: steps.tagcheck.outputs.skip == 'false'
@@ -156,7 +157,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git pull --rebase
           git add .gitattributes tm_update/appcast.xml tm_update/appcast.xml.signature
           git commit -m "chore(appcast): update for ${{ github.event.release.tag_name }}" || echo "Nothing to commit"
+          git pull --rebase
           git push origin ${{ github.event.repository.default_branch }}
