@@ -5,11 +5,11 @@
     <description>Most recent changes with links to updates</description>
     <language>en</language>
     <item>
-      <title>TM Server 1.0.141</title>
-      <pubDate>Tue, 08 Sep 2026 07:50:37 +00:00</pubDate>
-      <sparkle:version>1.0.141</sparkle:version>
-      <sparkle:shortVersionString>1.0.141</sparkle:shortVersionString>
-      <enclosure url="https://github.com/ilseoeng/ilseoeng.github.io/releases/download/tm-v1.0.141/Tm_setup.msi" sparkle:version="1.0.141" sparkle:shortVersionString="1.0.141" length="154339840" sparkle:os="windows" type="application/octet-stream" sparkle:criticalUpdate="false" sparkle:signature="KpOzBSoDP+heBb29feD9tZ/7M9G7iduzyo7tGyof6R7R2XeMwv/LqLdGagcqkhmI0SkeV2USnzF+TfUKRWf4Ag==" />
+      <title>TM Server 1.0.143</title>
+      <pubDate>Wed, 09 Sep 2026 13:14:24 +09:00</pubDate>
+      <sparkle:version>1.0.143</sparkle:version>
+      <sparkle:shortVersionString>1.0.143</sparkle:shortVersionString>
+      <enclosure url="https://github.com/ilseoeng/ilseoeng.github.io/releases/download/tm-v1.0.143/Tm_setup.msi" sparkle:version="1.0.143" sparkle:shortVersionString="1.0.143" length="154337280" sparkle:os="windows" type="application/octet-stream" sparkle:criticalUpdate="false" sparkle:signature="EA7l/qeGwAdzjchm6+u0YNmyzThIYfTYY9Ejzq2AA30uSR2fAfxdYgFTY1Uor3vjyTH2d76twoR5BRRD67j0DA==" />
     </item>
   </channel>
 </rss>
